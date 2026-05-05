@@ -11,7 +11,29 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: 'TAGS — The Apartment Guys System',
-  description: 'AI-powered repair project management for multifamily properties',
+  description: 'Snap a photo. Describe the problem. Get a professional Scope of Work in seconds — then qualified contractors bid for the job. Free for property managers.',
+  metadataBase: new URL('https://tags-web-app.netlify.app'),
+  openGraph: {
+    title: 'TAGS — Stop chasing contractors. Start managing repairs.',
+    description: 'Snap a photo. Describe the problem. Get a professional Scope of Work in seconds — then qualified contractors bid for the job. Free for property managers.',
+    url: 'https://tags-web-app.netlify.app',
+    siteName: 'TAGS',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Property manager photographing wall damage — TAGS turns photos into professional Scopes of Work',
+      },
+    ],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'TAGS — Stop chasing contractors. Start managing repairs.',
+    description: 'Snap a photo. Describe the problem. Get a professional Scope of Work in seconds. Free for property managers.',
+    images: ['/og-image.jpg'],
+  },
 }
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
