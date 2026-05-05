@@ -128,25 +128,60 @@ export default function NewProjectPage() {
   async function generateSow(pid: string, pType: string, desc: string, propAddr: string, urls: string[]) {
     setGeneratingSow(true)
     setSowFailed(false)
-    const sowRes = await fetch('/api/projects/generate-scope', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        projectId: pid,
-        projectType: pType,
-        description: desc,
-        propertyAddress: propAddr,
-        photoUrls: urls,
-      }),
-    })
-    if (sowRes.ok) {
-      const { sow: generated } = await sowRes.json()
-      setSow(generated)
-    } else {
-      const data = await sowRes.json().catch(() => ({}))
-      toast.error(`SOW generation failed: ${data.error || 'Unknown error'}`)
+    setSow('')
+
+    try {
+      const sowRes = await fetch('/api/projects/generate-scope', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          projectId: pid,
+          projectType: pType,
+          description: desc,
+          propertyAddress: propAddr,
+          photoUrls: urls,
+        }),
+      })
+
+      if (!sowRes.ok || !sowRes.body) {
+        const data = await sowRes.json().catch(() => ({}))
+        toast.error(`SOW generation failed: ${data.error || 'Unknown error'}`)
+        setSowFailed(true)
+        setGeneratingSow(false)
+        return
+      }
+
+      const reader = sowRes.body.getReader()
+      const decoder = new TextDecoder()
+      let accumulated = ''
+
+      while (true) {
+        const { done, value } = await reader.read()
+        if (done) break
+        const chunk = decoder.decode(value, { stream: true })
+        accumulated += chunk
+
+        if (accumulated.includes('__SOW_ERROR__:')) {
+          const errMsg = accumulated.split('__SOW_ERROR__:')[1]?.trim() || 'Unknown error'
+          toast.error(`SOW generation failed: ${errMsg}`)
+          setSowFailed(true)
+          setSow('')
+          setGeneratingSow(false)
+          return
+        }
+
+        setSow(accumulated)
+      }
+
+      if (!accumulated.trim()) {
+        toast.error('SOW generation returned an empty response')
+        setSowFailed(true)
+      }
+    } catch {
+      toast.error('SOW generation failed: network error')
       setSowFailed(true)
     }
+
     setGeneratingSow(false)
   }
 

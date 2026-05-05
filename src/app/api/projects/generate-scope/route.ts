@@ -1,38 +1,45 @@
-import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+
+export const dynamic = 'force-dynamic'
+export const maxDuration = 60
 
 export async function POST(req: NextRequest) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+  if (!user) return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401 })
 
   if (!process.env.ANTHROPIC_API_KEY) {
     console.error('ANTHROPIC_API_KEY is not set')
-    return NextResponse.json({ error: 'ANTHROPIC_API_KEY not configured' }, { status: 500 })
+    return new Response(JSON.stringify({ error: 'ANTHROPIC_API_KEY not configured' }), { status: 500 })
   }
 
   const { projectId, projectType, description, propertyAddress, photoUrls } = await req.json()
 
-  try {
-    const Anthropic = (await import('@anthropic-ai/sdk')).default
-    const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
+  const Anthropic = (await import('@anthropic-ai/sdk')).default
+  const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
 
-    const photoBlocks = (photoUrls || []).map((url: string) => ({
-      type: 'image' as const,
-      source: { type: 'url' as const, url },
-    }))
+  const photoBlocks = (photoUrls || []).map((url: string) => ({
+    type: 'image' as const,
+    source: { type: 'url' as const, url },
+  }))
 
-    const response = await anthropic.messages.create({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 2000,
-      messages: [{
-        role: 'user',
-        content: [
-          ...photoBlocks,
-          {
-            type: 'text',
-            text: `You are a professional construction estimator writing a Scope of Work for a multifamily property repair job.
+  const encoder = new TextEncoder()
+
+  const stream = new ReadableStream({
+    async start(controller) {
+      try {
+        const messageStream = anthropic.messages.stream({
+          model: 'claude-sonnet-4-6',
+          max_tokens: 2000,
+          messages: [{
+            role: 'user',
+            content: [
+              ...photoBlocks,
+              {
+                type: 'text',
+                text: `You are a professional construction estimator writing a Scope of Work for a multifamily property repair job.
 
 Project Type: ${projectType}
 Property: ${propertyAddress}
@@ -66,25 +73,46 @@ Rules:
 - Write for a licensed contractor, not a homeowner
 - Be specific and technical where photos allow
 - If photos are unclear, note what contractor should inspect on-site`,
-          },
-        ],
-      }],
-    })
+              },
+            ],
+          }],
+        })
 
-    const sow = (response.content[0] as { type: string; text: string }).text
+        let fullText = ''
 
-    if (projectId) {
-      const admin = createAdminClient()
-      await admin.from('projects').update({
-        scope_of_work: sow,
-        scope_generated_at: new Date().toISOString(),
-      }).eq('id', projectId)
-    }
+        for await (const event of messageStream) {
+          if (
+            event.type === 'content_block_delta' &&
+            event.delta.type === 'text_delta'
+          ) {
+            fullText += event.delta.text
+            controller.enqueue(encoder.encode(event.delta.text))
+          }
+        }
 
-    return NextResponse.json({ sow })
-  } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : 'Unknown error'
-    console.error('SOW generation error:', message)
-    return NextResponse.json({ error: message }, { status: 500 })
-  }
+        // Save completed SOW to Supabase
+        if (projectId && fullText) {
+          const admin = createAdminClient()
+          await admin.from('projects').update({
+            scope_of_work: fullText,
+            scope_generated_at: new Date().toISOString(),
+          }).eq('id', projectId)
+        }
+
+        controller.close()
+      } catch (err: unknown) {
+        const message = err instanceof Error ? err.message : 'Unknown error'
+        console.error('SOW generation error:', message)
+        controller.enqueue(encoder.encode(`\n\n__SOW_ERROR__: ${message}`))
+        controller.close()
+      }
+    },
+  })
+
+  return new Response(stream, {
+    headers: {
+      'Content-Type': 'text/plain; charset=utf-8',
+      'X-Content-Type-Options': 'nosniff',
+    },
+  })
 }
