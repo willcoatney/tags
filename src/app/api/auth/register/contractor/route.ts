@@ -3,8 +3,23 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { sendSMS } from '@/lib/sms'
 
 export async function POST(req: NextRequest) {
-  const { companyName, fullName, email, phone, password, services, serviceZipCodes } = await req.json()
+  const { companyName, fullName, email, phone, password, services, serviceZipCodes, inviteToken } = await req.json()
   const admin = createAdminClient()
+
+  // Validate invite token if provided
+  let autoApprove = false
+  let inviteId: string | null = null
+  if (inviteToken) {
+    const { data: invite } = await admin.from('contractor_invites')
+      .select('id, email')
+      .eq('token', inviteToken)
+      .is('used_at', null)
+      .maybeSingle()
+    if (invite && invite.email === email.toLowerCase()) {
+      autoApprove = true
+      inviteId = invite.id
+    }
+  }
 
   const { data: org, error: orgErr } = await admin.from('organizations').insert({
     name: companyName,
@@ -36,16 +51,22 @@ export async function POST(req: NextRequest) {
     company_name: companyName,
     services,
     service_zip_codes: serviceZipCodes,
-    approval_status: 'pending',
+    approval_status: autoApprove ? 'approved' : 'pending',
   })
 
-  // Alert admin
-  const { data: admins } = await admin.from('user_profiles')
-    .select('phone')
-    .eq('role', 'admin')
-
-  for (const a of (admins || [])) {
-    if (a.phone) await sendSMS(a.phone, `New contractor pending approval: ${companyName}. Review in TAGS admin.`)
+  if (inviteId) {
+    // Mark invite as used
+    await admin.from('contractor_invites')
+      .update({ used_at: new Date().toISOString() })
+      .eq('id', inviteId)
+  } else {
+    // Alert admin only for non-invited registrations
+    const { data: admins } = await admin.from('user_profiles')
+      .select('phone')
+      .eq('role', 'admin')
+    for (const a of (admins || [])) {
+      if (a.phone) await sendSMS(a.phone, `New contractor pending approval: ${companyName}. Review in TAGS admin.`)
+    }
   }
 
   return NextResponse.json({ success: true })

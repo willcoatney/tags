@@ -3,6 +3,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import StatusBadge from '@/components/StatusBadge'
+import InviteContractorModal from '@/components/InviteContractorModal'
 import { PROJECT_TYPE_LABELS } from '@/lib/types'
 
 const S = {
@@ -67,14 +68,17 @@ export default async function PMDashboard() {
             Manage your repair projects
           </p>
         </div>
-        <Link
-          href="/dashboard/pm/projects/new"
-          className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-white transition-all duration-150 active:scale-[0.98]"
-          style={{ background: 'oklch(0.57 0.135 183)' }}
-        >
-          <span className="text-base leading-none">+</span>
-          New Project
-        </Link>
+        <div className="flex items-center gap-2">
+          <InviteContractorModal />
+          <Link
+            href="/dashboard/pm/projects/new"
+            className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold text-white transition-all duration-150 active:scale-[0.98]"
+            style={{ background: 'oklch(0.57 0.135 183)' }}
+          >
+            <span className="text-base leading-none">+</span>
+            New Project
+          </Link>
+        </div>
       </div>
 
       {/* Stats */}
