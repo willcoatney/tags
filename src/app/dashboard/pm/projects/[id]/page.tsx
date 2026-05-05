@@ -3,8 +3,8 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
 import StatusBadge from '@/components/StatusBadge'
+import PublishProjectButton from '@/components/PublishProjectButton'
 import { PROJECT_TYPE_LABELS } from '@/lib/types'
 
 export default async function PMProjectPage({ params }: { params: { id: string } }) {
@@ -37,15 +37,31 @@ export default async function PMProjectPage({ params }: { params: { id: string }
             {project.properties?.name} — {project.properties?.address}, {project.properties?.city}
           </p>
         </div>
-        <div className="flex gap-2">
-          {project.status === 'open' && (
-            <Button asChild className="bg-teal-600 hover:bg-teal-700">
-              <Link href={`/dashboard/pm/projects/${project.id}/bids`}>Review Bids ({project.bids?.length || 0})</Link>
-            </Button>
+        <div className="flex gap-2 items-center">
+          {project.status === 'draft' && project.scope_of_work && (
+            <PublishProjectButton projectId={project.id} />
           )}
-          <Button asChild variant="outline" className="border-slate-600 text-slate-300">
-            <Link href="/dashboard/pm">← Back</Link>
-          </Button>
+          {project.status === 'draft' && !project.scope_of_work && (
+            <span className="text-xs px-3 py-1.5 rounded-lg" style={{ background: 'oklch(0.22 0.06 75)', color: 'oklch(0.75 0.12 75)' }}>
+              Generate a SOW before posting
+            </span>
+          )}
+          {project.status === 'open' && (
+            <Link
+              href={`/dashboard/pm/projects/${project.id}/bids`}
+              className="px-4 py-2 rounded-lg text-sm font-semibold text-white"
+              style={{ background: 'oklch(0.57 0.135 183)' }}
+            >
+              Review Bids ({project.bids?.length || 0})
+            </Link>
+          )}
+          <Link
+            href="/dashboard/pm"
+            className="px-3 py-2 rounded-lg text-sm font-medium transition-colors"
+            style={{ color: 'oklch(0.65 0.02 252)', border: '1px solid oklch(0.27 0.025 252)' }}
+          >
+            ← Back
+          </Link>
         </div>
       </div>
 
