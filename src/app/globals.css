@@ -2,33 +2,37 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
-
 @layer base {
   :root {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
+    /* TAGS Design System — Dark Navy + Teal */
+    --background: oklch(0.13 0.022 252);
+    --foreground: oklch(0.96 0.008 252);
+
+    --card: oklch(0.17 0.022 252);
+    --card-foreground: oklch(0.96 0.008 252);
+
+    --popover: oklch(0.17 0.022 252);
+    --popover-foreground: oklch(0.96 0.008 252);
+
+    --primary: oklch(0.57 0.135 183);
+    --primary-foreground: oklch(0.98 0 0);
+
+    --secondary: oklch(0.22 0.022 252);
+    --secondary-foreground: oklch(0.82 0.01 252);
+
+    --muted: oklch(0.22 0.022 252);
+    --muted-foreground: oklch(0.60 0.025 252);
+
+    --accent: oklch(0.57 0.135 183);
+    --accent-foreground: oklch(0.98 0 0);
+
+    --destructive: oklch(0.50 0.20 15);
+    --destructive-foreground: oklch(0.98 0 0);
+
+    --border: oklch(0.27 0.025 252);
+    --input: oklch(0.22 0.022 252);
+    --ring: oklch(0.57 0.135 183);
+
     --radius: 0.5rem;
   }
 
@@ -37,6 +41,49 @@
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
+}
+
+@layer utilities {
+  .text-balance { text-wrap: balance; }
+
+  /* TAGS brand gradient */
+  .tags-gradient {
+    background: linear-gradient(135deg, oklch(0.57 0.135 183), oklch(0.48 0.15 210));
+  }
+
+  /* Subtle card glow on hover */
+  .card-hover {
+    transition: border-color 200ms ease, box-shadow 200ms ease;
+  }
+  .card-hover:hover {
+    border-color: oklch(0.35 0.03 252);
+    box-shadow: 0 0 0 1px oklch(0.35 0.03 252), 0 4px 24px -4px oklch(0 0 0 / 0.4);
+  }
+
+  /* Stat card accent line */
+  .stat-card {
+    position: relative;
+    overflow: hidden;
+  }
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, oklch(0.57 0.135 183), transparent);
+  }
+
+  /* Input focus ring */
+  .input-focus {
+    @apply focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary;
+  }
+
+  /* Scrollbar */
+  ::-webkit-scrollbar { width: 6px; height: 6px; }
+  ::-webkit-scrollbar-track { background: transparent; }
+  ::-webkit-scrollbar-thumb { background: oklch(0.30 0.025 252); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: oklch(0.38 0.025 252); }
 }

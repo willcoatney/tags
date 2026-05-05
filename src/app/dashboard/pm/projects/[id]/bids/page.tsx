@@ -2,11 +2,11 @@ import { redirect, notFound } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
 import StatusBadge from '@/components/StatusBadge'
 import AwardBidButton from '@/components/AwardBidButton'
 import type { Bid } from '@/lib/types'
+
+const CARD = { background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }
 
 export default async function BidsPage({ params }: { params: { id: string } }) {
   const supabase = await createClient()
@@ -30,58 +30,87 @@ export default async function BidsPage({ params }: { params: { id: string } }) {
     .eq('project_id', params.id)
     .order('amount', { ascending: true })
 
+  const lowestBid = bids?.[0]?.amount
+
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
+    <div className="max-w-3xl mx-auto space-y-6 animate-fade-in">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Bids — {project.title}</h1>
-          <p className="text-slate-400 mt-1">{project.properties?.city}, {project.properties?.state} • {bids?.length || 0} bid{bids?.length !== 1 ? 's' : ''}</p>
+          <h1 className="text-xl font-bold text-white">{project.title}</h1>
+          <p className="text-sm mt-0.5" style={{ color: 'oklch(0.55 0.02 252)' }}>
+            {project.properties?.city}, {project.properties?.state} · {bids?.length || 0} bid{bids?.length !== 1 ? 's' : ''}
+          </p>
         </div>
-        <Button asChild variant="outline" className="border-slate-600 text-slate-300">
-          <Link href={`/dashboard/pm/projects/${params.id}`}>← Project</Link>
-        </Button>
+        <Link
+          href={`/dashboard/pm/projects/${params.id}`}
+          className="px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-150"
+          style={{ color: 'oklch(0.65 0.02 252)', border: '1px solid oklch(0.27 0.025 252)' }}
+        >
+          ← Project
+        </Link>
       </div>
 
       {!bids?.length ? (
-        <Card className="bg-slate-900 border-slate-700">
-          <CardContent className="py-12 text-center text-slate-400">No bids yet.</CardContent>
-        </Card>
+        <div className="rounded-xl py-16 text-center" style={CARD}>
+          <p className="text-white font-medium">No bids yet</p>
+          <p className="text-sm mt-1" style={{ color: 'oklch(0.55 0.02 252)' }}>Contractors will be notified when a match is found.</p>
+        </div>
       ) : (
-        <div className="space-y-4">
-          {bids.map((bid: Bid & { user_profiles: { full_name: string; email: string; phone: string }; contractor_profiles: { company_name: string } }) => (
-            <Card key={bid.id} className="bg-slate-900 border-slate-700">
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-white text-lg">
-                    {bid.contractor_profiles?.company_name || bid.user_profiles?.full_name}
-                  </CardTitle>
-                  <StatusBadge status={bid.status} />
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <p className="text-slate-500 text-xs uppercase tracking-wide">Bid Amount</p>
-                    <p className="text-teal-400 text-2xl font-bold">${bid.amount.toLocaleString()}</p>
-                  </div>
-                  <div>
-                    <p className="text-slate-500 text-xs uppercase tracking-wide">Timeline</p>
-                    <p className="text-white text-lg">{bid.timeline_days} days</p>
-                  </div>
-                </div>
-                {bid.notes && (
-                  <div>
-                    <p className="text-slate-500 text-xs uppercase tracking-wide mb-1">Notes</p>
-                    <p className="text-slate-300 text-sm">{bid.notes}</p>
+        <div className="space-y-3">
+          {bids.map((bid: Bid & { user_profiles: { full_name: string; email: string; phone: string }; contractor_profiles: { company_name: string } }) => {
+            const isLowest = bid.amount === lowestBid && bids.length > 1
+            return (
+              <div
+                key={bid.id}
+                className="rounded-xl p-5 transition-all duration-150"
+                style={{
+                  ...CARD,
+                  ...(isLowest ? { borderColor: 'oklch(0.40 0.10 160)' } : {})
+                }}
+              >
+                {isLowest && (
+                  <div className="text-xs font-semibold mb-3 flex items-center gap-1.5" style={{ color: 'oklch(0.65 0.14 160)' }}>
+                    <span>★</span> Lowest Bid
                   </div>
                 )}
-                <p className="text-slate-500 text-xs">Submitted {new Date(bid.submitted_at).toLocaleDateString()}</p>
+                <div className="flex items-start justify-between gap-4 mb-4">
+                  <div>
+                    <p className="font-semibold text-white">
+                      {bid.contractor_profiles?.company_name || bid.user_profiles?.full_name}
+                    </p>
+                    <p className="text-xs mt-0.5" style={{ color: 'oklch(0.55 0.02 252)' }}>
+                      Submitted {new Date(bid.submitted_at).toLocaleDateString()}
+                    </p>
+                  </div>
+                  <StatusBadge status={bid.status} />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4 mb-4">
+                  <div className="rounded-lg p-3" style={{ background: 'oklch(0.20 0.022 252)' }}>
+                    <p className="text-xs uppercase tracking-wider mb-1" style={{ color: 'oklch(0.50 0.02 252)' }}>Bid Amount</p>
+                    <p className="text-2xl font-bold" style={{ color: 'oklch(0.57 0.135 183)' }}>
+                      ${bid.amount.toLocaleString()}
+                    </p>
+                  </div>
+                  <div className="rounded-lg p-3" style={{ background: 'oklch(0.20 0.022 252)' }}>
+                    <p className="text-xs uppercase tracking-wider mb-1" style={{ color: 'oklch(0.50 0.02 252)' }}>Timeline</p>
+                    <p className="text-2xl font-bold text-white">{bid.timeline_days}<span className="text-sm font-normal ml-1" style={{ color: 'oklch(0.55 0.02 252)' }}>days</span></p>
+                  </div>
+                </div>
+
+                {bid.notes && (
+                  <div className="mb-4 rounded-lg p-3" style={{ background: 'oklch(0.20 0.022 252)' }}>
+                    <p className="text-xs uppercase tracking-wider mb-1" style={{ color: 'oklch(0.50 0.02 252)' }}>Notes</p>
+                    <p className="text-sm" style={{ color: 'oklch(0.78 0.01 252)' }}>{bid.notes}</p>
+                  </div>
+                )}
+
                 {bid.status === 'submitted' && project.status === 'open' && (
                   <AwardBidButton bidId={bid.id} />
                 )}
-              </CardContent>
-            </Card>
-          ))}
+              </div>
+            )
+          })}
         </div>
       )}
     </div>

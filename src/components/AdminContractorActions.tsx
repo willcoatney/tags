@@ -2,7 +2,6 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { Button } from '@/components/ui/button'
 import { toast } from 'sonner'
 
 interface Props { contractorId: string }
@@ -25,13 +24,22 @@ export default function AdminContractorActions({ contractorId }: Props) {
 
   return (
     <div className="flex gap-2">
-      <Button size="sm" onClick={() => handle('approve')} disabled={!!loading}
-        className="bg-green-600 hover:bg-green-700">
-        {loading === 'approve' ? '...' : 'Approve'}
-      </Button>
-      <Button size="sm" variant="destructive" onClick={() => handle('reject')} disabled={!!loading}>
-        {loading === 'reject' ? '...' : 'Reject'}
-      </Button>
+      <button
+        onClick={() => handle('approve')}
+        disabled={!!loading}
+        className="px-3 py-1.5 rounded-md text-xs font-semibold text-white transition-all duration-150 disabled:opacity-50"
+        style={{ background: 'oklch(0.52 0.14 160)' }}
+      >
+        {loading === 'approve' ? '…' : 'Approve'}
+      </button>
+      <button
+        onClick={() => handle('reject')}
+        disabled={!!loading}
+        className="px-3 py-1.5 rounded-md text-xs font-semibold transition-all duration-150 disabled:opacity-50"
+        style={{ background: 'oklch(0.22 0.022 252)', color: 'oklch(0.65 0.02 252)', border: '1px solid oklch(0.27 0.025 252)' }}
+      >
+        {loading === 'reject' ? '…' : 'Reject'}
+      </button>
     </div>
   )
 }

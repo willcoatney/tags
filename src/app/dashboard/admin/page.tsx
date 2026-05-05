@@ -2,10 +2,11 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { Card, CardContent } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
 import StatusBadge from '@/components/StatusBadge'
+import AdminContractorActions from '@/components/AdminContractorActions'
 import { PROJECT_TYPE_LABELS } from '@/lib/types'
+
+const CARD = { background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }
 
 export default async function AdminDashboard() {
   const supabase = await createClient()
@@ -28,132 +29,145 @@ export default async function AdminDashboard() {
     admin.from('contractor_profiles').select('*, user_profiles(full_name, email)').eq('approval_status', 'pending'),
   ])
 
-  const statusCounts = {
-    draft: allProjects?.filter(p => p.status === 'draft').length || 0,
-    open: allProjects?.filter(p => p.status === 'open').length || 0,
-    awarded: allProjects?.filter(p => p.status === 'awarded').length || 0,
-    completed: allProjects?.filter(p => p.status === 'completed').length || 0,
-  }
   const totalBids = allBids?.length || 0
   const awardedBids = allBids?.filter(b => b.status === 'awarded').length || 0
   const conversionRate = totalBids ? ((awardedBids / totalBids) * 100).toFixed(1) : '0'
 
-  return (
-    <div className="space-y-8">
-      <h1 className="text-2xl font-bold text-white">Admin Dashboard</h1>
+  const stats = [
+    { value: allProjects?.filter(p => p.status === 'open').length || 0, label: 'Open Projects', accent: true },
+    { value: totalBids, label: 'Total Bids' },
+    { value: `${conversionRate}%`, label: 'Conversion Rate' },
+    { value: pendingContractors?.length || 0, label: 'Pending Approvals', warn: (pendingContractors?.length || 0) > 0 },
+  ]
 
-      {/* Analytics */}
+  return (
+    <div className="space-y-8 animate-fade-in">
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold text-white">Admin Dashboard</h1>
+        <Link href="/dashboard/admin/contractors"
+          className="px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-150"
+          style={{ color: 'oklch(0.65 0.02 252)', border: '1px solid oklch(0.27 0.025 252)' }}>
+          All Contractors →
+        </Link>
+      </div>
+
+      {/* Stats */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-        {[
-          { label: 'Open Projects', value: statusCounts.open },
-          { label: 'Total Bids', value: totalBids },
-          { label: 'Conversion Rate', value: `${conversionRate}%` },
-          { label: 'Pending Contractors', value: pendingContractors?.length || 0 },
-        ].map(stat => (
-          <Card key={stat.label} className="bg-slate-900 border-slate-700">
-            <CardContent className="pt-6">
-              <div className="text-3xl font-bold text-teal-400">{stat.value}</div>
-              <div className="text-slate-400 text-sm mt-1">{stat.label}</div>
-            </CardContent>
-          </Card>
+        {stats.map(stat => (
+          <div key={stat.label} className="stat-card rounded-xl p-5" style={CARD}>
+            <div className="text-3xl font-bold mb-1" style={{
+              color: stat.accent ? 'oklch(0.57 0.135 183)' : stat.warn ? 'oklch(0.75 0.12 75)' : 'white'
+            }}>
+              {stat.value}
+            </div>
+            <div className="text-sm" style={{ color: 'oklch(0.55 0.02 252)' }}>{stat.label}</div>
+          </div>
         ))}
       </div>
 
       {/* Pending Contractors */}
       {(pendingContractors?.length || 0) > 0 && (
         <div>
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-xl font-semibold text-white">⚠ Pending Contractor Approvals ({pendingContractors?.length})</h2>
-            <Button asChild variant="outline" className="border-slate-600 text-slate-300">
-              <Link href="/dashboard/admin/contractors">View All</Link>
-            </Button>
-          </div>
-          <div className="space-y-3">
-            {pendingContractors?.slice(0, 3).map(contractor => (
-              <Card key={contractor.id} className="bg-slate-900 border-yellow-700 border">
-                <CardContent className="py-4">
+          <h2 className="text-base font-semibold text-white mb-3">
+            ⚠ Pending Approvals ({pendingContractors?.length})
+          </h2>
+          <div className="space-y-2">
+            {pendingContractors?.map(contractor => {
+              const up = contractor.user_profiles as { full_name?: string; email?: string }
+              return (
+                <div key={contractor.id} className="rounded-xl px-5 py-4" style={{ ...CARD, borderColor: 'oklch(0.35 0.08 75)' }}>
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="text-white font-medium">{contractor.company_name}</p>
-                      <p className="text-slate-400 text-sm">
-                        {(contractor.user_profiles as { full_name?: string; email?: string })?.full_name} •{' '}
-                        Services: {contractor.services?.map((s: string) => PROJECT_TYPE_LABELS[s as keyof typeof PROJECT_TYPE_LABELS]).join(', ')} •{' '}
+                      <p className="font-semibold text-white">{contractor.company_name}</p>
+                      <p className="text-sm mt-0.5" style={{ color: 'oklch(0.55 0.02 252)' }}>
+                        {up?.full_name} · {up?.email} ·{' '}
+                        {contractor.services?.map((s: string) => PROJECT_TYPE_LABELS[s as keyof typeof PROJECT_TYPE_LABELS]).join(', ')} ·{' '}
                         ZIPs: {contractor.service_zip_codes?.join(', ')}
                       </p>
                     </div>
-                    <div className="flex gap-2">
-                      <form action={`/api/contractors/${contractor.id}/approve`} method="POST">
-                        <Button type="submit" size="sm" className="bg-green-600 hover:bg-green-700">Approve</Button>
-                      </form>
-                      <form action={`/api/contractors/${contractor.id}/reject`} method="POST">
-                        <Button type="submit" size="sm" variant="destructive">Reject</Button>
-                      </form>
-                    </div>
+                    <AdminContractorActions contractorId={contractor.id} />
                   </div>
-                </CardContent>
-              </Card>
-            ))}
+                </div>
+              )
+            })}
           </div>
         </div>
       )}
 
       {/* All Projects */}
       <div>
-        <h2 className="text-xl font-semibold text-white mb-4">All Projects</h2>
-        <Card className="bg-slate-900 border-slate-700 overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-slate-700">
-                  {['Property', 'Title', 'Type', 'Status', 'Bids', 'Created'].map(h => (
-                    <th key={h} className="text-left text-slate-400 font-medium px-4 py-3">{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {allProjects?.map(project => (
-                  <tr key={project.id} className="border-b border-slate-800 hover:bg-slate-800/50">
-                    <td className="px-4 py-3 text-slate-300">{project.properties?.name}</td>
-                    <td className="px-4 py-3 text-white">{project.title}</td>
-                    <td className="px-4 py-3 text-slate-300">{PROJECT_TYPE_LABELS[project.project_type as keyof typeof PROJECT_TYPE_LABELS]}</td>
-                    <td className="px-4 py-3"><StatusBadge status={project.status} /></td>
-                    <td className="px-4 py-3 text-slate-300">{project.bids?.length || 0}</td>
-                    <td className="px-4 py-3 text-slate-400">{new Date(project.created_at).toLocaleDateString()}</td>
-                  </tr>
+        <h2 className="text-base font-semibold text-white mb-3">All Projects</h2>
+        <div className="rounded-xl overflow-hidden" style={CARD}>
+          <table className="w-full text-sm">
+            <thead>
+              <tr style={{ borderBottom: '1px solid oklch(0.22 0.022 252)' }}>
+                {['Property', 'Title', 'Type', 'Status', 'Bids', 'Created'].map(h => (
+                  <th key={h} className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wide"
+                    style={{ color: 'oklch(0.50 0.02 252)' }}>{h}</th>
                 ))}
-              </tbody>
-            </table>
-          </div>
-        </Card>
+              </tr>
+            </thead>
+            <tbody>
+              {allProjects?.map((project, i) => (
+                <tr key={project.id}
+                  className="transition-colors duration-100"
+                  style={{
+                    borderBottom: i < (allProjects.length - 1) ? '1px solid oklch(0.20 0.022 252)' : 'none',
+                  }}
+                  onMouseEnter={e => (e.currentTarget.style.background = 'oklch(0.19 0.022 252)')}
+                  onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                >
+                  <td className="px-4 py-3" style={{ color: 'oklch(0.65 0.02 252)' }}>{project.properties?.name}</td>
+                  <td className="px-4 py-3 text-white font-medium">{project.title}</td>
+                  <td className="px-4 py-3" style={{ color: 'oklch(0.65 0.02 252)' }}>
+                    {PROJECT_TYPE_LABELS[project.project_type as keyof typeof PROJECT_TYPE_LABELS]}
+                  </td>
+                  <td className="px-4 py-3"><StatusBadge status={project.status} /></td>
+                  <td className="px-4 py-3" style={{ color: 'oklch(0.65 0.02 252)' }}>{project.bids?.length || 0}</td>
+                  <td className="px-4 py-3" style={{ color: 'oklch(0.50 0.02 252)' }}>
+                    {new Date(project.created_at).toLocaleDateString()}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {/* All Users */}
       <div>
-        <h2 className="text-xl font-semibold text-white mb-4">All Users</h2>
-        <Card className="bg-slate-900 border-slate-700 overflow-hidden">
-          <div className="overflow-x-auto">
-            <table className="w-full text-sm">
-              <thead>
-                <tr className="border-b border-slate-700">
-                  {['Name', 'Email', 'Role', 'Organization', 'Joined'].map(h => (
-                    <th key={h} className="text-left text-slate-400 font-medium px-4 py-3">{h}</th>
-                  ))}
-                </tr>
-              </thead>
-              <tbody>
-                {allUsers?.map(u => (
-                  <tr key={u.id} className="border-b border-slate-800 hover:bg-slate-800/50">
-                    <td className="px-4 py-3 text-white">{u.full_name || '—'}</td>
-                    <td className="px-4 py-3 text-slate-300">{u.email}</td>
-                    <td className="px-4 py-3"><span className="capitalize text-slate-300">{u.role}</span></td>
-                    <td className="px-4 py-3 text-slate-300">{(u.organizations as { name?: string })?.name || '—'}</td>
-                    <td className="px-4 py-3 text-slate-400">{new Date(u.created_at).toLocaleDateString()}</td>
-                  </tr>
+        <h2 className="text-base font-semibold text-white mb-3">All Users</h2>
+        <div className="rounded-xl overflow-hidden" style={CARD}>
+          <table className="w-full text-sm">
+            <thead>
+              <tr style={{ borderBottom: '1px solid oklch(0.22 0.022 252)' }}>
+                {['Name', 'Email', 'Role', 'Organization', 'Joined'].map(h => (
+                  <th key={h} className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wide"
+                    style={{ color: 'oklch(0.50 0.02 252)' }}>{h}</th>
                 ))}
-              </tbody>
-            </table>
-          </div>
-        </Card>
+              </tr>
+            </thead>
+            <tbody>
+              {allUsers?.map((u, i) => (
+                <tr key={u.id}
+                  style={{ borderBottom: i < (allUsers.length - 1) ? '1px solid oklch(0.20 0.022 252)' : 'none' }}
+                  onMouseEnter={e => (e.currentTarget.style.background = 'oklch(0.19 0.022 252)')}
+                  onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
+                >
+                  <td className="px-4 py-3 text-white">{u.full_name || '—'}</td>
+                  <td className="px-4 py-3" style={{ color: 'oklch(0.65 0.02 252)' }}>{u.email}</td>
+                  <td className="px-4 py-3"><span className="capitalize" style={{ color: 'oklch(0.57 0.135 183)' }}>{u.role}</span></td>
+                  <td className="px-4 py-3" style={{ color: 'oklch(0.65 0.02 252)' }}>
+                    {(u.organizations as { name?: string })?.name || '—'}
+                  </td>
+                  <td className="px-4 py-3" style={{ color: 'oklch(0.50 0.02 252)' }}>
+                    {new Date(u.created_at).toLocaleDateString()}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
   )
