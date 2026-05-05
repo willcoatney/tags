@@ -17,7 +17,7 @@ export default async function PMProjectPage({ params }: { params: { id: string }
   if (!profile || profile.role !== 'pm') redirect('/login')
 
   const { data: project } = await admin.from('projects')
-    .select('*, properties(*), project_photos(*), bids(*, user_profiles(full_name, email), contractor_profiles(company_name))')
+    .select('*, properties(*), project_photos(*), bids(id, status)')
     .eq('id', params.id)
     .eq('organization_id', profile.organization_id)
     .single()

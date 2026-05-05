@@ -30,7 +30,12 @@ export default function NewProjectPage() {
   const [photoPreviews, setPhotoPreviews] = useState<string[]>([])
   const [sow, setSow] = useState('')
   const [generatingSow, setGeneratingSow] = useState(false)
+  const [sowFailed, setSowFailed] = useState(false)
   const [projectId, setProjectId] = useState<string | null>(null)
+  const [projectTypeForRetry, setProjectTypeForRetry] = useState('')
+  const [descriptionForRetry, setDescriptionForRetry] = useState('')
+  const [propertyAddressForRetry, setPropertyAddressForRetry] = useState('')
+  const [photoUrlsForRetry, setPhotoUrlsForRetry] = useState<string[]>([])
   const [publishing, setPublishing] = useState(false)
 
   useEffect(() => {
@@ -77,7 +82,6 @@ export default function NewProjectPage() {
     e.preventDefault()
     if (!projectForm.projectType) { toast.error('Select a project type'); return }
     setStep(3)
-    setGeneratingSow(true)
 
     // Create draft project
     const createRes = await fetch('/api/pm/projects', {
@@ -93,7 +97,7 @@ export default function NewProjectPage() {
       }),
     })
 
-    if (!createRes.ok) { toast.error('Failed to create project'); setGeneratingSow(false); return }
+    if (!createRes.ok) { toast.error('Failed to create project'); return }
     const { project, property } = await createRes.json()
     setProjectId(project.id)
 
@@ -110,26 +114,45 @@ export default function NewProjectPage() {
       }
     }
 
+    // Save retry params
+    const propAddr = `${property.address}, ${property.city}, ${property.state}`
+    setProjectTypeForRetry(projectForm.projectType)
+    setDescriptionForRetry(projectForm.description)
+    setPropertyAddressForRetry(propAddr)
+    setPhotoUrlsForRetry(photoUrls)
+
     // Generate SOW
+    await generateSow(project.id, projectForm.projectType, projectForm.description, propAddr, photoUrls)
+  }
+
+  async function generateSow(pid: string, pType: string, desc: string, propAddr: string, urls: string[]) {
+    setGeneratingSow(true)
+    setSowFailed(false)
     const sowRes = await fetch('/api/projects/generate-scope', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        projectId: project.id,
-        projectType: projectForm.projectType,
-        description: projectForm.description,
-        propertyAddress: `${property.address}, ${property.city}, ${property.state}`,
-        photoUrls,
+        projectId: pid,
+        projectType: pType,
+        description: desc,
+        propertyAddress: propAddr,
+        photoUrls: urls,
       }),
     })
-
     if (sowRes.ok) {
       const { sow: generated } = await sowRes.json()
       setSow(generated)
     } else {
-      toast.error('SOW generation failed — you can write it manually')
+      const data = await sowRes.json().catch(() => ({}))
+      toast.error(`SOW generation failed: ${data.error || 'Unknown error'}`)
+      setSowFailed(true)
     }
     setGeneratingSow(false)
+  }
+
+  async function retrySow() {
+    if (!projectId) return
+    await generateSow(projectId, projectTypeForRetry, descriptionForRetry, propertyAddressForRetry, photoUrlsForRetry)
   }
 
   async function handlePublish() {
@@ -300,8 +323,35 @@ export default function NewProjectPage() {
           <CardContent className="space-y-4">
             {generatingSow ? (
               <div className="py-12 text-center">
-                <div className="animate-spin w-8 h-8 border-2 border-teal-400 border-t-transparent rounded-full mx-auto mb-4" />
-                <p className="text-slate-400">Generating professional Scope of Work...</p>
+                <div className="w-8 h-8 border-2 border-t-transparent rounded-full mx-auto mb-4 animate-spin"
+                  style={{ borderColor: 'oklch(0.57 0.135 183)', borderTopColor: 'transparent' }} />
+                <p className="text-sm" style={{ color: 'oklch(0.55 0.02 252)' }}>Generating professional Scope of Work…</p>
+              </div>
+            ) : sowFailed ? (
+              <div className="py-10 text-center space-y-4">
+                <div className="text-4xl">⚠️</div>
+                <div>
+                  <p className="font-medium text-white mb-1">SOW generation failed</p>
+                  <p className="text-sm" style={{ color: 'oklch(0.55 0.02 252)' }}>
+                    The AI couldn&apos;t generate a Scope of Work. You can retry or write it manually.
+                  </p>
+                </div>
+                <div className="flex gap-3 justify-center">
+                  <button
+                    onClick={retrySow}
+                    className="px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-all"
+                    style={{ background: 'oklch(0.57 0.135 183)' }}
+                  >
+                    ↺ Retry AI Generation
+                  </button>
+                  <button
+                    onClick={() => setSowFailed(false)}
+                    className="px-5 py-2.5 rounded-lg text-sm font-medium transition-all"
+                    style={{ color: 'oklch(0.65 0.02 252)', border: '1px solid oklch(0.27 0.025 252)' }}
+                  >
+                    Write Manually
+                  </button>
+                </div>
               </div>
             ) : (
               <>
@@ -309,12 +359,27 @@ export default function NewProjectPage() {
                   value={sow}
                   onChange={e => setSow(e.target.value)}
                   rows={20}
-                  className="bg-slate-800 border-slate-600 text-white font-mono text-sm"
+                  className="font-mono text-sm"
+                  style={{ background: 'oklch(0.20 0.022 252)', border: '1px solid oklch(0.27 0.025 252)', color: 'white' }}
                 />
-                <p className="text-slate-500 text-xs">Review and edit the SOW above before posting.</p>
-                <Button onClick={handlePublish} disabled={publishing || !sow} className="w-full bg-teal-600 hover:bg-teal-700 text-base py-3">
-                  {publishing ? 'Posting...' : 'Post for Bids'}
-                </Button>
+                <div className="flex items-center justify-between">
+                  <p className="text-xs" style={{ color: 'oklch(0.45 0.015 252)' }}>Review and edit before posting.</p>
+                  <button
+                    onClick={retrySow}
+                    className="text-xs transition-colors"
+                    style={{ color: 'oklch(0.55 0.02 252)' }}
+                  >
+                    ↺ Regenerate
+                  </button>
+                </div>
+                <button
+                  onClick={handlePublish}
+                  disabled={publishing || !sow}
+                  className="w-full h-12 rounded-lg text-base font-semibold text-white transition-all duration-150 active:scale-[0.98] disabled:opacity-50"
+                  style={{ background: 'oklch(0.57 0.135 183)' }}
+                >
+                  {publishing ? 'Posting…' : 'Post for Bids'}
+                </button>
               </>
             )}
           </CardContent>
