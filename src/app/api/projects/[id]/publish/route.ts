@@ -1,0 +1,52 @@
+import { NextRequest, NextResponse } from 'next/server'
+import { createClient } from '@/lib/supabase/server'
+import { createAdminClient } from '@/lib/supabase/admin'
+import { sendSMS } from '@/lib/sms'
+import { sendEmail } from '@/lib/email'
+
+export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+
+  const admin = createAdminClient()
+
+  // Verify PM owns the project
+  const { data: project } = await admin.from('projects')
+    .select('*, properties(*)')
+    .eq('id', params.id)
+    .single()
+
+  if (!project) return NextResponse.json({ error: 'Not found' }, { status: 404 })
+
+  const { data: profile } = await admin.from('user_profiles')
+    .select('organization_id, role')
+    .eq('id', user.id)
+    .single()
+
+  if (!profile || profile.role !== 'pm' || profile.organization_id !== project.organization_id) {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
+  }
+
+  // Publish project
+  await admin.from('projects').update({ status: 'open', updated_at: new Date().toISOString() }).eq('id', params.id)
+
+  // Find matching contractors (service match + zip match)
+  const { data: contractors } = await admin.from('contractor_profiles')
+    .select('*, user_profiles(*)')
+    .eq('approval_status', 'approved')
+    .contains('services', [project.project_type])
+    .contains('service_zip_codes', [project.properties.zip])
+
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
+  const projectUrl = `${baseUrl}/dashboard/contractor/projects/${params.id}`
+  const msg = `New ${project.project_type} project posted in ${project.properties.city}, ${project.properties.state}. View & bid: ${projectUrl}`
+
+  for (const contractor of (contractors || [])) {
+    const up = contractor.user_profiles
+    if (up?.phone) await sendSMS(up.phone, msg)
+    if (up?.email) await sendEmail(up.email, `New project: ${project.title}`, `<p>${msg}</p>`)
+  }
+
+  return NextResponse.json({ success: true })
+}

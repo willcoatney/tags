@@ -1,134 +1,196 @@
 -- ============================================================
--- TAGS Schema
--- Multi-tenant from day one: every table has organization_id
+-- TAGS Schema — Full MVP
+-- Multi-tenant: every table has organization_id
 -- RLS enabled on every table
 -- ============================================================
 
--- Enable UUID extension
 create extension if not exists "uuid-ossp";
 
 -- ============================================================
 -- ORGANIZATIONS
 -- ============================================================
 create table organizations (
-  id uuid primary key default uuid_generate_v4(),
+  id uuid primary key default gen_random_uuid(),
   name text not null,
-  created_at timestamptz default now() not null
+  type text not null check (type in ('pm', 'contractor')),
+  created_at timestamptz default now()
 );
 
-alter table organizations enable row level security;
-
 -- ============================================================
--- PROFILES (extends Supabase auth.users)
+-- USER PROFILES
 -- ============================================================
-create table profiles (
-  id uuid primary key references auth.users on delete cascade,
-  organization_id uuid references organizations(id) on delete cascade not null,
+create table user_profiles (
+  id uuid primary key references auth.users(id) on delete cascade,
+  organization_id uuid references organizations(id),
   role text not null check (role in ('pm', 'contractor', 'admin')),
   full_name text,
   phone text,
-  created_at timestamptz default now() not null
+  email text,
+  created_at timestamptz default now()
 );
 
-alter table profiles enable row level security;
+-- ============================================================
+-- PROPERTIES
+-- ============================================================
+create table properties (
+  id uuid primary key default gen_random_uuid(),
+  organization_id uuid references organizations(id) not null,
+  created_by uuid references user_profiles(id),
+  name text not null,
+  address text not null,
+  city text not null,
+  state text not null,
+  zip text not null,
+  created_at timestamptz default now()
+);
+
+-- ============================================================
+-- PROJECT TYPE ENUM
+-- ============================================================
+create type project_type as enum (
+  'concrete', 'roofing', 'plumbing', 'electrical', 'hvac',
+  'drywall', 'painting', 'flooring', 'windows_doors', 'deck_repair',
+  'chimney', 'landscaping', 'general_repair', 'other'
+);
 
 -- ============================================================
 -- PROJECTS
 -- ============================================================
 create table projects (
-  id uuid primary key default uuid_generate_v4(),
-  organization_id uuid references organizations(id) on delete cascade not null,
-  created_by uuid references profiles(id) not null,
+  id uuid primary key default gen_random_uuid(),
+  organization_id uuid references organizations(id) not null,
+  property_id uuid references properties(id) not null,
+  created_by uuid references user_profiles(id),
   title text not null,
+  project_type project_type not null,
   description text not null,
-  project_type text not null,
-  status text not null default 'open' check (status in ('open', 'in_progress', 'completed', 'cancelled')),
-  sow jsonb,                    -- AI-generated Scope of Work
-  sow_generated_at timestamptz,
-  photos text[],                -- Supabase Storage URLs
-  created_at timestamptz default now() not null,
-  updated_at timestamptz default now() not null
+  budget_min numeric,
+  budget_max numeric,
+  status text not null default 'draft' check (status in ('draft', 'open', 'awarded', 'completed', 'cancelled')),
+  scope_of_work text,
+  scope_generated_at timestamptz,
+  scope_edited_by uuid references user_profiles(id),
+  created_at timestamptz default now(),
+  updated_at timestamptz default now()
 );
 
-alter table projects enable row level security;
+-- ============================================================
+-- PROJECT PHOTOS
+-- ============================================================
+create table project_photos (
+  id uuid primary key default gen_random_uuid(),
+  project_id uuid references projects(id) on delete cascade,
+  storage_path text not null,
+  public_url text not null,
+  uploaded_by uuid references user_profiles(id),
+  created_at timestamptz default now()
+);
 
--- PMs see their org's projects
-create policy "PMs see own org projects"
-  on projects for select
-  using (
-    organization_id = (select organization_id from profiles where id = auth.uid())
-  );
-
--- Contractors see all open projects
-create policy "Contractors see open projects"
-  on projects for select
-  using (
-    status = 'open'
-    and exists (
-      select 1 from profiles where id = auth.uid() and role = 'contractor'
-    )
-  );
-
--- PMs can create projects in their org
-create policy "PMs can create projects"
-  on projects for insert
-  with check (
-    organization_id = (select organization_id from profiles where id = auth.uid())
-    and exists (
-      select 1 from profiles where id = auth.uid() and role = 'pm'
-    )
-  );
-
--- PMs can update their org's projects
-create policy "PMs can update own org projects"
-  on projects for update
-  using (
-    organization_id = (select organization_id from profiles where id = auth.uid())
-  );
+-- ============================================================
+-- CONTRACTOR PROFILES
+-- ============================================================
+create table contractor_profiles (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references user_profiles(id) on delete cascade unique,
+  organization_id uuid references organizations(id),
+  company_name text not null,
+  services project_type[] not null default '{}',
+  service_zip_codes text[] not null default '{}',
+  license_url text,
+  insurance_url text,
+  approval_status text not null default 'pending' check (approval_status in ('pending', 'approved', 'rejected')),
+  approved_by uuid references user_profiles(id),
+  approved_at timestamptz,
+  created_at timestamptz default now()
+);
 
 -- ============================================================
 -- BIDS
 -- ============================================================
 create table bids (
-  id uuid primary key default uuid_generate_v4(),
-  project_id uuid references projects(id) on delete cascade not null,
-  organization_id uuid references organizations(id) on delete cascade not null,
-  contractor_id uuid references profiles(id) not null,
-  amount numeric(12,2),
-  message text,
-  status text not null default 'pending' check (status in ('pending', 'accepted', 'rejected', 'withdrawn')),
-  created_at timestamptz default now() not null,
-  updated_at timestamptz default now() not null
+  id uuid primary key default gen_random_uuid(),
+  project_id uuid references projects(id) on delete cascade,
+  contractor_user_id uuid references user_profiles(id),
+  contractor_organization_id uuid references organizations(id),
+  amount numeric not null,
+  timeline_days integer not null,
+  notes text,
+  status text not null default 'submitted' check (status in ('submitted', 'awarded', 'rejected')),
+  submitted_at timestamptz default now(),
+  updated_at timestamptz default now(),
+  unique(project_id, contractor_user_id)
 );
 
+-- ============================================================
+-- NOTIFICATION LOG
+-- ============================================================
+create table notification_log (
+  id uuid primary key default gen_random_uuid(),
+  user_id uuid references user_profiles(id),
+  type text not null,
+  channel text not null check (channel in ('sms', 'email')),
+  recipient text not null,
+  message text not null,
+  status text not null default 'sent',
+  sent_at timestamptz default now()
+);
+
+-- ============================================================
+-- RLS
+-- ============================================================
+alter table organizations enable row level security;
+alter table user_profiles enable row level security;
+alter table properties enable row level security;
+alter table projects enable row level security;
+alter table project_photos enable row level security;
+alter table contractor_profiles enable row level security;
 alter table bids enable row level security;
+alter table notification_log enable row level security;
 
--- Contractors see their own bids
-create policy "Contractors see own bids"
-  on bids for select
-  using (contractor_id = auth.uid());
+create policy "users_own_profile" on user_profiles for all
+  using (id = auth.uid());
 
--- PMs see bids on their org's projects
-create policy "PMs see bids on their projects"
-  on bids for select
+create policy "pm_org_properties" on properties for all
+  using (organization_id = (select organization_id from user_profiles where id = auth.uid()));
+
+create policy "pm_see_own_projects" on projects for all
+  using (organization_id = (select organization_id from user_profiles where id = auth.uid()));
+
+create policy "contractors_see_open_projects" on projects for select
   using (
-    organization_id = (select organization_id from profiles where id = auth.uid())
+    status = 'open' and
+    exists (select 1 from user_profiles where id = auth.uid() and role = 'contractor')
   );
 
--- Contractors can submit bids
-create policy "Contractors can submit bids"
-  on bids for insert
-  with check (
-    contractor_id = auth.uid()
-    and exists (
-      select 1 from profiles where id = auth.uid() and role = 'contractor'
+create policy "photos_follow_project" on project_photos for select
+  using (
+    exists (
+      select 1 from projects p
+      where p.id = project_id
+      and (
+        p.organization_id = (select organization_id from user_profiles where id = auth.uid())
+        or (p.status = 'open' and (select role from user_profiles where id = auth.uid()) = 'contractor')
+      )
     )
   );
 
--- Contractors can update their own bids
-create policy "Contractors can update own bids"
-  on bids for update
-  using (contractor_id = auth.uid());
+create policy "contractor_own_profile" on contractor_profiles for all
+  using (user_id = auth.uid());
+
+create policy "contractors_view_approved" on contractor_profiles for select
+  using (approval_status = 'approved');
+
+create policy "contractor_own_bids" on bids for all
+  using (contractor_user_id = auth.uid());
+
+create policy "pm_sees_bids_on_own_projects" on bids for select
+  using (
+    exists (
+      select 1 from projects p
+      where p.id = project_id
+      and p.organization_id = (select organization_id from user_profiles where id = auth.uid())
+    )
+  );
 
 -- ============================================================
 -- UPDATED_AT TRIGGER
@@ -148,25 +210,3 @@ create trigger set_projects_updated_at
 create trigger set_bids_updated_at
   before update on bids
   for each row execute function handle_updated_at();
-
--- ============================================================
--- NEW USER HANDLER
--- Automatically creates a profile when a user signs up
--- ============================================================
-create or replace function handle_new_user()
-returns trigger as $$
-begin
-  insert into profiles (id, organization_id, role, full_name)
-  values (
-    new.id,
-    (new.raw_user_meta_data->>'organization_id')::uuid,
-    coalesce(new.raw_user_meta_data->>'role', 'pm'),
-    new.raw_user_meta_data->>'full_name'
-  );
-  return new;
-end;
-$$ language plpgsql security definer;
-
-create trigger on_auth_user_created
-  after insert on auth.users
-  for each row execute function handle_new_user();
