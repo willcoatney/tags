@@ -26,7 +26,7 @@ export default async function AdminDashboard() {
     admin.from('projects').select('*, properties(name, city, state), bids(id)').order('created_at', { ascending: false }).limit(50),
     admin.from('user_profiles').select('*, organizations(name)').order('created_at', { ascending: false }),
     admin.from('bids').select('id, status'),
-    admin.from('contractor_profiles').select('*, user_profiles(full_name, email)').eq('approval_status', 'pending'),
+    admin.from('contractor_profiles').select('*, user_profiles!contractor_profiles_user_id_fkey(full_name, email)').eq('approval_status', 'pending'),
   ])
 
   const totalBids = allBids?.length || 0
@@ -110,12 +110,10 @@ export default async function AdminDashboard() {
             <tbody>
               {allProjects?.map((project, i) => (
                 <tr key={project.id}
-                  className="transition-colors duration-100"
+                  className="transition-colors duration-100 hover:bg-slate-800/50"
                   style={{
                     borderBottom: i < (allProjects.length - 1) ? '1px solid oklch(0.20 0.022 252)' : 'none',
                   }}
-                  onMouseEnter={e => (e.currentTarget.style.background = 'oklch(0.19 0.022 252)')}
-                  onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
                 >
                   <td className="px-4 py-3" style={{ color: 'oklch(0.65 0.02 252)' }}>{project.properties?.name}</td>
                   <td className="px-4 py-3 text-white font-medium">{project.title}</td>
@@ -150,9 +148,8 @@ export default async function AdminDashboard() {
             <tbody>
               {allUsers?.map((u, i) => (
                 <tr key={u.id}
+                  className="transition-colors duration-100 hover:bg-slate-800/50"
                   style={{ borderBottom: i < (allUsers.length - 1) ? '1px solid oklch(0.20 0.022 252)' : 'none' }}
-                  onMouseEnter={e => (e.currentTarget.style.background = 'oklch(0.19 0.022 252)')}
-                  onMouseLeave={e => (e.currentTarget.style.background = 'transparent')}
                 >
                   <td className="px-4 py-3 text-white">{u.full_name || '—'}</td>
                   <td className="px-4 py-3" style={{ color: 'oklch(0.65 0.02 252)' }}>{u.email}</td>
