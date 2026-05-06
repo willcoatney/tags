@@ -330,14 +330,26 @@ export default function NewProjectPage() {
                 </div>
               </div>
               <div>
-                <Label className="text-slate-300">Photos <span className="text-slate-500">up to 5, 10MB each</span></Label>
-                <Input type="file" accept="image/*" multiple onChange={handlePhotoSelect}
-                  className="bg-slate-800 border-slate-600 text-white file:bg-slate-700 file:text-slate-300 file:border-0" />
+                <Label className="text-slate-300 block mb-2">Photos <span className="text-slate-500">up to 5, 10MB each</span></Label>
+                <div className="flex gap-2">
+                  {/* Take photo directly with camera */}
+                  <label className="flex-1 flex items-center justify-center gap-2 h-11 rounded-lg cursor-pointer text-sm font-medium transition-colors duration-150"
+                    style={{ border: '1px solid oklch(0.30 0.08 183)', background: 'oklch(0.18 0.06 183)', color: 'oklch(0.72 0.12 183)' }}>
+                    📷 Take Photo
+                    <input type="file" accept="image/*" capture="environment" className="hidden" onChange={handlePhotoSelect} />
+                  </label>
+                  {/* Upload from library */}
+                  <label className="flex-1 flex items-center justify-center gap-2 h-11 rounded-lg cursor-pointer text-sm font-medium transition-colors duration-150"
+                    style={{ border: '1px solid oklch(0.27 0.025 252)', background: 'oklch(0.20 0.022 252)', color: 'oklch(0.65 0.02 252)' }}>
+                    🖼 Upload from Library
+                    <input type="file" accept="image/*" multiple className="hidden" onChange={handlePhotoSelect} />
+                  </label>
+                </div>
                 {photoPreviews.length > 0 && (
-                  <div className="flex gap-2 mt-2 flex-wrap">
+                  <div className="flex gap-2 mt-3 flex-wrap">
                     {photoPreviews.map((src, i) => (
                       // eslint-disable-next-line @next/next/no-img-element
-                      <img key={i} src={src} alt="" className="w-20 h-20 object-cover rounded border border-slate-600" />
+                      <img key={i} src={src} alt="" className="w-20 h-20 object-cover rounded-lg border border-slate-600" />
                     ))}
                   </div>
                 )}
