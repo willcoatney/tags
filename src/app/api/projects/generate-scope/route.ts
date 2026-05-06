@@ -54,10 +54,10 @@ Generate a professional Scope of Work a licensed contractor can act on immediate
 [Numbered list of specific tasks in order]
 
 ## Materials Required
-[Bullet list of materials and quantities where determinable]
+[Bullet list with estimated quantity and unit cost for each item, e.g. "- 12x 4'x8' drywall sheets — ~$15/sheet (~$180)"]
 
 ## Labor Requirements
-[Trade skills needed, crew size estimate, special equipment]
+[Trade skills needed, crew size estimate, estimated hours, and estimated labor cost range]
 
 ## Site Safety Requirements
 [Relevant OSHA or safety considerations]
@@ -68,11 +68,20 @@ Generate a professional Scope of Work a licensed contractor can act on immediate
 ## Warranty Expectations
 [Standard warranty language for this type of work]
 
+## Estimated Cost Range
+Materials subtotal: $X – $X
+Labor subtotal: $X – $X
+**Total Estimate: $X – $X**
+
+Note: This estimate is for budgeting purposes only. Final pricing is determined by contractor bids. Costs reflect current regional market rates and may vary based on site conditions, material availability, and contractor overhead.
+
 Rules:
-- Do NOT include pricing or cost estimates
 - Write for a licensed contractor, not a homeowner
 - Be specific and technical where photos allow
-- If photos are unclear, note what contractor should inspect on-site`,
+- If photos are unclear, note what contractor should inspect on-site
+- Use current regional average pricing for materials (not retail — contractor/trade pricing)
+- Labor rates should reflect local market rates for the required trade
+- Always present costs as ranges, not fixed figures`,
               },
             ],
           }],
