@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import StatusBadge from '@/components/StatusBadge'
 import AdminContractorActions from '@/components/AdminContractorActions'
+import ViewAsButton from '@/components/ViewAsButton'
 import { PROJECT_TYPE_LABELS } from '@/lib/types'
 
 const CARD = { background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }
@@ -139,7 +140,7 @@ export default async function AdminDashboard() {
           <table className="w-full text-sm">
             <thead>
               <tr style={{ borderBottom: '1px solid oklch(0.22 0.022 252)' }}>
-                {['Name', 'Email', 'Role', 'Organization', 'Joined'].map(h => (
+                {['Name', 'Email', 'Role', 'Organization', 'Joined', ''].map(h => (
                   <th key={h} className="text-left px-4 py-3 text-xs font-semibold uppercase tracking-wide"
                     style={{ color: 'oklch(0.50 0.02 252)' }}>{h}</th>
                 ))}
@@ -159,6 +160,9 @@ export default async function AdminDashboard() {
                   </td>
                   <td className="px-4 py-3" style={{ color: 'oklch(0.50 0.02 252)' }}>
                     {new Date(u.created_at).toLocaleDateString()}
+                  </td>
+                  <td className="px-4 py-3">
+                    <ViewAsButton userId={u.id} name={u.full_name || u.email || ''} role={u.role} />
                   </td>
                 </tr>
               ))}
