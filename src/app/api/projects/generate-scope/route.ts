@@ -25,6 +25,12 @@ export async function POST(req: NextRequest) {
     source: { type: 'url' as const, url },
   }))
 
+  const datePrepared = new Date().toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
+  })
+
   const encoder = new TextEncoder()
 
   const stream = new ReadableStream({
@@ -44,8 +50,11 @@ export async function POST(req: NextRequest) {
 Project Type: ${projectType}
 Property: ${propertyAddress}
 Issue Description (from property manager): ${description}
+Date Prepared: ${datePrepared}
 
 Generate a professional Scope of Work a licensed contractor can act on immediately. Use this exact structure:
+
+**Date Prepared:** ${datePrepared}
 
 ## Project Overview
 [2-3 sentences summarizing the job professionally]
@@ -68,12 +77,16 @@ Generate a professional Scope of Work a licensed contractor can act on immediate
 ## Warranty Expectations
 [Standard warranty language for this type of work]
 
-## Estimated Cost Range
-Materials subtotal: $X – $X
-Labor subtotal: $X – $X
-**Total Estimate: $X – $X**
+---
 
-Note: This estimate is for budgeting purposes only. Final pricing is determined by contractor bids. Costs reflect current regional market rates and may vary based on site conditions, material availability, and contractor overhead.
+## Total Cost Summary
+| | Low | High |
+|---|---|---|
+| Materials | $X | $X |
+| Labor | $X | $X |
+| **TOTAL** | **$X** | **$X** |
+
+> ⚠️ This estimate is for budgeting purposes only. Final pricing is determined by contractor bids. Costs reflect current regional market rates and may vary based on site conditions, material availability, and contractor overhead.
 
 Rules:
 - Write for a licensed contractor, not a homeowner
@@ -81,7 +94,8 @@ Rules:
 - If photos are unclear, note what contractor should inspect on-site
 - Use current regional average pricing for materials (not retail — contractor/trade pricing)
 - Labor rates should reflect local market rates for the required trade
-- Always present costs as ranges, not fixed figures`,
+- Always present costs as ranges, not fixed figures
+- The Total Cost Summary table MUST always appear at the end — never omit it`,
               },
             ],
           }],
