@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
       try {
         const messageStream = anthropic.messages.stream({
           model: 'claude-sonnet-4-6',
-          max_tokens: 2000,
+          max_tokens: 4000,
           messages: [{
             role: 'user',
             content: [
@@ -68,15 +68,6 @@ Generate a professional Scope of Work a licensed contractor can act on immediate
 ## Labor Requirements
 [Trade skills needed, crew size estimate, estimated hours, and estimated labor cost range]
 
-## Site Safety Requirements
-[Relevant OSHA or safety considerations]
-
-## Cleanup & Disposal
-[Debris removal, haul-away, site restoration]
-
-## Warranty Expectations
-[Standard warranty language for this type of work]
-
 ---
 
 ## Total Cost Summary
@@ -87,6 +78,15 @@ Generate a professional Scope of Work a licensed contractor can act on immediate
 | **TOTAL** | **$X** | **$X** |
 
 > ⚠️ This estimate is for budgeting purposes only. Final pricing is determined by contractor bids. Costs reflect current regional market rates and may vary based on site conditions, material availability, and contractor overhead.
+
+## Site Safety Requirements
+[Relevant OSHA or safety considerations]
+
+## Cleanup & Disposal
+[Debris removal, haul-away, site restoration]
+
+## Warranty Expectations
+[Standard warranty language for this type of work]
 
 Rules:
 - Write for a licensed contractor, not a homeowner
