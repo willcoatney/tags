@@ -12,11 +12,11 @@ const inter = Inter({
 export const metadata: Metadata = {
   title: 'TAGS — The Apartment Guys System',
   description: 'Snap a photo. Describe the problem. Get a professional Scope of Work in seconds — then qualified contractors bid for the job. Free for property managers.',
-  metadataBase: new URL('https://tags-web-app.netlify.app'),
+  metadataBase: new URL('https://www.tagyourproject.com'),
   openGraph: {
     title: 'TAGS — Stop chasing contractors. Start managing repairs.',
     description: 'Snap a photo. Describe the problem. Get a professional Scope of Work in seconds — then qualified contractors bid for the job. Free for property managers.',
-    url: 'https://tags-web-app.netlify.app',
+    url: 'https://www.tagyourproject.com',
     siteName: 'TAGS',
     images: [
       {
