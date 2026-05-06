@@ -11,6 +11,9 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: 'TAGS — The Apartment Guys System',
+  icons: {
+    apple: '/apple-touch-icon.png',
+  },
   description: 'Snap a photo. Describe the problem. Get a professional Scope of Work in seconds — then qualified contractors bid for the job. Free for property managers.',
   metadataBase: new URL('https://www.tagyourproject.com'),
   openGraph: {
