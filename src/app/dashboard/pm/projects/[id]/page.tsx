@@ -42,6 +42,15 @@ export default async function PMProjectPage({ params }: { params: { id: string }
           {project.status === 'draft' && project.scope_of_work && (
             <PublishProjectButton projectId={project.id} />
           )}
+          {(project.status === 'draft' || project.status === 'open') && (
+            <Link
+              href={`/dashboard/pm/projects/${project.id}/edit`}
+              className="px-4 py-2 rounded-lg text-sm font-semibold transition-all"
+              style={{ border: '1px solid oklch(0.27 0.025 252)', color: 'oklch(0.82 0.01 252)', background: 'oklch(0.20 0.022 252)' }}
+            >
+              ✏️ Edit
+            </Link>
+          )}
           {project.status === 'draft' && !project.scope_of_work && (
             <span className="text-xs px-3 py-1.5 rounded-lg" style={{ background: 'oklch(0.22 0.06 75)', color: 'oklch(0.75 0.12 75)' }}>
               Generate a SOW before posting
