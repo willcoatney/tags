@@ -93,7 +93,12 @@ export default function LoginPage() {
               />
             </div>
             <div className="space-y-1.5">
-              <Label className="text-sm font-medium" style={{ color: 'oklch(0.82 0.01 252)' }}>Password</Label>
+              <div className="flex items-center justify-between">
+                <Label className="text-sm font-medium" style={{ color: 'oklch(0.82 0.01 252)' }}>Password</Label>
+                <Link href="/forgot-password" className="text-xs" style={{ color: 'oklch(0.57 0.135 183)' }}>
+                  Forgot password?
+                </Link>
+              </div>
               <Input
                 type="password"
                 value={password}
