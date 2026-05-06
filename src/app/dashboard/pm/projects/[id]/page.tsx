@@ -5,6 +5,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import StatusBadge from '@/components/StatusBadge'
 import PublishProjectButton from '@/components/PublishProjectButton'
+import SOWViewer from '@/components/SOWViewer'
 import { PROJECT_TYPE_LABELS } from '@/lib/types'
 
 export default async function PMProjectPage({ params }: { params: { id: string } }) {
@@ -100,9 +101,8 @@ export default async function PMProjectPage({ params }: { params: { id: string }
 
       {project.scope_of_work && (
         <Card className="bg-slate-900 border-slate-700">
-          <CardHeader><CardTitle className="text-white text-base">Scope of Work</CardTitle></CardHeader>
-          <CardContent>
-            <pre className="text-slate-300 whitespace-pre-wrap text-sm font-sans leading-relaxed">{project.scope_of_work}</pre>
+          <CardContent className="pt-5">
+            <SOWViewer text={project.scope_of_work} />
           </CardContent>
         </Card>
       )}

@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import SOWViewer from '@/components/SOWViewer'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { toast } from 'sonner'
@@ -29,6 +30,7 @@ export default function NewProjectPage() {
   const [photos, setPhotos] = useState<File[]>([])
   const [photoPreviews, setPhotoPreviews] = useState<string[]>([])
   const [sow, setSow] = useState('')
+  const [sowEditMode, setSowEditMode] = useState(false)
   const [generatingSow, setGeneratingSow] = useState(false)
   const [sowFailed, setSowFailed] = useState(false)
   const [projectId, setProjectId] = useState<string | null>(null)
@@ -390,15 +392,23 @@ export default function NewProjectPage() {
               </div>
             ) : (
               <>
-                <Textarea
-                  value={sow}
-                  onChange={e => setSow(e.target.value)}
-                  rows={20}
-                  className="font-mono text-sm"
-                  style={{ background: 'oklch(0.20 0.022 252)', border: '1px solid oklch(0.27 0.025 252)', color: 'white' }}
-                />
-                <div className="flex items-center justify-between">
-                  <p className="text-xs" style={{ color: 'oklch(0.45 0.015 252)' }}>Review and edit before posting.</p>
+                {/* Toggle bar */}
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex rounded-lg overflow-hidden" style={{ border: '1px solid oklch(0.27 0.025 252)' }}>
+                    {['Preview', 'Edit'].map(mode => (
+                      <button
+                        key={mode}
+                        onClick={() => setSowEditMode(mode === 'Edit')}
+                        className="px-4 py-1.5 text-xs font-medium transition-colors duration-150"
+                        style={{
+                          background: (mode === 'Edit') === sowEditMode ? 'oklch(0.27 0.025 252)' : 'transparent',
+                          color: (mode === 'Edit') === sowEditMode ? 'white' : 'oklch(0.55 0.02 252)',
+                        }}
+                      >
+                        {mode}
+                      </button>
+                    ))}
+                  </div>
                   <button
                     onClick={retrySow}
                     className="text-xs transition-colors"
@@ -406,6 +416,24 @@ export default function NewProjectPage() {
                   >
                     ↺ Regenerate
                   </button>
+                </div>
+
+                {sowEditMode ? (
+                  <Textarea
+                    value={sow}
+                    onChange={e => setSow(e.target.value)}
+                    rows={20}
+                    className="font-mono text-sm"
+                    style={{ background: 'oklch(0.20 0.022 252)', border: '1px solid oklch(0.27 0.025 252)', color: 'white' }}
+                  />
+                ) : (
+                  <div className="rounded-xl p-4" style={{ background: 'oklch(0.15 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
+                    <SOWViewer text={sow} streaming={generatingSow} />
+                  </div>
+                )}
+
+                <div className="flex items-center justify-between">
+                  <p className="text-xs" style={{ color: 'oklch(0.45 0.015 252)' }}>Review and edit before posting.</p>
                 </div>
                 <button
                   onClick={handlePublish}
