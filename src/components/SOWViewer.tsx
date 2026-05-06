@@ -19,9 +19,17 @@ const SECTION_META: Record<string, { icon: string; accent: string; bg: string }>
 function parseTable(lines: string[]): { headers: string[]; rows: string[][] } | null {
   const tableLines = lines.filter(l => l.trim().startsWith('|'))
   if (tableLines.length < 2) return null
-  const parse = (line: string) => line.split('|').map(c => c.trim()).filter(c => c && !c.match(/^[-:]+$/))
-  const headers = parse(tableLines[0])
-  const rows = tableLines.slice(2).map(parse).filter(r => r.length > 0)
+  const parseCells = (line: string) =>
+    line.split('|').slice(1, -1).map(c => c.trim()).filter((_, i, arr) => !arr[i].match(/^[-: ]+$/))
+  const parseRow = (line: string) =>
+    line.split('|').slice(1, -1).map(c => c.trim())
+  const rawHeaders = parseRow(tableLines[0])
+  const rows = tableLines.slice(2).map(parseCells).filter(r => r.length > 0)
+  // Align headers with row column count
+  const colCount = rows[0]?.length || rawHeaders.filter(Boolean).length
+  const headers = rawHeaders.length < colCount
+    ? ['', ...rawHeaders.filter(Boolean)]
+    : rawHeaders
   return { headers, rows }
 }
 
