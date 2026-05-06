@@ -66,7 +66,7 @@ Generate a professional Scope of Work a licensed contractor can act on immediate
 [Bullet list with estimated quantity and unit cost for each item, e.g. "- 12x 4'x8' drywall sheets — ~$15/sheet (~$180)"]
 
 ## Labor Requirements
-[Trade skills needed, crew size estimate, estimated hours, and estimated labor cost range]
+[Trade skills needed, crew size, and estimated hours only — do NOT include cost figures here, those go in Total Cost Summary]
 
 ---
 
