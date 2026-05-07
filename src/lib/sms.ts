@@ -14,7 +14,7 @@ export async function sendSMS(to: string, body: string): Promise<void> {
   const body64 = Buffer.from(`${accountSid}:${authToken}`).toString('base64')
 
   // Prefer MessagingServiceSid (routes through approved A2P campaign)
-  const params = messagingServiceSid
+  const params: Record<string, string> = messagingServiceSid
     ? { To: to, MessagingServiceSid: messagingServiceSid, Body: body }
     : { To: to, From: from!, Body: body }
 
