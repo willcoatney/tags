@@ -50,7 +50,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     // Get project details with bids
     const { data: project } = await admin
       .from('projects')
-      .select('id, title, created_by, status, bids(contractor_id, status)')
+      .select('id, title, created_by, status, bids(contractor_user_id, status)')
       .eq('id', params.id)
       .maybeSingle()
 
@@ -61,9 +61,9 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
 
       if (senderRole === 'pm') {
         // Notify awarded contractor
-        const bids = (project.bids as Array<{ contractor_id: string; status: string }>) || []
+        const bids = (project.bids as Array<{ contractor_user_id: string; status: string }>) || []
         const awardedBid = bids.find(b => b.status === 'awarded')
-        otherPartyId = awardedBid?.contractor_id || null
+        otherPartyId = awardedBid?.contractor_user_id || null
       } else {
         // Notify PM
         otherPartyId = project.created_by

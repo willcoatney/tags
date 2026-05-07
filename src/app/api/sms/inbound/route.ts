@@ -64,14 +64,14 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     title: string
     created_by: string
     status: string
-    bids?: Array<{ contractor_id: string; status: string }>
+    bids?: Array<{ contractor_user_id: string; status: string }>
   }> = []
 
   if (senderRole === 'pm') {
     // PM: projects they created
     const { data } = await admin
       .from('projects')
-      .select('id, title, created_by, status, bids(contractor_id, status)')
+      .select('id, title, created_by, status, bids(contractor_user_id, status)')
       .eq('created_by', senderId)
       .in('status', ['open', 'awarded'])
       .order('updated_at', { ascending: false })
@@ -81,8 +81,8 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     // Contractor: projects they have a bid on
     const { data: bids } = await admin
       .from('bids')
-      .select('project_id, status, projects(id, title, created_by, status, bids(contractor_id, status))')
-      .eq('contractor_id', senderId)
+      .select('project_id, status, projects(id, title, created_by, status, bids(contractor_user_id, status))')
+      .eq('contractor_user_id', senderId)
 
     if (bids) {
       const seen = new Set<string>()
@@ -123,7 +123,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
   if (senderRole === 'pm') {
     // Find awarded contractor
     const awardedBid = (project.bids || []).find(b => b.status === 'awarded')
-    otherPartyId = awardedBid?.contractor_id || null
+    otherPartyId = awardedBid?.contractor_user_id || null
   } else {
     // Contractor → PM
     otherPartyId = project.created_by
