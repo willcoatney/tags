@@ -48,7 +48,6 @@ function LandingPage() {
 
       {/* HERO */}
       <section className="relative px-6 md:px-12 pt-24 pb-28 max-w-6xl mx-auto">
-        {/* Background glow */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] rounded-full opacity-10"
             style={{ background: 'radial-gradient(ellipse, oklch(0.57 0.135 183), transparent 70%)' }} />
@@ -58,7 +57,7 @@ function LandingPage() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-6"
             style={{ background: 'oklch(0.20 0.05 183)', color: 'oklch(0.72 0.12 183)', border: '1px solid oklch(0.30 0.08 183)' }}>
             <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: 'oklch(0.57 0.135 183)' }} />
-            Now in beta for multifamily PMs
+            Built for multifamily property managers
           </div>
 
           <h1 className="text-5xl md:text-6xl font-bold text-white leading-[1.08] tracking-tight mb-6">
@@ -67,7 +66,7 @@ function LandingPage() {
           </h1>
 
           <p className="text-xl leading-relaxed mb-10 max-w-2xl mx-auto" style={{ color: 'oklch(0.65 0.02 252)' }}>
-            Snap a photo. Describe the problem in plain English. TAGS generates a professional Scope of Work in seconds — then qualified contractors bid for the job.
+            Snap a photo. Describe the problem in plain English. TAGS generates a professional Scope of Work in seconds, gets you competitive bids, and keeps the whole job — including contractor communication — in one place.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -90,14 +89,14 @@ function LandingPage() {
         </div>
       </section>
 
-      {/* SOCIAL PROOF BAR */}
+      {/* STATS BAR */}
       <div className="px-6 md:px-12 py-6" style={{ borderTop: '1px solid oklch(0.20 0.022 252)', borderBottom: '1px solid oklch(0.20 0.022 252)' }}>
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-12 text-center">
           {[
             { value: '< 60s', label: 'SOW generated' },
-            { value: '0 fees', label: 'for property managers' },
+            { value: '$0', label: 'for property managers' },
+            { value: '2-way', label: 'SMS with contractors' },
             { value: 'AI-powered', label: 'by Claude' },
-            { value: 'Vetted', label: 'contractor network' },
           ].map(({ value, label }) => (
             <div key={label}>
               <div className="text-2xl font-bold text-white">{value}</div>
@@ -110,35 +109,43 @@ function LandingPage() {
       {/* HOW IT WORKS */}
       <section id="how-it-works" className="px-6 md:px-12 py-24 max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">From problem to bids in minutes</h2>
-          <p className="text-lg" style={{ color: 'oklch(0.60 0.025 252)' }}>No RFP writing. No contractor hunting. No scope disputes.</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">From problem to completed job</h2>
+          <p className="text-lg" style={{ color: 'oklch(0.60 0.025 252)' }}>Every step of the repair workflow — in one tool.</p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-4 gap-4">
           {[
             {
               step: '01',
               icon: '📸',
-              title: 'Describe the problem',
-              body: 'Snap a photo of the issue. Add a plain-language description — "leaking pipe under unit 4B sink" is enough. You don\'t need construction knowledge.',
-              color: 'oklch(0.20 0.05 230)',
+              title: 'Snap & describe',
+              body: 'Photo + plain English description. "Leaking pipe, unit 4B." That\'s all you need.',
               accent: 'oklch(0.62 0.14 230)',
+              bg: 'oklch(0.20 0.05 230)',
             },
             {
               step: '02',
               icon: '📋',
               title: 'AI writes the SOW',
-              body: 'Claude analyzes your photo and description and generates a professional, contractor-ready Scope of Work with materials, labor, safety requirements, and warranty language.',
-              color: 'oklch(0.18 0.06 183)',
+              body: 'Claude generates a contractor-ready Scope of Work with materials, labor, safety, and a cost estimate.',
               accent: 'oklch(0.57 0.135 183)',
+              bg: 'oklch(0.18 0.06 183)',
             },
             {
               step: '03',
-              icon: '🏗',
-              title: 'Contractors bid',
-              body: 'Vetted contractors in your area receive the scoped project and submit competitive bids. You review, compare, and award — all in one place.',
-              color: 'oklch(0.18 0.06 160)',
+              icon: '⚖️',
+              title: 'Compare bids',
+              body: 'Vetted contractors bid. Review them side-by-side with price, timeline, and their past ratings.',
+              accent: 'oklch(0.72 0.14 75)',
+              bg: 'oklch(0.20 0.06 75)',
+            },
+            {
+              step: '04',
+              icon: '✓',
+              title: 'Award & complete',
+              body: 'Award the job. Message the contractor directly. Mark complete and rate when it\'s done.',
               accent: 'oklch(0.60 0.16 160)',
+              bg: 'oklch(0.18 0.06 160)',
             },
           ].map(card => (
             <div key={card.step} className="rounded-2xl p-6 relative overflow-hidden"
@@ -146,10 +153,10 @@ function LandingPage() {
               <div className="absolute top-0 right-0 text-7xl font-black leading-none select-none opacity-[0.06] translate-x-2 -translate-y-2"
                 style={{ color: card.accent }}>{card.step}</div>
               <div className="w-11 h-11 rounded-xl flex items-center justify-center text-2xl mb-5"
-                style={{ background: card.color }}>
+                style={{ background: card.bg }}>
                 {card.icon}
               </div>
-              <h3 className="text-lg font-semibold text-white mb-2">{card.title}</h3>
+              <h3 className="text-base font-semibold text-white mb-2">{card.title}</h3>
               <p className="text-sm leading-relaxed" style={{ color: 'oklch(0.60 0.025 252)' }}>{card.body}</p>
             </div>
           ))}
@@ -173,6 +180,7 @@ function LandingPage() {
               {[
                 'No more scope disputes mid-project',
                 'Apples-to-apples bid comparison',
+                'High-end cost estimate so you know if a bid is reasonable',
                 'Contractors know exactly what they\'re bidding on',
                 'Reduces change orders and cost overruns',
               ].map(item => (
@@ -184,47 +192,196 @@ function LandingPage() {
             </ul>
           </div>
 
-          {/* Fake SOW card */}
+          {/* SOW preview card */}
           <div className="rounded-2xl overflow-hidden" style={{ background: 'oklch(0.13 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
             <div className="px-5 py-3 flex items-center justify-between" style={{ borderBottom: '1px solid oklch(0.20 0.022 252)' }}>
               <div className="flex items-center gap-2">
                 <div className="w-2.5 h-2.5 rounded-full" style={{ background: 'oklch(0.57 0.135 183)' }} />
                 <span className="text-xs font-semibold text-white">Generated Scope of Work</span>
               </div>
-              <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: 'oklch(0.18 0.06 160)', color: 'oklch(0.70 0.13 160)' }}>
-                ● Ready
-              </span>
+              <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: 'oklch(0.18 0.06 160)', color: 'oklch(0.70 0.13 160)' }}>● Ready</span>
             </div>
-            <div className="p-5 space-y-4 text-sm font-mono" style={{ color: 'oklch(0.72 0.015 252)' }}>
+            <div className="p-5 space-y-4 text-sm" style={{ color: 'oklch(0.72 0.015 252)' }}>
               <div>
-                <p className="font-sans font-semibold text-white text-xs uppercase tracking-wide mb-1.5" style={{ color: 'oklch(0.57 0.135 183)' }}>## Project Overview</p>
-                <p className="leading-relaxed" style={{ color: 'oklch(0.65 0.015 252)' }}>
-                  Replace failed P-trap and supply lines under Unit 4B kitchen sink. Active leak causing cabinet moisture damage. Requires shutoff and drain access.
-                </p>
+                <p className="font-semibold text-xs uppercase tracking-wide mb-1.5" style={{ color: 'oklch(0.57 0.135 183)' }}>Project Overview</p>
+                <p className="leading-relaxed text-sm" style={{ color: 'oklch(0.65 0.015 252)' }}>Replace failed P-trap and supply lines — Unit 4B kitchen sink. Active leak causing cabinet moisture damage.</p>
               </div>
               <div>
-                <p className="font-sans font-semibold text-xs uppercase tracking-wide mb-1.5" style={{ color: 'oklch(0.57 0.135 183)' }}>## Scope of Work</p>
-                <ol className="space-y-1 list-decimal list-inside" style={{ color: 'oklch(0.65 0.015 252)' }}>
+                <p className="font-semibold text-xs uppercase tracking-wide mb-1.5" style={{ color: 'oklch(0.57 0.135 183)' }}>Scope of Work</p>
+                <ol className="space-y-1 list-decimal list-inside text-sm" style={{ color: 'oklch(0.65 0.015 252)' }}>
                   <li>Shut off water supply to affected sink</li>
-                  <li>Remove and inspect existing P-trap assembly</li>
-                  <li>Replace P-trap, supply lines, and shutoff valves</li>
-                  <li>Inspect cabinet subfloor for moisture damage</li>
+                  <li>Remove and replace P-trap assembly</li>
+                  <li>Replace supply lines and shutoff valves</li>
+                  <li>Inspect subfloor for moisture damage</li>
                   <li>Pressure test and verify no active leaks</li>
                 </ol>
               </div>
+              <div className="rounded-xl overflow-hidden" style={{ border: '1px solid oklch(0.30 0.08 145)' }}>
+                <div className="px-4 py-2 text-xs font-semibold uppercase tracking-wide" style={{ background: 'oklch(0.20 0.07 145)', color: 'oklch(0.75 0.15 145)' }}>Total Cost Summary</div>
+                <table className="w-full text-sm">
+                  <tbody>
+                    {[['Materials', '$180'], ['Labor', '$320'], ['TOTAL', '$500']].map(([label, val], i) => (
+                      <tr key={label} style={{ background: i === 2 ? 'oklch(0.20 0.07 145)' : i % 2 === 0 ? 'oklch(0.15 0.04 145)' : 'oklch(0.16 0.04 145)', borderTop: i === 2 ? '1px solid oklch(0.30 0.08 145)' : undefined }}>
+                        <td className={`px-4 py-2 text-xs ${i === 2 ? 'font-bold' : ''}`} style={{ color: i === 2 ? 'oklch(0.90 0.12 145)' : 'oklch(0.75 0.02 252)' }}>{label}</td>
+                        <td className={`px-4 py-2 text-xs ${i === 2 ? 'font-bold' : ''} text-right`} style={{ color: i === 2 ? 'oklch(0.90 0.12 145)' : 'white' }}>{val}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <div className="flex items-center gap-2 text-xs" style={{ color: 'oklch(0.45 0.015 252)' }}>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
+                Generated in 4.2s · Ready for contractor bids
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FEATURES GRID */}
+      <section className="px-6 md:px-12 py-24 max-w-6xl mx-auto">
+        <div className="text-center mb-16">
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Everything you need to run repairs</h2>
+          <p className="text-lg" style={{ color: 'oklch(0.60 0.025 252)' }}>
+            Not just a bid board. A complete repair management system.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-4">
+          {[
+            {
+              icon: '💬',
+              title: 'Two-way SMS with contractors',
+              body: 'Message contractors directly from your dashboard. They reply by text — no app required. Every message syncs to the project thread automatically.',
+              accent: 'oklch(0.57 0.135 183)',
+              highlight: true,
+            },
+            {
+              icon: '📱',
+              title: 'Mobile-first photo uploads',
+              body: 'Take photos directly from your phone camera or upload from your library. TAGS is built for PMs on the move, not desk workers.',
+              accent: 'oklch(0.62 0.14 230)',
+            },
+            {
+              icon: '🏢',
+              title: 'Unit-level tracking',
+              body: 'Tag every project with a unit number. "Unit 4B — Plumbing" lives in the right place in your records, not buried in a generic list.',
+              accent: 'oklch(0.72 0.14 75)',
+            },
+            {
+              icon: '⚖️',
+              title: 'Side-by-side bid comparison',
+              body: 'When multiple bids come in, compare them in a table — price, timeline, contractor rating. Pick the right contractor, not just the cheapest.',
+              accent: 'oklch(0.60 0.16 160)',
+            },
+            {
+              icon: '⭐',
+              title: 'Contractor ratings',
+              body: 'Rate contractors after every completed job. Ratings show on future bids so you know who shows up, who does quality work, and who to avoid.',
+              accent: 'oklch(0.80 0.18 75)',
+            },
+            {
+              icon: '📊',
+              title: 'Portfolio analytics',
+              body: 'See open projects, total bids received, average bids per project, and completed jobs at a glance. Know the health of your maintenance backlog.',
+              accent: 'oklch(0.62 0.14 230)',
+            },
+            {
+              icon: '✏️',
+              title: 'Edit & regenerate SOW',
+              body: 'Scope changed? Edit the project description, add more photos, and regenerate the SOW. The new version is ready for bids in seconds.',
+              accent: 'oklch(0.57 0.135 183)',
+            },
+            {
+              icon: '🔔',
+              title: 'Instant SMS notifications',
+              body: 'Get a text the moment a contractor submits a bid. Contractors get a text when they win a job. Everyone stays informed without logging in.',
+              accent: 'oklch(0.60 0.16 160)',
+            },
+            {
+              icon: '✓',
+              title: 'Completion & close-out',
+              body: 'Mark projects complete, rate the contractor, and keep a permanent record of every job — bids, SOW, contractor, cost, and completion date.',
+              accent: 'oklch(0.60 0.16 160)',
+            },
+          ].map(feat => (
+            <div key={feat.title}
+              className="rounded-2xl p-6"
+              style={{
+                background: feat.highlight ? 'oklch(0.18 0.06 183)' : 'oklch(0.17 0.022 252)',
+                border: `1px solid ${feat.highlight ? 'oklch(0.35 0.10 183)' : 'oklch(0.22 0.022 252)'}`,
+              }}>
+              <div className="text-2xl mb-4">{feat.icon}</div>
+              <h3 className="text-base font-semibold text-white mb-2">{feat.title}</h3>
+              <p className="text-sm leading-relaxed" style={{ color: 'oklch(0.60 0.025 252)' }}>{feat.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* SMS BRIDGE CALLOUT */}
+      <section className="px-6 md:px-12 py-20" style={{ background: 'oklch(0.15 0.025 252)' }}>
+        <div className="max-w-4xl mx-auto">
+          <div className="rounded-2xl p-8 md:p-12" style={{ background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.35 0.10 183)' }}>
+            <div className="grid md:grid-cols-2 gap-10 items-center">
               <div>
-                <p className="font-sans font-semibold text-xs uppercase tracking-wide mb-1.5" style={{ color: 'oklch(0.57 0.135 183)' }}>## Materials Required</p>
-                <ul className="space-y-0.5 list-disc list-inside" style={{ color: 'oklch(0.65 0.015 252)' }}>
-                  <li>1.5&quot; PVC P-trap assembly</li>
-                  <li>Braided stainless supply lines (2x)</li>
-                  <li>1/4-turn shutoff valves (2x)</li>
+                <div className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'oklch(0.57 0.135 183)' }}>
+                  Built for the real world
+                </div>
+                <h2 className="text-2xl md:text-3xl font-bold text-white mb-5">
+                  Contractors don&apos;t log into apps.<br />Now they don&apos;t have to.
+                </h2>
+                <p className="text-base leading-relaxed mb-6" style={{ color: 'oklch(0.60 0.025 252)' }}>
+                  Every message you send from the TAGS dashboard arrives as a text on the contractor&apos;s phone. When they reply by text, it shows up in your dashboard. The whole conversation is in one place — whether they use the app or not.
+                </p>
+                <ul className="space-y-2">
+                  {[
+                    'PM sends message → contractor gets a text',
+                    'Contractor replies by text → PM sees it in the dashboard',
+                    'Full conversation history, no gaps',
+                    'No app download required for contractors',
+                  ].map(item => (
+                    <li key={item} className="flex items-start gap-3 text-sm" style={{ color: 'oklch(0.75 0.015 252)' }}>
+                      <span className="shrink-0" style={{ color: 'oklch(0.57 0.135 183)' }}>✓</span>
+                      {item}
+                    </li>
+                  ))}
                 </ul>
               </div>
-              <div className="pt-2 flex items-center gap-2 text-xs" style={{ color: 'oklch(0.45 0.015 252)' }}>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                  <circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/>
-                </svg>
-                Generated in 4.2s · Ready for contractor bids
+
+              {/* Chat mockup */}
+              <div className="rounded-2xl overflow-hidden" style={{ background: 'oklch(0.14 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
+                <div className="px-4 py-3 flex items-center gap-2" style={{ borderBottom: '1px solid oklch(0.20 0.022 252)', background: 'oklch(0.16 0.022 252)' }}>
+                  <div className="w-2 h-2 rounded-full" style={{ background: 'oklch(0.57 0.135 183)' }} />
+                  <span className="text-xs font-semibold text-white">Unit 4B — Plumbing Repair</span>
+                </div>
+                <div className="p-4 space-y-3">
+                  {[
+                    { msg: 'Can you confirm you have access to the unit on Thursday?', me: true, tag: null },
+                    { msg: 'Yes, I\'ll be there at 9am. Do I need to check in at the office?', me: false, tag: 'SMS' },
+                    { msg: 'Yes, ask for Maria at the front desk. She\'ll have the key.', me: true, tag: null },
+                    { msg: 'Got it. See you Thursday.', me: false, tag: 'SMS' },
+                  ].map((m, i) => (
+                    <div key={i} className={`flex ${m.me ? 'justify-end' : 'justify-start'}`}>
+                      <div className="max-w-[80%]">
+                        <div className="rounded-2xl px-4 py-2.5 text-xs leading-relaxed"
+                          style={{
+                            background: m.me ? 'oklch(0.57 0.135 183)' : 'oklch(0.20 0.022 252)',
+                            color: m.me ? 'white' : 'oklch(0.82 0.01 252)',
+                            borderRadius: m.me ? '18px 18px 4px 18px' : '18px 18px 18px 4px',
+                          }}>
+                          {m.msg}
+                        </div>
+                        {m.tag && (
+                          <div className={`text-xs mt-1 flex items-center gap-1.5 ${m.me ? 'justify-end' : 'justify-start'}`}>
+                            <span className="px-1.5 py-0.5 rounded text-xs font-medium" style={{ background: 'oklch(0.22 0.022 252)', color: 'oklch(0.50 0.02 252)' }}>SMS</span>
+                            <span style={{ color: 'oklch(0.40 0.015 252)' }}>replied by text</span>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -236,7 +393,7 @@ function LandingPage() {
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Built for how PMs actually work</h2>
           <p className="text-lg" style={{ color: 'oklch(0.60 0.025 252)' }}>
-            You&apos;re on-site, on your phone, in the middle of five things. TAGS meets you there.
+            On-site, on your phone, in the middle of five things. TAGS meets you there.
           </p>
         </div>
 
@@ -244,23 +401,33 @@ function LandingPage() {
           {[
             {
               before: 'Text 3 contractors, wait 3 days, get 2 responses, one ghosted',
-              after: 'Post once. Matching contractors are notified automatically.',
+              after: 'Post once. Qualified contractors are notified and submit bids automatically.',
               icon: '📲',
             },
             {
               before: 'Contractor shows up, says the scope is different, bills extra',
-              after: 'AI-written SOW means everyone bids on the same defined scope.',
+              after: 'AI-written SOW means everyone bids on the same defined scope. No surprises.',
               icon: '📋',
             },
             {
               before: 'No idea if the price is fair — just pick the middle bid and hope',
-              after: 'Side-by-side bid comparison with price, timeline, and notes.',
+              after: 'Side-by-side bid comparison with ratings. Pick the right contractor, not just the cheapest.',
               icon: '⚖️',
             },
             {
-              before: 'Maintenance log is a spreadsheet that only you can read',
-              after: 'Every project, bid, and award is documented automatically.',
+              before: 'Contractor never responds — you have no idea if they got your message',
+              after: 'Two-way SMS means contractors reply by text. You see it instantly in the dashboard.',
+              icon: '💬',
+            },
+            {
+              before: 'No record of what was done, who did it, or what it cost',
+              after: 'Every job is documented automatically — SOW, bids, contractor, cost, completion.',
               icon: '📁',
+            },
+            {
+              before: 'Same bad contractor keeps getting called because no one tracks quality',
+              after: 'Rate every contractor after completion. See ratings before you award the next job.',
+              icon: '⭐',
             },
           ].map(item => (
             <div key={item.icon} className="rounded-2xl p-6 grid grid-cols-[auto_1fr] gap-4"
@@ -297,12 +464,15 @@ function LandingPage() {
             </div>
             <ul className="space-y-3">
               {[
-                'Unlimited projects',
+                'Unlimited projects with unit-level tracking',
                 'AI-generated Scope of Work on every project',
-                'Photo uploads and storage',
-                'Competitive contractor bids',
-                'SMS and email notifications',
-                'Full project history',
+                'Photo uploads from camera or library',
+                'Side-by-side bid comparison with contractor ratings',
+                'Two-way SMS messaging with contractors',
+                'Instant SMS notifications on new bids',
+                'Project editing and SOW regeneration',
+                'Portfolio analytics dashboard',
+                'Full project history with completion records',
               ].map(feat => (
                 <li key={feat} className="flex items-center gap-3 text-sm" style={{ color: 'oklch(0.75 0.015 252)' }}>
                   <span style={{ color: 'oklch(0.57 0.135 183)' }}>✓</span> {feat}
@@ -327,7 +497,7 @@ function LandingPage() {
           <span style={{ color: 'oklch(0.57 0.135 183)' }}>takes 60 seconds to post.</span>
         </h2>
         <p className="text-lg mb-10" style={{ color: 'oklch(0.60 0.025 252)' }}>
-          Join property managers who&apos;ve stopped guessing at scope and started getting competitive bids on professional projects.
+          Join property managers who&apos;ve stopped guessing at scope, stopped chasing contractors, and started running repairs like a system.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link href="/register/pm"
