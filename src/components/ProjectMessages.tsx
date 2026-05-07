@@ -8,6 +8,7 @@ interface Message {
   message: string
   created_at: string
   sender_id: string
+  channel: 'app' | 'sms'
   user_profiles: { full_name: string; role: string }
 }
 
@@ -97,10 +98,18 @@ export default function ProjectMessages({ projectId, currentUserId, currentUserR
                     }}>
                     {msg.message}
                   </div>
-                  <p className={`text-xs mt-1 ${isMe ? 'text-right mr-1' : 'ml-1'}`}
-                    style={{ color: 'oklch(0.40 0.015 252)' }}>
-                    {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                  </p>
+                  <div className={`flex items-center gap-1.5 mt-1 ${isMe ? 'justify-end mr-1' : 'ml-1'}`}>
+                    {msg.channel === 'sms' && (
+                      <span className="text-xs px-1.5 py-0.5 rounded-full font-medium"
+                        style={{ background: 'oklch(0.28 0.015 252)', color: 'oklch(0.55 0.015 252)' }}>
+                        SMS
+                      </span>
+                    )}
+                    <p className="text-xs"
+                      style={{ color: 'oklch(0.40 0.015 252)' }}>
+                      {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </p>
+                  </div>
                 </div>
               </div>
             )

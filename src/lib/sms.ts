@@ -13,8 +13,10 @@ export async function sendSMS(to: string, body: string): Promise<void> {
   const url = `https://api.twilio.com/2010-04-01/Accounts/${accountSid}/Messages.json`
   const body64 = Buffer.from(`${accountSid}:${authToken}`).toString('base64')
 
-  // Prefer MessagingServiceSid (routes through approved A2P campaign)
-  const params: Record<string, string> = messagingServiceSid
+  // Use MessagingServiceSid for A2P compliance, but pin From to ensure correct sender number
+  const params: Record<string, string> = messagingServiceSid && from
+    ? { To: to, MessagingServiceSid: messagingServiceSid, From: from, Body: body }
+    : messagingServiceSid
     ? { To: to, MessagingServiceSid: messagingServiceSid, Body: body }
     : { To: to, From: from!, Body: body }
 
