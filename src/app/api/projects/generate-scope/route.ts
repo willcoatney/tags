@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     return new Response(JSON.stringify({ error: 'ANTHROPIC_API_KEY not configured' }), { status: 500 })
   }
 
-  const { projectId, projectType, description, propertyAddress, photoUrls } = await req.json()
+  const { projectId, projectType, description, propertyAddress, unitNumber, photoUrls } = await req.json()
 
   const Anthropic = (await import('@anthropic-ai/sdk')).default
   const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
                 text: `You are a professional construction estimator writing a Scope of Work for a multifamily property repair job.
 
 Project Type: ${projectType}
-Property: ${propertyAddress}
+Property: ${propertyAddress}${unitNumber ? `\nUnit: ${unitNumber}` : ''}
 Issue Description (from property manager): ${description}
 Date Prepared: ${datePrepared}
 

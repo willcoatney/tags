@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import SOWViewer from '@/components/SOWViewer'
+import ProjectMessages from '@/components/ProjectMessages'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -29,6 +30,7 @@ export default function ContractorProjectPage({ params }: { params: { id: string
   const router = useRouter()
   const [project, setProject] = useState<Project | null>(null)
   const [alreadyBid, setAlreadyBid] = useState(false)
+  const [currentUserId, setCurrentUserId] = useState<string>('')
   const [form, setForm] = useState({ amount: '', timeline_days: '', notes: '' })
   const [submitting, setSubmitting] = useState(false)
 
@@ -38,6 +40,7 @@ export default function ContractorProjectPage({ params }: { params: { id: string
       .then(data => {
         setProject(data.project)
         setAlreadyBid(data.alreadyBid)
+        setCurrentUserId(data.userId || '')
       })
   }, [params.id])
 
@@ -102,6 +105,20 @@ export default function ContractorProjectPage({ params }: { params: { id: string
         <Card className="bg-slate-900 border-slate-700">
           <CardContent className="pt-5">
             <SOWViewer text={project.scope_of_work} />
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Message thread */}
+      {currentUserId && (
+        <Card className="bg-slate-900 border-slate-700">
+          <CardHeader><CardTitle className="text-white text-base">💬 Messages</CardTitle></CardHeader>
+          <CardContent className="p-0">
+            <ProjectMessages
+              projectId={params.id}
+              currentUserId={currentUserId}
+              currentUserRole="contractor"
+            />
           </CardContent>
         </Card>
       )}

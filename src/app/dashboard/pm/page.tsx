@@ -46,7 +46,11 @@ export default async function PMDashboard() {
     .order('created_at', { ascending: false })
 
   const totalBids = projects?.reduce((sum, p) => sum + (p.bids?.length || 0), 0) || 0
-  const awardedCount = projects?.filter(p => p.status === 'awarded').length || 0
+  const completedCount = projects?.filter(p => p.status === 'completed').length || 0
+  const openCount = projects?.filter(p => p.status === 'open').length || 0
+  const avgBidsPerProject = projects?.filter(p => p.status !== 'draft').length
+    ? (totalBids / projects.filter(p => p.status !== 'draft').length).toFixed(1)
+    : '—'
 
   function timeAgo(date: string) {
     const diff = Date.now() - new Date(date).getTime()
@@ -83,9 +87,10 @@ export default async function PMDashboard() {
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4">
-        <StatCard value={projects?.length || 0} label="Total Projects" />
-        <StatCard value={totalBids} label="Bids Received" accent />
-        <StatCard value={awardedCount} label="Jobs Awarded" />
+        <StatCard value={openCount} label="Open for Bids" accent />
+        <StatCard value={totalBids} label="Total Bids Received" />
+        <StatCard value={avgBidsPerProject} label="Avg Bids / Project" />
+        <StatCard value={completedCount} label="Completed" />
       </div>
 
       {/* Projects */}

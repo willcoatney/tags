@@ -26,9 +26,25 @@ export default async function BidsPage({ params }: { params: { id: string } }) {
   if (!project) notFound()
 
   const { data: bids } = await admin.from('bids')
-    .select('*, user_profiles(full_name, email, phone), contractor_profiles(company_name, services)')
+    .select('*, user_profiles(full_name, email, phone), contractor_profiles!contractor_profiles_user_id_fkey(company_name, services)')
     .eq('project_id', params.id)
     .order('amount', { ascending: true })
+
+  // Fetch avg ratings for each contractor
+  const contractorIds = [...new Set((bids || []).map(b => b.contractor_user_id))]
+  const { data: allRatings } = contractorIds.length > 0
+    ? await admin.from('ratings').select('contractor_user_id, rating').in('contractor_user_id', contractorIds)
+    : { data: [] }
+
+  const ratingMap: Record<string, { avg: number; count: number }> = {}
+  for (const r of (allRatings || [])) {
+    if (!ratingMap[r.contractor_user_id]) ratingMap[r.contractor_user_id] = { avg: 0, count: 0 }
+    ratingMap[r.contractor_user_id].count++
+    ratingMap[r.contractor_user_id].avg += r.rating
+  }
+  for (const id of Object.keys(ratingMap)) {
+    ratingMap[id].avg = ratingMap[id].avg / ratingMap[id].count
+  }
 
   const lowestBid = bids?.[0]?.amount
 
@@ -50,6 +66,47 @@ export default async function BidsPage({ params }: { params: { id: string } }) {
         </Link>
       </div>
 
+      {/* Comparison table */}
+      {(bids?.length || 0) > 1 && (
+        <div className="rounded-xl overflow-hidden" style={{ background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
+          <div className="px-4 py-3" style={{ borderBottom: '1px solid oklch(0.22 0.022 252)' }}>
+            <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'oklch(0.55 0.02 252)' }}>Side-by-Side Comparison</p>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr style={{ borderBottom: '1px solid oklch(0.22 0.022 252)' }}>
+                  <th className="text-left px-4 py-2.5 text-xs font-semibold uppercase tracking-wide" style={{ color: 'oklch(0.50 0.02 252)' }}>Contractor</th>
+                  <th className="text-left px-4 py-2.5 text-xs font-semibold uppercase tracking-wide" style={{ color: 'oklch(0.50 0.02 252)' }}>Amount</th>
+                  <th className="text-left px-4 py-2.5 text-xs font-semibold uppercase tracking-wide" style={{ color: 'oklch(0.50 0.02 252)' }}>Timeline</th>
+                  <th className="text-left px-4 py-2.5 text-xs font-semibold uppercase tracking-wide" style={{ color: 'oklch(0.50 0.02 252)' }}>Rating</th>
+                </tr>
+              </thead>
+              <tbody>
+                {bids?.map((bid, i) => {
+                  const r = ratingMap[bid.contractor_user_id]
+                  const isLowest = i === 0
+                  return (
+                    <tr key={bid.id} className="transition-colors hover:bg-slate-800/30"
+                      style={{ borderBottom: i < (bids.length - 1) ? '1px solid oklch(0.20 0.022 252)' : 'none' }}>
+                      <td className="px-4 py-2.5 font-medium" style={{ color: isLowest ? 'oklch(0.65 0.14 160)' : 'white' }}>
+                        {bid.contractor_profiles?.company_name || bid.user_profiles?.full_name}
+                        {isLowest && <span className="ml-2 text-xs">★ lowest</span>}
+                      </td>
+                      <td className="px-4 py-2.5 font-bold" style={{ color: 'oklch(0.57 0.135 183)' }}>${bid.amount.toLocaleString()}</td>
+                      <td className="px-4 py-2.5" style={{ color: 'oklch(0.65 0.02 252)' }}>{bid.timeline_days}d</td>
+                      <td className="px-4 py-2.5" style={{ color: 'oklch(0.80 0.18 75)' }}>
+                        {r ? `${'★'.repeat(Math.round(r.avg))}${'☆'.repeat(5 - Math.round(r.avg))} (${r.count})` : <span style={{ color: 'oklch(0.40 0.015 252)' }}>No ratings yet</span>}
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
       {!bids?.length ? (
         <div className="rounded-xl py-16 text-center" style={CARD}>
           <p className="text-white font-medium">No bids yet</p>
@@ -59,6 +116,7 @@ export default async function BidsPage({ params }: { params: { id: string } }) {
         <div className="space-y-3">
           {bids.map((bid: Bid & { user_profiles: { full_name: string; email: string; phone: string }; contractor_profiles: { company_name: string } }) => {
             const isLowest = bid.amount === lowestBid && bids.length > 1
+            const r = ratingMap[bid.contractor_user_id]
             return (
               <div
                 key={bid.id}
@@ -78,9 +136,16 @@ export default async function BidsPage({ params }: { params: { id: string } }) {
                     <p className="font-semibold text-white">
                       {bid.contractor_profiles?.company_name || bid.user_profiles?.full_name}
                     </p>
-                    <p className="text-xs mt-0.5" style={{ color: 'oklch(0.55 0.02 252)' }}>
-                      Submitted {new Date(bid.submitted_at).toLocaleDateString()}
-                    </p>
+                    <div className="flex items-center gap-2 mt-0.5">
+                      <p className="text-xs" style={{ color: 'oklch(0.55 0.02 252)' }}>
+                        Submitted {new Date(bid.submitted_at).toLocaleDateString()}
+                      </p>
+                      {r && (
+                        <span className="text-xs font-medium" style={{ color: 'oklch(0.80 0.18 75)' }}>
+                          {'★'.repeat(Math.round(r.avg))} {r.avg.toFixed(1)} ({r.count})
+                        </span>
+                      )}
+                    </div>
                   </div>
                   <StatusBadge status={bid.status} />
                 </div>

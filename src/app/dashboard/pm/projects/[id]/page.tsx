@@ -6,6 +6,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import StatusBadge from '@/components/StatusBadge'
 import PublishProjectButton from '@/components/PublishProjectButton'
 import SOWViewer from '@/components/SOWViewer'
+import ProjectMessages from '@/components/ProjectMessages'
+import CompleteProjectButton from '@/components/CompleteProjectButton'
 import { PROJECT_TYPE_LABELS } from '@/lib/types'
 
 export default async function PMProjectPage({ params }: { params: { id: string } }) {
@@ -27,10 +29,16 @@ export default async function PMProjectPage({ params }: { params: { id: string }
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 flex-wrap">
             <h1 className="text-2xl font-bold text-white">{project.title}</h1>
+            {project.unit_number && (
+              <span className="px-2.5 py-1 rounded-full text-xs font-semibold"
+                style={{ background: 'oklch(0.20 0.06 183)', color: 'oklch(0.72 0.12 183)', border: '1px solid oklch(0.30 0.08 183)' }}>
+                Unit {project.unit_number}
+              </span>
+            )}
             <StatusBadge status={project.status} />
           </div>
           <p className="text-slate-400 mt-1">
@@ -38,7 +46,7 @@ export default async function PMProjectPage({ params }: { params: { id: string }
             {project.properties?.name} — {project.properties?.address}, {project.properties?.city}
           </p>
         </div>
-        <div className="flex gap-2 items-center">
+        <div className="flex gap-2 items-center flex-wrap">
           {project.status === 'draft' && project.scope_of_work && (
             <PublishProjectButton projectId={project.id} />
           )}
@@ -64,6 +72,9 @@ export default async function PMProjectPage({ params }: { params: { id: string }
             >
               Review Bids ({project.bids?.length || 0})
             </Link>
+          )}
+          {project.status === 'awarded' && (
+            <CompleteProjectButton projectId={project.id} />
           )}
           <Link
             href="/dashboard/pm"
@@ -112,6 +123,20 @@ export default async function PMProjectPage({ params }: { params: { id: string }
         <Card className="bg-slate-900 border-slate-700">
           <CardContent className="pt-5">
             <SOWViewer text={project.scope_of_work} />
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Message thread — visible once project is open or beyond */}
+      {['open', 'awarded', 'completed'].includes(project.status) && (
+        <Card className="bg-slate-900 border-slate-700">
+          <CardHeader><CardTitle className="text-white text-base">💬 Messages</CardTitle></CardHeader>
+          <CardContent className="p-0">
+            <ProjectMessages
+              projectId={project.id}
+              currentUserId={user.id}
+              currentUserRole="pm"
+            />
           </CardContent>
         </Card>
       )}

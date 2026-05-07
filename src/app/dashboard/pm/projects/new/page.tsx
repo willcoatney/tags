@@ -24,7 +24,7 @@ export default function NewProjectPage() {
   const [addingProperty, setAddingProperty] = useState(false)
   const [newProp, setNewProp] = useState({ name: '', address: '', city: '', state: '', zip: '' })
   const [projectForm, setProjectForm] = useState({
-    title: '', projectType: '' as ProjectType, description: '',
+    title: '', projectType: '' as ProjectType, description: '', unitNumber: '',
     budgetMin: '', budgetMax: '',
   })
   const [photos, setPhotos] = useState<File[]>([])
@@ -94,6 +94,7 @@ export default function NewProjectPage() {
         title: projectForm.title,
         projectType: projectForm.projectType,
         description: projectForm.description,
+        unitNumber: projectForm.unitNumber || null,
         budgetMin: projectForm.budgetMin ? parseFloat(projectForm.budgetMin) : null,
         budgetMax: projectForm.budgetMax ? parseFloat(projectForm.budgetMax) : null,
       }),
@@ -141,6 +142,7 @@ export default function NewProjectPage() {
           projectType: pType,
           description: desc,
           propertyAddress: propAddr,
+          unitNumber: projectForm.unitNumber || null,
           photoUrls: urls,
         }),
       })
@@ -297,7 +299,12 @@ export default function NewProjectPage() {
               <div>
                 <Label className="text-slate-300">Project Title</Label>
                 <Input value={projectForm.title} onChange={e => setProjectForm(p => ({ ...p, title: e.target.value }))}
-                  placeholder="Unit 4B — Bathroom Plumbing Repair" required className="bg-slate-800 border-slate-600 text-white" />
+                  placeholder="Bathroom Plumbing Repair" required className="bg-slate-800 border-slate-600 text-white" />
+              </div>
+              <div>
+                <Label className="text-slate-300">Unit # <span className="text-slate-500">optional</span></Label>
+                <Input value={projectForm.unitNumber} onChange={e => setProjectForm(p => ({ ...p, unitNumber: e.target.value }))}
+                  placeholder="e.g. 4B, 12, Building C" className="bg-slate-800 border-slate-600 text-white" />
               </div>
               <div>
                 <Label className="text-slate-300">Project Type</Label>

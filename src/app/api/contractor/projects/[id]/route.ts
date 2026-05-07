@@ -23,5 +23,5 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     .eq('contractor_user_id', user.id)
     .maybeSingle()
 
-  return NextResponse.json({ project, alreadyBid: !!existingBid })
+  return NextResponse.json({ project, alreadyBid: !!existingBid, userId: user.id })
 }
