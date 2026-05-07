@@ -11,10 +11,12 @@ const NAV_LINKS: Record<UserRole, { href: string; label: string }[]> = {
   pm: [
     { href: '/dashboard/pm', label: 'Dashboard' },
     { href: '/dashboard/pm/projects/new', label: 'New Project' },
+    { href: '/dashboard/settings', label: 'Settings' },
   ],
   contractor: [
     { href: '/dashboard/contractor', label: 'Dashboard' },
     { href: '/dashboard/contractor/profile', label: 'Profile' },
+    { href: '/dashboard/settings', label: 'Settings' },
   ],
   admin: [
     { href: '/dashboard/admin', label: 'Overview' },
