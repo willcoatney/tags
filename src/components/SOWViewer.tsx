@@ -25,10 +25,11 @@ function parseTable(lines: string[]): { headers: string[]; rows: string[][] } | 
     line.split('|').slice(1, -1).map(c => c.trim())
   const rawHeaders = parseRow(tableLines[0])
   const rows = tableLines.slice(2).map(parseCells).filter(r => r.length > 0)
-  // Align headers with row column count
+  // Align headers: if first header is empty and rows have one more col, prepend blank
   const colCount = rows[0]?.length || rawHeaders.filter(Boolean).length
-  const headers = rawHeaders.length < colCount
-    ? ['', ...rawHeaders.filter(Boolean)]
+  const nonEmpty = rawHeaders.filter(Boolean)
+  const headers = rawHeaders.length < colCount && nonEmpty.length < colCount
+    ? ['', ...nonEmpty]
     : rawHeaders
   return { headers, rows }
 }

@@ -71,11 +71,11 @@ Generate a professional Scope of Work a licensed contractor can act on immediate
 ---
 
 ## Total Cost Summary
-| | Low | High |
-|---|---|---|
-| Materials | $X | $X |
-| Labor | $X | $X |
-| **TOTAL** | **$X** | **$X** |
+| | Estimated Cost |
+|---|---|
+| Materials | $X |
+| Labor | $X |
+| **TOTAL** | **$X** |
 
 > ⚠️ This estimate is for budgeting purposes only. Final pricing is determined by contractor bids. Costs reflect current regional market rates and may vary based on site conditions, material availability, and contractor overhead.
 
@@ -94,7 +94,7 @@ Rules:
 - If photos are unclear, note what contractor should inspect on-site
 - Use current regional average pricing for materials (not retail — contractor/trade pricing)
 - Labor rates should reflect local market rates for the required trade
-- Always present costs as ranges, not fixed figures
+- Always present a single cost figure (use the high-end market rate), never a range
 - The Total Cost Summary table MUST always appear at the end — never omit it`,
               },
             ],
