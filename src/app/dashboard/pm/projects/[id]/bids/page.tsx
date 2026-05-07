@@ -31,7 +31,7 @@ export default async function BidsPage({ params }: { params: { id: string } }) {
     .order('amount', { ascending: true })
 
   // Fetch avg ratings for each contractor
-  const contractorIds = [...new Set((bids || []).map(b => b.contractor_user_id))]
+  const contractorIds = Array.from(new Set((bids || []).map(b => b.contractor_user_id)))
   const { data: allRatings } = contractorIds.length > 0
     ? await admin.from('ratings').select('contractor_user_id, rating').in('contractor_user_id', contractorIds)
     : { data: [] }
