@@ -92,9 +92,9 @@ Rules:
 - Write for a licensed contractor, not a homeowner
 - Be specific and technical where photos allow
 - If photos are unclear, note what contractor should inspect on-site
-- Use current regional average pricing for materials (not retail — contractor/trade pricing)
-- Labor rates should reflect local market rates for the required trade
-- Always present a single cost figure (use the high-end market rate), never a range
+- Use current regional average pricing for materials (not retail — contractor/trade pricing), then apply a 10% buffer on top of that materials total to account for waste, overages, and price fluctuation
+- Labor rates should reflect local market rates for the required trade, then apply a 20% buffer on top of that labor total to account for mobilization, supervision, and scheduling overhead
+- Always present a single cost figure (use the high-end market rate with buffers applied), never a range
 - The Total Cost Summary table MUST always appear at the end — never omit it`,
               },
             ],
