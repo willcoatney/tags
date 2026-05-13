@@ -96,7 +96,7 @@ function LandingPage() {
             { value: '< 60s', label: 'SOW generated' },
             { value: '$0', label: 'for property managers' },
             { value: '2-way', label: 'SMS with contractors' },
-            { value: 'AI-powered', label: 'by Claude' },
+            { value: 'AI-powered', label: 'by the top A.I. team' },
           ].map(({ value, label }) => (
             <div key={label}>
               <div className="text-2xl font-bold text-white">{value}</div>
@@ -127,7 +127,7 @@ function LandingPage() {
               step: '02',
               icon: '📋',
               title: 'AI writes the SOW',
-              body: 'Claude generates a contractor-ready Scope of Work with materials, labor, safety, and a cost estimate.',
+              body: 'Our A.I. generates a contractor-ready Scope of Work with materials, labor, safety, and a cost estimate.',
               accent: 'oklch(0.57 0.135 183)',
               bg: 'oklch(0.18 0.06 183)',
             },
