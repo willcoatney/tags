@@ -39,6 +39,7 @@ export async function POST(req: NextRequest) {
         const messageStream = anthropic.messages.stream({
           model: 'claude-sonnet-4-6',
           max_tokens: 4000,
+          temperature: 0,
           messages: [{
             role: 'user',
             content: [
@@ -92,9 +93,11 @@ Rules:
 - Write for a licensed contractor, not a homeowner
 - Be specific and technical where photos allow
 - If photos are unclear, note what contractor should inspect on-site
-- Use current regional average pricing for materials (not retail — contractor/trade pricing), then apply a 10% buffer on top of that materials total to account for waste, overages, and price fluctuation
-- Labor rates should reflect local market rates for the required trade, then apply a 20% buffer on top of that labor total to account for mobilization, supervision, and scheduling overhead
-- Always present a single cost figure (use the high-end market rate with buffers applied), never a range
+- Use contractor/trade pricing for materials (not retail), then add 12% to the materials subtotal for waste, overages, and price fluctuation. Round to nearest $5.
+- Use these base labor rates by trade ($/hr, US national average, 2025):
+  • Plumber: $95/hr | Electrician: $105/hr | HVAC Tech: $100/hr | Drywall/Painter: $65/hr | Flooring: $70/hr | Roofer: $80/hr | General Labor: $55/hr | Carpenter: $75/hr | Landscaper: $50/hr
+  Estimate hours from the scope steps, then add 25% to the labor subtotal for mobilization, supervision, and scheduling overhead. Round to nearest $5.
+- Always present a single cost figure — never a range. Use the calculated totals with buffers applied. Do not hedge or qualify the numbers.
 - The Total Cost Summary table MUST always appear at the end — never omit it`,
               },
             ],
