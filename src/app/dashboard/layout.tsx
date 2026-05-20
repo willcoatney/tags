@@ -17,7 +17,7 @@ export default async function DashboardLayout({ children }: { children: React.Re
   if (!profile) redirect('/login')
 
   return (
-    <div className="min-h-screen bg-[#0f172a]">
+    <div className="min-h-screen bg-background">
       <DashboardNav role={profile.role} name={profile.full_name || profile.email || ''} />
       <main className="max-w-7xl mx-auto px-4 py-8">
         {children}

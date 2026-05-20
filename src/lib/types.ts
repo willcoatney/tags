@@ -1,4 +1,4 @@
-export type UserRole = 'pm' | 'contractor' | 'admin'
+export type UserRole = 'pm' | 'contractor' | 'admin' | 'homeowner'
 export type ProjectStatus = 'draft' | 'open' | 'awarded' | 'completed' | 'cancelled'
 export type BidStatus = 'submitted' | 'awarded' | 'rejected'
 export type ApprovalStatus = 'pending' | 'approved' | 'rejected'
@@ -28,7 +28,7 @@ export const PROJECT_TYPE_LABELS: Record<ProjectType, string> = {
 export interface Organization {
   id: string
   name: string
-  type: 'pm' | 'contractor'
+  type: 'pm' | 'contractor' | 'homeowner'
   created_at: string
 }
 

@@ -57,7 +57,7 @@ function LandingPage() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-6"
             style={{ background: 'oklch(0.20 0.05 183)', color: 'oklch(0.72 0.12 183)', border: '1px solid oklch(0.30 0.08 183)' }}>
             <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: 'oklch(0.57 0.135 183)' }} />
-            Built for multifamily property managers
+            Built for property managers &amp; homeowners
           </div>
 
           <h1 className="text-5xl md:text-6xl font-bold text-white leading-[1.08] tracking-tight mb-6">
@@ -510,6 +510,11 @@ function LandingPage() {
             style={{ color: 'oklch(0.65 0.02 252)', border: '1px solid oklch(0.27 0.025 252)' }}>
             Join as a Contractor
           </Link>
+          <Link href="/register/homeowner"
+            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-medium transition-colors duration-150"
+            style={{ color: 'oklch(0.72 0.12 183)', border: '1px solid oklch(0.35 0.10 183)', background: 'oklch(0.18 0.06 183)' }}>
+            I&apos;m a Homeowner →
+          </Link>
         </div>
       </section>
 
@@ -527,6 +532,7 @@ function LandingPage() {
             <Link href="/login" className="text-sm transition-colors duration-150" style={{ color: 'oklch(0.45 0.015 252)' }}>Sign In</Link>
             <Link href="/register/pm" className="text-sm transition-colors duration-150" style={{ color: 'oklch(0.45 0.015 252)' }}>For PMs</Link>
             <Link href="/register/contractor" className="text-sm transition-colors duration-150" style={{ color: 'oklch(0.45 0.015 252)' }}>For Contractors</Link>
+            <Link href="/register/homeowner" className="text-sm transition-colors duration-150" style={{ color: 'oklch(0.45 0.015 252)' }}>For Homeowners</Link>
           </div>
         </div>
       </footer>

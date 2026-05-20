@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
 import type { UserRole } from '@/lib/types'
+import ThemeToggle from '@/components/ThemeToggle'
 
 interface Props { role: UserRole; name: string }
 
@@ -22,12 +23,18 @@ const NAV_LINKS: Record<UserRole, { href: string; label: string }[]> = {
     { href: '/dashboard/admin', label: 'Overview' },
     { href: '/dashboard/admin/contractors', label: 'Contractors' },
   ],
+  homeowner: [
+    { href: '/dashboard/homeowner', label: 'Dashboard' },
+    { href: '/dashboard/pm/projects/new', label: 'New Project' },
+    { href: '/dashboard/settings', label: 'Settings' },
+  ],
 }
 
 const ROLE_LABELS: Record<UserRole, string> = {
   pm: 'Property Manager',
   contractor: 'Contractor',
   admin: 'Admin',
+  homeowner: 'Homeowner',
 }
 
 export default function DashboardNav({ role, name }: Props) {
@@ -47,8 +54,8 @@ export default function DashboardNav({ role, name }: Props) {
     <nav
       className="sticky top-0 z-50 flex items-center justify-between px-6 h-14"
       style={{
-        background: 'oklch(0.15 0.025 252)',
-        borderBottom: '1px solid oklch(0.22 0.022 252)',
+        background: 'var(--card)',
+        borderBottom: '1px solid var(--border)',
         backdropFilter: 'blur(12px)',
       }}
     >
@@ -97,6 +104,8 @@ export default function DashboardNav({ role, name }: Props) {
             <p className="text-xs mt-0.5" style={{ color: 'oklch(0.55 0.02 252)' }}>{ROLE_LABELS[role]}</p>
           </div>
         </div>
+
+        <ThemeToggle />
 
         <button
           onClick={signOut}
