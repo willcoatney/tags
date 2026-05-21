@@ -95,7 +95,7 @@ function LandingPage() {
           {[
             { value: '< 60s', label: 'SOW generated' },
             { value: '$0', label: 'for property managers' },
-            { value: '2-way', label: 'SMS with contractors' },
+            { value: '8', label: 'automated alerts per job' },
             { value: 'AI-powered', label: 'by the top A.I. team' },
           ].map(({ value, label }) => (
             <div key={label}>
@@ -294,9 +294,10 @@ function LandingPage() {
             },
             {
               icon: '🔔',
-              title: 'Instant SMS notifications',
-              body: 'Get a text the moment a contractor submits a bid. Contractors get a text when they win a job. Everyone stays informed without logging in.',
+              title: 'You\'re always in the loop',
+              body: 'New bid? Text. Contractor marked work done? Text. 48 hours with no bids? Text. Every stage of every job triggers an automatic alert — no logging in just to check.',
               accent: 'oklch(0.60 0.16 160)',
+              highlight: true,
             },
             {
               icon: '✓',
@@ -316,6 +317,75 @@ function LandingPage() {
               <p className="text-sm leading-relaxed" style={{ color: 'oklch(0.60 0.025 252)' }}>{feat.body}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* VISIBILITY SECTION */}
+      <section className="px-6 md:px-12 py-20" style={{ background: 'oklch(0.15 0.025 252)' }}>
+        <div className="max-w-5xl mx-auto">
+          <div className="text-center mb-14">
+            <div className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'oklch(0.57 0.135 183)' }}>
+              Always informed
+            </div>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+              Never wonder where a job stands.
+            </h2>
+            <p className="text-lg max-w-2xl mx-auto" style={{ color: 'oklch(0.60 0.025 252)' }}>
+              TAGS texts you at every milestone — from first bid to confirmed complete. No logging in just to check.
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6 items-start">
+            {/* Left: notification feed */}
+            <div className="rounded-2xl overflow-hidden" style={{ background: 'oklch(0.13 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
+              <div className="px-5 py-3 flex items-center gap-2" style={{ borderBottom: '1px solid oklch(0.20 0.022 252)', background: 'oklch(0.16 0.022 252)' }}>
+                <div className="w-2.5 h-2.5 rounded-full animate-pulse" style={{ background: 'oklch(0.57 0.135 183)' }} />
+                <span className="text-xs font-semibold text-white">TAGS Alerts — Unit 4B Plumbing</span>
+              </div>
+              <div className="p-4 space-y-2">
+                {([
+                  { icon: '📬', time: 'Day 0', label: 'Project posted', msg: '3 contractors notified in your area', color: 'oklch(0.57 0.135 183)' },
+                  { icon: '💰', time: 'Day 1', label: 'Bid received', msg: 'New bid: ABC Plumbing — $485 / 3 days', color: 'oklch(0.72 0.14 75)' },
+                  { icon: '💰', time: 'Day 1', label: 'Bid received', msg: 'New bid: ProFix Services — $520 / 2 days', color: 'oklch(0.72 0.14 75)' },
+                  { icon: '🏆', time: 'Day 2', label: 'Bid awarded', msg: 'ABC Plumbing awarded — they\'ve been notified', color: 'oklch(0.57 0.135 183)' },
+                  { icon: '🔨', time: 'Day 5', label: 'Work complete', msg: 'ABC Plumbing marked work done — tap to confirm', color: 'oklch(0.80 0.16 160)' },
+                  { icon: '✅', time: 'Day 5', label: 'Job confirmed', msg: 'Unit 4B plumbing complete. Record saved.', color: 'oklch(0.65 0.15 145)' },
+                ] as Array<{ icon: string; time: string; label: string; msg: string; color: string }>).map((item, i) => (
+                  <div key={i} className="flex items-start gap-3 rounded-xl px-3 py-2.5" style={{ background: 'oklch(0.17 0.022 252)' }}>
+                    <span className="text-base shrink-0 mt-0.5">{item.icon}</span>
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center justify-between gap-2 mb-0.5">
+                        <span className="text-xs font-semibold" style={{ color: item.color }}>{item.label}</span>
+                        <span className="text-xs shrink-0" style={{ color: 'oklch(0.40 0.015 252)' }}>{item.time}</span>
+                      </div>
+                      <p className="text-xs leading-snug" style={{ color: 'oklch(0.65 0.015 252)' }}>{item.msg}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Right: alert list */}
+            <div className="space-y-4">
+              <p className="text-sm font-semibold" style={{ color: 'oklch(0.65 0.02 252)' }}>Every alert that fires automatically:</p>
+              {([
+                { icon: '📬', title: 'Project goes live', body: 'Every matching contractor in your zip code is notified instantly by text.' },
+                { icon: '💰', title: 'New bid received', body: 'You get a text with the contractor\'s name and a direct link to review the bid.' },
+                { icon: '⏰', title: '48 hours, no bids', body: 'If no one has bid after 48 hours, you get a heads-up. You\'re never left wondering.' },
+                { icon: '🏆', title: 'Bid awarded', body: 'Winning contractor is notified by text. Losing contractors are told the job was filled.' },
+                { icon: '🔨', title: 'Contractor marks work done', body: 'You get a text with a link to log in and confirm — one tap to officially close the job.' },
+                { icon: '✅', title: 'Job confirmed complete', body: 'Contractor gets a confirmation text. Permanent record is created automatically.' },
+              ] as Array<{ icon: string; title: string; body: string }>).map((item, i) => (
+                <div key={i} className="flex items-start gap-4 rounded-xl p-4" style={{ background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
+                  <span className="text-xl shrink-0">{item.icon}</span>
+                  <div>
+                    <p className="text-sm font-semibold text-white mb-0.5">{item.title}</p>
+                    <p className="text-sm leading-relaxed" style={{ color: 'oklch(0.58 0.02 252)' }}>{item.body}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -429,6 +499,16 @@ function LandingPage() {
               after: 'Rate every contractor after completion. See ratings before you award the next job.',
               icon: '⭐',
             },
+            {
+              before: 'No idea where the job is — did they start? Is it done? Did they ghost you?',
+              after: 'Automatic alerts at every stage. Contractor marks work done and you get a text to confirm.',
+              icon: '📍',
+            },
+            {
+              before: 'Posted a project and heard nothing for days — assumed it was broken',
+              after: 'If no one bids in 48 hours, you get a text automatically. TAGS always tells you what\'s happening.',
+              icon: '⏰',
+            },
           ].map(item => (
             <div key={item.icon} className="rounded-2xl p-6 grid grid-cols-[auto_1fr] gap-4"
               style={{ background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
@@ -469,7 +549,11 @@ function LandingPage() {
                 'Photo uploads from camera or library',
                 'Side-by-side bid comparison with contractor ratings',
                 'Two-way SMS messaging with contractors',
-                'Instant SMS notifications on new bids',
+                'SMS alert the moment a new bid arrives',
+                'SMS alert if no bids after 48 hours',
+                'SMS alert when contractor marks work done',
+                'SMS confirmation when job is officially complete',
+                'Automatic notifications to losing contractors',
                 'Project editing and SOW regeneration',
                 'Portfolio analytics dashboard',
                 'Full project history with completion records',
