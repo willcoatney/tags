@@ -12,6 +12,7 @@ const NAV_LINKS: Record<UserRole, { href: string; label: string }[]> = {
   pm: [
     { href: '/dashboard/pm', label: 'Dashboard' },
     { href: '/dashboard/pm/projects/new', label: 'New Project' },
+    { href: '/dashboard/pm/contractors', label: 'Contractors' },
     { href: '/dashboard/settings', label: 'Settings' },
   ],
   contractor: [

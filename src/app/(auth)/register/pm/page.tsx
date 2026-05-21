@@ -12,6 +12,7 @@ import { toast } from 'sonner'
 
 export default function RegisterPMPage() {
   const [form, setForm] = useState({ fullName: '', email: '', phone: '', password: '', companyName: '' })
+  const [unitCount, setUnitCount] = useState('')
   const [loading, setLoading] = useState(false)
   const router = useRouter()
   const supabase = createClient()
@@ -29,7 +30,7 @@ export default function RegisterPMPage() {
       const orgRes = await fetch('/api/auth/register/pm', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, unitCount: unitCount ? parseInt(unitCount, 10) : undefined }),
       })
       const orgData = await orgRes.json()
       if (!orgRes.ok) throw new Error(orgData.error || 'Registration failed')
@@ -49,6 +50,8 @@ export default function RegisterPMPage() {
     }
   }
 
+  const estimatedMonthly = unitCount && parseInt(unitCount, 10) > 0 ? parseInt(unitCount, 10) : null
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-[#0f172a] p-4">
       <Card className="w-full max-w-md bg-slate-900 border-slate-700">
@@ -58,8 +61,35 @@ export default function RegisterPMPage() {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleRegister} className="space-y-4">
+            <div>
+              <Label className="text-slate-300">Company Name</Label>
+              <Input
+                type="text"
+                value={form.companyName}
+                onChange={e => set('companyName', e.target.value)}
+                required
+                className="bg-slate-800 border-slate-600 text-white"
+              />
+            </div>
+
+            <div>
+              <Label className="text-slate-300">Units Under Management</Label>
+              <Input
+                type="number"
+                min="1"
+                placeholder="e.g. 200"
+                value={unitCount}
+                onChange={e => setUnitCount(e.target.value)}
+                required
+                className="bg-slate-800 border-slate-600 text-white"
+              />
+              <p className="text-xs text-slate-500 mt-1">Your monthly rate is $1 per unit</p>
+              {estimatedMonthly && (
+                <p className="text-xs text-teal-400 mt-0.5">Est. monthly: ${estimatedMonthly}/mo</p>
+              )}
+            </div>
+
             {[
-              { key: 'companyName', label: 'Company Name', type: 'text' },
               { key: 'fullName', label: 'Your Name', type: 'text' },
               { key: 'email', label: 'Email', type: 'email' },
               { key: 'phone', label: 'Phone', type: 'tel' },

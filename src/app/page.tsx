@@ -57,7 +57,7 @@ function LandingPage() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-6"
             style={{ background: 'oklch(0.20 0.05 183)', color: 'oklch(0.72 0.12 183)', border: '1px solid oklch(0.30 0.08 183)' }}>
             <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: 'oklch(0.57 0.135 183)' }} />
-            Built for property managers &amp; homeowners
+            Built for multifamily property managers
           </div>
 
           <h1 className="text-5xl md:text-6xl font-bold text-white leading-[1.08] tracking-tight mb-6">
@@ -84,7 +84,7 @@ function LandingPage() {
           </div>
 
           <p className="mt-4 text-sm" style={{ color: 'oklch(0.45 0.015 252)' }}>
-            Free for property managers. No subscription. No credit card.
+            $1/door/month for property managers. Free during early access.
           </p>
         </div>
       </section>
@@ -96,7 +96,7 @@ function LandingPage() {
             { value: '< 60s', label: 'SOW generated' },
             { value: '$0', label: 'for property managers' },
             { value: '8', label: 'automated alerts per job' },
-            { value: 'AI-powered', label: 'by the top A.I. team' },
+            { value: '$1/door', label: 'per month for PMs' },
           ].map(({ value, label }) => (
             <div key={label}>
               <div className="text-2xl font-bold text-white">{value}</div>
@@ -527,50 +527,94 @@ function LandingPage() {
 
       {/* PRICING */}
       <section className="px-6 md:px-12 py-20" style={{ background: 'oklch(0.15 0.025 252)' }}>
-        <div className="max-w-2xl mx-auto text-center">
-          <div className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'oklch(0.57 0.135 183)' }}>Pricing</div>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-5">Free for property managers. Always.</h2>
-          <p className="text-lg leading-relaxed mb-10" style={{ color: 'oklch(0.60 0.025 252)' }}>
-            TAGS earns a small percentage only when a contractor gets paid for a completed project. If you don&apos;t save money, we don&apos;t make money. That&apos;s the deal.
-          </p>
-
-          <div className="rounded-2xl p-8 text-left mb-8" style={{ background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.30 0.08 183)' }}>
-            <div className="flex items-center justify-between mb-6">
-              <div>
-                <p className="text-2xl font-bold text-white">Property Manager</p>
-                <p className="text-sm mt-1" style={{ color: 'oklch(0.57 0.135 183)' }}>Free forever</p>
-              </div>
-              <div className="text-4xl font-black text-white">$0</div>
-            </div>
-            <ul className="space-y-3">
-              {[
-                'Unlimited projects with unit-level tracking',
-                'AI-generated Scope of Work on every project',
-                'Photo uploads from camera or library',
-                'Side-by-side bid comparison with contractor ratings',
-                'Two-way SMS messaging with contractors',
-                'SMS alert the moment a new bid arrives',
-                'SMS alert if no bids after 48 hours',
-                'SMS alert when contractor marks work done',
-                'SMS confirmation when job is officially complete',
-                'Automatic notifications to losing contractors',
-                'Project editing and SOW regeneration',
-                'Portfolio analytics dashboard',
-                'Full project history with completion records',
-              ].map(feat => (
-                <li key={feat} className="flex items-center gap-3 text-sm" style={{ color: 'oklch(0.75 0.015 252)' }}>
-                  <span style={{ color: 'oklch(0.57 0.135 183)' }}>✓</span> {feat}
-                </li>
-              ))}
-            </ul>
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <div className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'oklch(0.57 0.135 183)' }}>Pricing</div>
+            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Simple. Aligned. No surprises.</h2>
+            <p className="text-lg" style={{ color: 'oklch(0.60 0.025 252)' }}>
+              Everyone pays only when value is delivered.
+            </p>
           </div>
 
-          <Link href="/register/pm"
-            className="inline-flex items-center justify-center gap-2 w-full max-w-sm px-7 py-4 rounded-xl text-base font-semibold text-white transition-all duration-150 active:scale-[0.98]"
-            style={{ background: 'oklch(0.57 0.135 183)' }}>
-            Create Your Free Account →
-          </Link>
-          <p className="text-sm mt-3" style={{ color: 'oklch(0.40 0.015 252)' }}>No credit card. No contract. Cancel anytime.</p>
+          <div className="grid md:grid-cols-2 gap-6">
+            {/* PM Card */}
+            <div className="rounded-2xl p-8" style={{ background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.30 0.08 183)' }}>
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <p className="text-xl font-bold text-white">Property Manager</p>
+                  <p className="text-sm mt-1" style={{ color: 'oklch(0.57 0.135 183)' }}>Monthly subscription</p>
+                </div>
+                <div className="text-right">
+                  <div className="text-4xl font-black text-white">$1</div>
+                  <div className="text-xs" style={{ color: 'oklch(0.55 0.02 252)' }}>per door / month</div>
+                </div>
+              </div>
+              <div className="rounded-xl p-4 mb-6 text-sm" style={{ background: 'oklch(0.20 0.05 183)', border: '1px solid oklch(0.30 0.08 183)' }}>
+                <p style={{ color: 'oklch(0.75 0.10 183)' }}>200-unit complex = <strong className="text-white">$200/month</strong></p>
+              </div>
+              <ul className="space-y-3 mb-8">
+                {[
+                  'Unlimited projects with unit-level tracking',
+                  'AI-generated Scope of Work on every project',
+                  'Side-by-side bid comparison with ratings',
+                  'Two-way SMS messaging with contractors',
+                  'Full alert suite — bid, award, complete',
+                  '48-hour no-bid alert',
+                  'Portfolio analytics and full project history',
+                ].map(feat => (
+                  <li key={feat} className="flex items-center gap-3 text-sm" style={{ color: 'oklch(0.75 0.015 252)' }}>
+                    <span style={{ color: 'oklch(0.57 0.135 183)' }}>✓</span> {feat}
+                  </li>
+                ))}
+              </ul>
+              <Link href="/register/pm"
+                className="inline-flex items-center justify-center w-full py-3 rounded-xl text-sm font-semibold text-white transition-all"
+                style={{ background: 'oklch(0.57 0.135 183)' }}>
+                Get Started →
+              </Link>
+            </div>
+
+            {/* Contractor Card */}
+            <div className="rounded-2xl p-8" style={{ background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
+              <div className="flex items-center justify-between mb-6">
+                <div>
+                  <p className="text-xl font-bold text-white">Contractor</p>
+                  <p className="text-sm mt-1" style={{ color: 'oklch(0.60 0.025 252)' }}>Pay only when you win</p>
+                </div>
+                <div className="text-right">
+                  <div className="text-4xl font-black text-white">$50</div>
+                  <div className="text-xs" style={{ color: 'oklch(0.55 0.02 252)' }}>per won bid</div>
+                </div>
+              </div>
+              <div className="rounded-xl p-4 mb-6 text-sm" style={{ background: 'oklch(0.20 0.022 252)', border: '1px solid oklch(0.27 0.022 252)' }}>
+                <p style={{ color: 'oklch(0.65 0.02 252)' }}>No monthly fees. <strong className="text-white">$0 until you win.</strong></p>
+              </div>
+              <ul className="space-y-3 mb-8">
+                {[
+                  'Free to apply and get approved',
+                  'Unlimited bids on open projects',
+                  'Full SOW on every project before you bid',
+                  'SMS notifications for matching projects',
+                  'Two-way messaging — no app required',
+                  'Job history and completion records',
+                  '$50 charged only when you win a bid',
+                ].map(feat => (
+                  <li key={feat} className="flex items-center gap-3 text-sm" style={{ color: 'oklch(0.75 0.015 252)' }}>
+                    <span style={{ color: 'oklch(0.57 0.135 183)' }}>✓</span> {feat}
+                  </li>
+                ))}
+              </ul>
+              <Link href="/for-contractors"
+                className="inline-flex items-center justify-center w-full py-3 rounded-xl text-sm font-semibold transition-all"
+                style={{ border: '1px solid oklch(0.35 0.025 252)', color: 'oklch(0.75 0.015 252)' }}>
+                Learn More →
+              </Link>
+            </div>
+          </div>
+
+          <p className="text-center text-sm mt-6" style={{ color: 'oklch(0.40 0.015 252)' }}>
+            Billing launching soon. Early access accounts will be grandfathered at current rates.
+          </p>
         </div>
       </section>
 
@@ -587,9 +631,9 @@ function LandingPage() {
           <Link href="/register/pm"
             className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-semibold text-white transition-all duration-150 active:scale-[0.98]"
             style={{ background: 'oklch(0.57 0.135 183)' }}>
-            Get Started Free →
+            Get Started →
           </Link>
-          <Link href="/register/contractor"
+          <Link href="/for-contractors"
             className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-medium transition-colors duration-150"
             style={{ color: 'oklch(0.65 0.02 252)', border: '1px solid oklch(0.27 0.025 252)' }}>
             Join as a Contractor
@@ -615,7 +659,7 @@ function LandingPage() {
           <div className="flex items-center gap-6">
             <Link href="/login" className="text-sm transition-colors duration-150" style={{ color: 'oklch(0.45 0.015 252)' }}>Sign In</Link>
             <Link href="/register/pm" className="text-sm transition-colors duration-150" style={{ color: 'oklch(0.45 0.015 252)' }}>For PMs</Link>
-            <Link href="/register/contractor" className="text-sm transition-colors duration-150" style={{ color: 'oklch(0.45 0.015 252)' }}>For Contractors</Link>
+            <Link href="/for-contractors" className="text-sm transition-colors duration-150" style={{ color: 'oklch(0.45 0.015 252)' }}>For Contractors</Link>
             <Link href="/register/homeowner" className="text-sm transition-colors duration-150" style={{ color: 'oklch(0.45 0.015 252)' }}>For Homeowners</Link>
           </div>
         </div>

@@ -3,7 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { sendSMS } from '@/lib/sms'
 
 export async function POST(req: NextRequest) {
-  const { fullName, email, phone, password, companyName } = await req.json()
+  const { fullName, email, phone, password, companyName, unitCount } = await req.json()
   const admin = createAdminClient()
 
   // 1. Create org
@@ -13,6 +13,10 @@ export async function POST(req: NextRequest) {
   }).select().single()
 
   if (orgErr) return NextResponse.json({ error: orgErr.message }, { status: 500 })
+
+  if (unitCount) {
+    await admin.from('organizations').update({ unit_count: unitCount }).eq('id', org.id)
+  }
 
   // 2. Create auth user
   const { data: authData, error: authErr } = await admin.auth.admin.createUser({
