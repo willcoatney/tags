@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { sendSMS } from '@/lib/sms'
 
 export async function POST(req: NextRequest) {
   const { fullName, email, phone, password, companyName } = await req.json()
@@ -31,6 +32,8 @@ export async function POST(req: NextRequest) {
     phone,
     email,
   })
+
+  if (phone) await sendSMS(phone, `Welcome to TAGS! You're all set. Post your first project at https://www.tagyourproject.com`)
 
   return NextResponse.json({ success: true })
 }

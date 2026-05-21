@@ -12,6 +12,7 @@ import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { toast } from 'sonner'
 import { PROJECT_TYPE_LABELS } from '@/lib/types'
+import ContractorMarkDoneButton from '@/components/ContractorMarkDoneButton'
 
 interface Project {
   id: string
@@ -21,6 +22,7 @@ interface Project {
   budget_min: number | null
   budget_max: number | null
   scope_of_work: string | null
+  status: string
   created_at: string
   properties: { city: string; state: string }
   project_photos: { id: string; public_url: string }[]
@@ -82,9 +84,12 @@ export default function ContractorProjectPage({ params }: { params: { id: string
               : 'Budget not specified'}
           </p>
         </div>
-        <Button asChild variant="outline" className="border-slate-600 text-slate-300">
-          <Link href="/dashboard/contractor">← Back</Link>
-        </Button>
+        <div className="flex items-center gap-3">
+          <ContractorMarkDoneButton projectId={params.id} status={project.status} />
+          <Button asChild variant="outline" className="border-slate-600 text-slate-300">
+            <Link href="/dashboard/contractor">← Back</Link>
+          </Button>
+        </div>
       </div>
 
       {project.project_photos?.length > 0 && (
@@ -129,7 +134,11 @@ export default function ContractorProjectPage({ params }: { params: { id: string
         </CardHeader>
         <CardContent>
           {alreadyBid ? (
-            <p className="text-slate-400">You have already submitted a bid on this project.</p>
+            <p className="text-slate-400">
+              {(project.status === 'awarded' || project.status === 'work_complete')
+                ? 'You won this bid! Use the button above to mark work done when finished.'
+                : 'You have already submitted a bid on this project.'}
+            </p>
           ) : (
             <form onSubmit={handleBid} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">

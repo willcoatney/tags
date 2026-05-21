@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { sendSMS } from '@/lib/sms'
 
 export async function POST(_req: NextRequest, { params }: { params: { id: string } }) {
   const supabase = await createClient()
@@ -12,13 +13,13 @@ export async function POST(_req: NextRequest, { params }: { params: { id: string
   if (!profile || profile.role !== 'pm') return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
 
   const { data: project } = await admin.from('projects')
-    .select('id, status, organization_id')
+    .select('id, title, status, organization_id')
     .eq('id', params.id)
     .eq('organization_id', profile.organization_id)
     .single()
 
   if (!project) return NextResponse.json({ error: 'Not found' }, { status: 404 })
-  if (project.status !== 'awarded') return NextResponse.json({ error: 'Project must be awarded before completion' }, { status: 400 })
+  if (!['awarded', 'work_complete'].includes(project.status)) return NextResponse.json({ error: 'Project must be awarded before completion' }, { status: 400 })
 
   await admin.from('projects').update({ status: 'completed', updated_at: new Date().toISOString() }).eq('id', params.id)
 
@@ -28,6 +29,17 @@ export async function POST(_req: NextRequest, { params }: { params: { id: string
     .eq('project_id', params.id)
     .eq('status', 'awarded')
     .single()
+
+  // Notify winning contractor that PM confirmed completion
+  if (awardedBid) {
+    const { data: contractor } = await admin.from('user_profiles')
+      .select('phone')
+      .eq('id', awardedBid.contractor_user_id)
+      .maybeSingle()
+    if (contractor?.phone) {
+      await sendSMS(contractor.phone, `Great news! The property manager has confirmed "${project.title || 'your project'}" as complete. Thanks for your work on TAGS.`)
+    }
+  }
 
   return NextResponse.json({
     success: true,

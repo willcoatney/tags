@@ -54,6 +54,8 @@ export async function POST(req: NextRequest) {
     approval_status: autoApprove ? 'approved' : 'pending',
   })
 
+  if (phone) await sendSMS(phone, `Thanks for applying to TAGS! Your application is under review. We'll text you within 24 hours once approved.`)
+
   if (inviteId) {
     // Mark invite as used
     await admin.from('contractor_invites')

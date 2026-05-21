@@ -12,7 +12,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   const { data: project } = await admin.from('projects')
     .select('*, properties(city, state, zip), project_photos(*)')
     .eq('id', params.id)
-    .eq('status', 'open')
+    .in('status', ['open', 'awarded', 'work_complete'])
     .single()
 
   if (!project) return NextResponse.json({ error: 'Not found' }, { status: 404 })

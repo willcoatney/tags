@@ -64,7 +64,7 @@ export default async function ContractorDashboard() {
   )
 
   const { data: myBids } = await admin.from('bids')
-    .select('*, projects(title, project_type, status)')
+    .select('*, project_id, projects(title, project_type, status)')
     .eq('contractor_user_id', user.id)
     .order('submitted_at', { ascending: false })
 
@@ -157,7 +157,18 @@ export default async function ContractorDashboard() {
                       ${bid.amount.toLocaleString()} · {bid.timeline_days} days · {new Date(bid.submitted_at).toLocaleDateString()}
                     </p>
                   </div>
-                  <StatusBadge status={bid.status} />
+                  <div className="flex items-center gap-2">
+                    {bid.status === 'awarded' && (
+                      <Link
+                        href={`/dashboard/contractor/projects/${bid.project_id}`}
+                        className="shrink-0 px-3 py-1.5 rounded-md text-xs font-semibold text-white transition-all duration-150 active:scale-[0.98]"
+                        style={{ background: 'oklch(0.57 0.135 183)' }}
+                      >
+                        View Job
+                      </Link>
+                    )}
+                    <StatusBadge status={bid.status} />
+                  </div>
                 </div>
               </div>
             ))}

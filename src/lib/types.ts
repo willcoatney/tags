@@ -1,5 +1,5 @@
 export type UserRole = 'pm' | 'contractor' | 'admin' | 'homeowner'
-export type ProjectStatus = 'draft' | 'open' | 'awarded' | 'completed' | 'cancelled'
+export type ProjectStatus = 'draft' | 'open' | 'awarded' | 'work_complete' | 'completed' | 'cancelled'
 export type BidStatus = 'submitted' | 'awarded' | 'rejected'
 export type ApprovalStatus = 'pending' | 'approved' | 'rejected'
 
