@@ -40,7 +40,7 @@ export default function ForContractorsPage() {
             <span style={{ color: 'oklch(0.57 0.135 183)' }}>Start winning scoped jobs.</span>
           </h1>
           <p className="text-xl leading-relaxed mb-10 max-w-2xl mx-auto" style={{ color: 'oklch(0.65 0.02 252)' }}>
-            Every project on TAGS comes with an AI-generated Scope of Work. You know exactly what you&apos;re bidding on before you submit a number. No surprises. No scope disputes. Just qualified work.
+            Every project on TAGS comes with a professionally generated Scope of Work. You know exactly what you&apos;re bidding on before you submit a number. No surprises. No scope disputes. Just qualified work.
           </p>
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/register/contractor"
