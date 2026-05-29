@@ -19,8 +19,6 @@ interface Project {
   title: string
   project_type: string
   description: string
-  budget_min: number | null
-  budget_max: number | null
   scope_of_work: string | null
   status: string
   created_at: string
@@ -78,10 +76,7 @@ export default function ContractorProjectPage({ params }: { params: { id: string
           <h1 className="text-2xl font-bold text-white">{project.title}</h1>
           <p className="text-slate-400 mt-1">
             {PROJECT_TYPE_LABELS[project.project_type as keyof typeof PROJECT_TYPE_LABELS]} •{' '}
-            {project.properties?.city}, {project.properties?.state} •{' '}
-            {project.budget_min || project.budget_max
-              ? `Budget: $${project.budget_min?.toLocaleString() || '?'} – $${project.budget_max?.toLocaleString() || '?'}`
-              : 'Budget not specified'}
+            {project.properties?.city}, {project.properties?.state}
           </p>
         </div>
         <div className="flex items-center gap-3">

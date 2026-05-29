@@ -23,5 +23,9 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
     .eq('contractor_user_id', user.id)
     .maybeSingle()
 
-  return NextResponse.json({ project, alreadyBid: !!existingBid, userId: user.id })
+  // Strip budget from contractor-facing response — contractors bid blind
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { budget_min, budget_max, ...projectForContractor } = project
+
+  return NextResponse.json({ project: projectForContractor, alreadyBid: !!existingBid, userId: user.id })
 }
