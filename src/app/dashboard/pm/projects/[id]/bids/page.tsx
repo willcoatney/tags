@@ -26,9 +26,16 @@ export default async function BidsPage({ params }: { params: { id: string } }) {
   if (!project) notFound()
 
   const { data: bids } = await admin.from('bids')
-    .select('*, user_profiles(full_name, email, phone), contractor_profiles!contractor_profiles_user_id_fkey(company_name, services)')
+    .select('*, user_profiles(full_name, email, phone)')
     .eq('project_id', params.id)
     .order('amount', { ascending: true })
+
+  // Fetch contractor profiles separately (no direct FK from bids → contractor_profiles)
+  const bidderIds = (bids || []).map(b => b.contractor_user_id)
+  const { data: contractorProfiles } = bidderIds.length > 0
+    ? await admin.from('contractor_profiles').select('user_id, company_name, services').in('user_id', bidderIds)
+    : { data: [] }
+  const contractorMap = Object.fromEntries((contractorProfiles || []).map(cp => [cp.user_id, cp]))
 
   // Fetch avg ratings for each contractor
   const contractorIds = Array.from(new Set((bids || []).map(b => b.contractor_user_id)))
@@ -86,11 +93,12 @@ export default async function BidsPage({ params }: { params: { id: string } }) {
                 {bids?.map((bid, i) => {
                   const r = ratingMap[bid.contractor_user_id]
                   const isLowest = i === 0
+                  const cp = contractorMap[bid.contractor_user_id]
                   return (
                     <tr key={bid.id} className="transition-colors hover:bg-slate-800/30"
                       style={{ borderBottom: i < (bids.length - 1) ? '1px solid oklch(0.20 0.022 252)' : 'none' }}>
                       <td className="px-4 py-2.5 font-medium" style={{ color: isLowest ? 'oklch(0.65 0.14 160)' : 'white' }}>
-                        {bid.contractor_profiles?.company_name || bid.user_profiles?.full_name}
+                        {cp?.company_name || bid.user_profiles?.full_name}
                         {isLowest && <span className="ml-2 text-xs">★ lowest</span>}
                       </td>
                       <td className="px-4 py-2.5 font-bold" style={{ color: 'oklch(0.57 0.135 183)' }}>${bid.amount.toLocaleString()}</td>
@@ -114,9 +122,10 @@ export default async function BidsPage({ params }: { params: { id: string } }) {
         </div>
       ) : (
         <div className="space-y-3">
-          {bids.map((bid: Bid & { user_profiles: { full_name: string; email: string; phone: string }; contractor_profiles: { company_name: string } }) => {
+          {bids.map((bid: Bid & { user_profiles: { full_name: string; email: string; phone: string } }) => {
             const isLowest = bid.amount === lowestBid && bids.length > 1
             const r = ratingMap[bid.contractor_user_id]
+            const cp = contractorMap[bid.contractor_user_id]
             return (
               <div
                 key={bid.id}
@@ -134,7 +143,7 @@ export default async function BidsPage({ params }: { params: { id: string } }) {
                 <div className="flex items-start justify-between gap-4 mb-4">
                   <div>
                     <p className="font-semibold text-white">
-                      {bid.contractor_profiles?.company_name || bid.user_profiles?.full_name}
+                      {cp?.company_name || bid.user_profiles?.full_name}
                     </p>
                     <div className="flex items-center gap-2 mt-0.5">
                       <p className="text-xs" style={{ color: 'oklch(0.55 0.02 252)' }}>
