@@ -60,7 +60,7 @@ export default async function ContractorDashboard() {
     .in('project_type', contractorProfile.services)
 
   const availableProjects = (allOpenProjects || []).filter(p =>
-    contractorProfile.service_zip_codes.includes(p.properties?.zip)
+    contractorProfile.service_states?.includes(p.properties?.state)
   )
 
   const { data: myBids } = await admin.from('bids')
@@ -80,7 +80,7 @@ export default async function ContractorDashboard() {
         <div>
           <h1 className="text-2xl font-bold text-white">{contractorProfile.company_name}</h1>
           <p className="text-sm mt-0.5" style={{ color: 'oklch(0.55 0.02 252)' }}>
-            Approved contractor · {contractorProfile.service_zip_codes?.length || 0} service area{contractorProfile.service_zip_codes?.length !== 1 ? 's' : ''}
+            Approved contractor · {contractorProfile.service_states?.length || 0} state{contractorProfile.service_states?.length !== 1 ? 's' : ''}
           </p>
         </div>
       </div>

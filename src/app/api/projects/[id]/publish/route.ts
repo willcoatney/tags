@@ -31,12 +31,12 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   // Publish project
   await admin.from('projects').update({ status: 'open', updated_at: new Date().toISOString() }).eq('id', params.id)
 
-  // Find matching contractors (service match + zip match)
+  // Find matching contractors (service match + state match)
   const { data: contractors } = await admin.from('contractor_profiles')
     .select('*, user_profiles(*)')
     .eq('approval_status', 'approved')
     .contains('services', [project.project_type])
-    .contains('service_zip_codes', [project.properties.zip])
+    .contains('service_states', [project.properties.state])
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
   const projectUrl = `${baseUrl}/dashboard/contractor/projects/${params.id}`

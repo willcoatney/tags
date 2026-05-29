@@ -9,22 +9,26 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { toast } from 'sonner'
-import { PROJECT_TYPE_LABELS, type ProjectType } from '@/lib/types'
+import { PROJECT_TYPE_LABELS, US_STATES, type ProjectType } from '@/lib/types'
 
 const ALL_TYPES = Object.entries(PROJECT_TYPE_LABELS) as [ProjectType, string][]
 
 export default function RegisterContractorPage() {
   const [form, setForm] = useState({
     companyName: '', fullName: '', email: '', phone: '', password: '',
-    serviceZipCodes: '',
   })
   const [services, setServices] = useState<ProjectType[]>([])
+  const [selectedStates, setSelectedStates] = useState<string[]>([])
   const [loading, setLoading] = useState(false)
   const router = useRouter()
   const supabase = createClient()
 
   function toggleService(type: ProjectType) {
     setServices(prev => prev.includes(type) ? prev.filter(s => s !== type) : [...prev, type])
+  }
+
+  function toggleState(abbr: string) {
+    setSelectedStates(prev => prev.includes(abbr) ? prev.filter(s => s !== abbr) : [...prev, abbr])
   }
 
   async function handleRegister(e: React.FormEvent) {
@@ -39,7 +43,7 @@ export default function RegisterContractorPage() {
         body: JSON.stringify({
           ...form,
           services,
-          serviceZipCodes: form.serviceZipCodes.split(',').map(z => z.trim()).filter(Boolean),
+          serviceStates: selectedStates,
         }),
       })
       const data = await res.json()
@@ -105,13 +109,22 @@ export default function RegisterContractorPage() {
             </div>
 
             <div>
-              <Label className="text-slate-300">Service ZIP Codes <span className="text-slate-500">(comma-separated)</span></Label>
-              <Input
-                value={form.serviceZipCodes}
-                onChange={e => setForm(p => ({ ...p, serviceZipCodes: e.target.value }))}
-                placeholder="30301, 30302, 30303"
-                className="bg-slate-800 border-slate-600 text-white"
-              />
+              <Label className="text-slate-300 block mb-2">
+                Service States <span className="text-slate-500 text-xs ml-1">({selectedStates.length} selected)</span>
+              </Label>
+              <div className="grid grid-cols-4 gap-1.5 max-h-48 overflow-y-auto pr-1">
+                {US_STATES.map(({ abbr, name }) => (
+                  <button key={abbr} type="button" onClick={() => toggleState(abbr)}
+                    title={name}
+                    className={`px-2 py-1.5 rounded text-xs font-medium border transition-colors ${
+                      selectedStates.includes(abbr)
+                        ? 'bg-teal-600 border-teal-500 text-white'
+                        : 'bg-slate-800 border-slate-600 text-slate-300 hover:border-slate-400'
+                    }`}>
+                    {abbr}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <Button type="submit" disabled={loading} className="w-full bg-teal-600 hover:bg-teal-700">

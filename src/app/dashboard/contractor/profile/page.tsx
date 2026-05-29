@@ -3,24 +3,23 @@
 import { useState, useEffect } from 'react'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { toast } from 'sonner'
-import { PROJECT_TYPE_LABELS, type ProjectType } from '@/lib/types'
+import { PROJECT_TYPE_LABELS, US_STATES, type ProjectType } from '@/lib/types'
 
 const ALL_TYPES = Object.entries(PROJECT_TYPE_LABELS) as [ProjectType, string][]
 
 interface Profile {
   company_name: string
   services: ProjectType[]
-  service_zip_codes: string[]
+  service_states: string[]
   approval_status: string
 }
 
 export default function ContractorProfilePage() {
   const [profile, setProfile] = useState<Profile | null>(null)
   const [services, setServices] = useState<ProjectType[]>([])
-  const [zipCodes, setZipCodes] = useState('')
+  const [selectedStates, setSelectedStates] = useState<string[]>([])
   const [saving, setSaving] = useState(false)
 
   useEffect(() => {
@@ -29,12 +28,16 @@ export default function ContractorProfilePage() {
       .then(data => {
         setProfile(data)
         setServices(data.services || [])
-        setZipCodes((data.service_zip_codes || []).join(', '))
+        setSelectedStates(data.service_states || [])
       })
   }, [])
 
   function toggleService(type: ProjectType) {
     setServices(prev => prev.includes(type) ? prev.filter(s => s !== type) : [...prev, type])
+  }
+
+  function toggleState(abbr: string) {
+    setSelectedStates(prev => prev.includes(abbr) ? prev.filter(s => s !== abbr) : [...prev, abbr])
   }
 
   async function handleSave() {
@@ -44,7 +47,7 @@ export default function ContractorProfilePage() {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         services,
-        service_zip_codes: zipCodes.split(',').map(z => z.trim()).filter(Boolean),
+        service_states: selectedStates,
       }),
     })
     if (res.ok) toast.success('Profile updated')
@@ -60,7 +63,7 @@ export default function ContractorProfilePage() {
 
       <Card className="bg-slate-900 border-slate-700">
         <CardHeader><CardTitle className="text-white">Company: {profile.company_name}</CardTitle></CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-6">
           <div>
             <Label className="text-slate-300">Service Types</Label>
             <div className="grid grid-cols-2 gap-2 mt-2">
@@ -78,9 +81,22 @@ export default function ContractorProfilePage() {
           </div>
 
           <div>
-            <Label className="text-slate-300">Service ZIP Codes <span className="text-slate-500">(comma-separated)</span></Label>
-            <Input value={zipCodes} onChange={e => setZipCodes(e.target.value)}
-              className="bg-slate-800 border-slate-600 text-white" />
+            <Label className="text-slate-300 block mb-2">
+              Service States <span className="text-slate-500 text-xs ml-1">({selectedStates.length} selected)</span>
+            </Label>
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-1.5 max-h-64 overflow-y-auto pr-1">
+              {US_STATES.map(({ abbr, name }) => (
+                <button key={abbr} type="button" onClick={() => toggleState(abbr)}
+                  title={name}
+                  className={`px-2 py-1.5 rounded text-xs font-medium border transition-colors ${
+                    selectedStates.includes(abbr)
+                      ? 'bg-teal-600 border-teal-500 text-white'
+                      : 'bg-slate-800 border-slate-600 text-slate-300 hover:border-slate-400'
+                  }`}>
+                  {abbr}
+                </button>
+              ))}
+            </div>
           </div>
 
           <Button onClick={handleSave} disabled={saving} className="bg-teal-600 hover:bg-teal-700">

@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/client'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { toast } from 'sonner'
-import { PROJECT_TYPE_LABELS, type ProjectType } from '@/lib/types'
+import { PROJECT_TYPE_LABELS, US_STATES, type ProjectType } from '@/lib/types'
 
 const ALL_TYPES = Object.entries(PROJECT_TYPE_LABELS) as [ProjectType, string][]
 
@@ -24,8 +24,9 @@ export default function InvitePage({ params }: { params: { token: string } }) {
   const [invite, setInvite] = useState<InviteData | null>(null)
   const [invalid, setInvalid] = useState(false)
   const [services, setServices] = useState<ProjectType[]>([])
+  const [selectedStates, setSelectedStates] = useState<string[]>([])
   const [form, setForm] = useState({
-    companyName: '', fullName: '', phone: '', password: '', serviceZipCodes: '',
+    companyName: '', fullName: '', phone: '', password: '',
   })
   const [loading, setLoading] = useState(false)
 
@@ -41,6 +42,10 @@ export default function InvitePage({ params }: { params: { token: string } }) {
 
   function toggleService(type: ProjectType) {
     setServices(prev => prev.includes(type) ? prev.filter(s => s !== type) : [...prev, type])
+  }
+
+  function toggleState(abbr: string) {
+    setSelectedStates(prev => prev.includes(abbr) ? prev.filter(s => s !== abbr) : [...prev, abbr])
   }
 
   async function handleRegister(e: React.FormEvent) {
@@ -59,7 +64,7 @@ export default function InvitePage({ params }: { params: { token: string } }) {
           phone: form.phone,
           password: form.password,
           services,
-          serviceZipCodes: form.serviceZipCodes.split(',').map(z => z.trim()).filter(Boolean),
+          serviceStates: selectedStates,
           inviteToken: params.token,
         }),
       })
@@ -193,16 +198,23 @@ export default function InvitePage({ params }: { params: { token: string } }) {
             </div>
 
             <div>
-              <Label className="text-sm font-medium mb-1.5 block" style={{ color: 'oklch(0.72 0.01 252)' }}>
-                Service ZIP Codes <span style={{ color: 'oklch(0.45 0.015 252)' }}>(comma-separated)</span>
+              <Label className="text-sm font-medium mb-2 block" style={{ color: 'oklch(0.72 0.01 252)' }}>
+                Service States <span style={{ color: 'oklch(0.45 0.015 252)' }}>({selectedStates.length} selected)</span>
               </Label>
-              <Input
-                value={form.serviceZipCodes}
-                onChange={e => setForm(p => ({ ...p, serviceZipCodes: e.target.value }))}
-                placeholder="30301, 30302, 30303"
-                className="h-10"
-                style={{ background: 'oklch(0.20 0.022 252)', border: '1px solid oklch(0.27 0.025 252)', color: 'white' }}
-              />
+              <div className="grid grid-cols-4 gap-1.5 max-h-48 overflow-y-auto pr-1">
+                {US_STATES.map(({ abbr, name }) => (
+                  <button key={abbr} type="button" onClick={() => toggleState(abbr)}
+                    title={name}
+                    className="px-2 py-1.5 rounded-lg text-xs font-medium transition-colors duration-150"
+                    style={{
+                      background: selectedStates.includes(abbr) ? 'oklch(0.20 0.06 183)' : 'oklch(0.20 0.022 252)',
+                      border: `1px solid ${selectedStates.includes(abbr) ? 'oklch(0.40 0.10 183)' : 'oklch(0.27 0.025 252)'}`,
+                      color: selectedStates.includes(abbr) ? 'oklch(0.72 0.12 183)' : 'oklch(0.65 0.02 252)',
+                    }}>
+                    {abbr}
+                  </button>
+                ))}
+              </div>
             </div>
 
             <button

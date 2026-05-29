@@ -8,7 +8,7 @@ interface Contractor {
   userId: string
   companyName: string
   services: ProjectType[]
-  serviceZipCodes: string[]
+  serviceStates: string[]
   rating: { avg: number; count: number } | null
 }
 
@@ -114,7 +114,7 @@ export default function ContractorDirectoryPage() {
                 ))}
               </div>
               <p className="text-xs" style={{ color: 'oklch(0.45 0.015 252)' }}>
-                Serves: {c.serviceZipCodes.slice(0, 5).join(', ')}{c.serviceZipCodes.length > 5 ? ` +${c.serviceZipCodes.length - 5} more` : ''}
+                Serves: {c.serviceStates.length > 0 ? c.serviceStates.join(', ') : 'No states listed'}
               </p>
             </div>
           ))}

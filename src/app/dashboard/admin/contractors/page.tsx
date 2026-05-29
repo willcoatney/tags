@@ -39,7 +39,7 @@ export default async function AdminContractorsPage() {
                     <p className="text-slate-400 text-sm">
                       Services: {contractor.services?.map((s: string) => PROJECT_TYPE_LABELS[s as keyof typeof PROJECT_TYPE_LABELS]).join(', ')}
                     </p>
-                    <p className="text-slate-400 text-sm">ZIPs: {contractor.service_zip_codes?.join(', ')}</p>
+                    <p className="text-slate-400 text-sm">States: {contractor.service_states?.join(', ') || '—'}</p>
                     <p className="text-slate-500 text-xs">Applied {new Date(contractor.created_at).toLocaleDateString()}</p>
                   </div>
                   {contractor.approval_status === 'pending' && (

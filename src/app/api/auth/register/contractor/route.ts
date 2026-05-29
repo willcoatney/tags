@@ -3,7 +3,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { sendSMS } from '@/lib/sms'
 
 export async function POST(req: NextRequest) {
-  const { companyName, fullName, email, phone, password, services, serviceZipCodes, inviteToken } = await req.json()
+  const { companyName, fullName, email, phone, password, services, serviceStates, inviteToken } = await req.json()
   const admin = createAdminClient()
 
   // Validate invite token if provided
@@ -50,7 +50,7 @@ export async function POST(req: NextRequest) {
     organization_id: org.id,
     company_name: companyName,
     services,
-    service_zip_codes: serviceZipCodes,
+    service_states: serviceStates,
     approval_status: autoApprove ? 'approved' : 'pending',
   })
 

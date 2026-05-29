@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
   const serviceType = req.nextUrl.searchParams.get('service')
 
   let query = admin.from('contractor_profiles')
-    .select('id, company_name, services, service_zip_codes, user_id, user_profiles(full_name, email)')
+    .select('id, company_name, services, service_states, user_id, user_profiles(full_name, email)')
     .eq('approval_status', 'approved')
 
   if (serviceType) {
@@ -44,13 +44,13 @@ export async function GET(req: NextRequest) {
     user_id: string
     company_name: string
     services: string[]
-    service_zip_codes: string[]
+    service_states: string[]
   }) => ({
     id: c.id,
     userId: c.user_id,
     companyName: c.company_name,
     services: c.services,
-    serviceZipCodes: c.service_zip_codes,
+    serviceStates: c.service_states,
     rating: ratingMap[c.user_id] || null,
   })).sort((a: { rating: { avg: number } | null }, b: { rating: { avg: number } | null }) =>
     (b.rating?.avg ?? 0) - (a.rating?.avg ?? 0)

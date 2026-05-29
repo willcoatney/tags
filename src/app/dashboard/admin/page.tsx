@@ -83,7 +83,7 @@ export default async function AdminDashboard() {
                       <p className="text-sm mt-0.5" style={{ color: 'oklch(0.55 0.02 252)' }}>
                         {up?.full_name} · {up?.email} ·{' '}
                         {contractor.services?.map((s: string) => PROJECT_TYPE_LABELS[s as keyof typeof PROJECT_TYPE_LABELS]).join(', ')} ·{' '}
-                        ZIPs: {contractor.service_zip_codes?.join(', ')}
+                        States: {contractor.service_states?.join(', ') || '—'}
                       </p>
                     </div>
                     <AdminContractorActions contractorId={contractor.id} />
