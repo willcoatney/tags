@@ -24,6 +24,8 @@ export default function ProjectMessages({ projectId, currentUserId, currentUserR
   const [sending, setSending] = useState(false)
   const [loading, setLoading] = useState(true)
   const bottomRef = useRef<HTMLDivElement>(null)
+  const messageListRef = useRef<HTMLDivElement>(null)
+  const initialScrollDone = useRef(false)
 
   async function fetchMessages() {
     const res = await fetch(`/api/projects/${projectId}/messages`)
@@ -41,8 +43,23 @@ export default function ProjectMessages({ projectId, currentUserId, currentUserR
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId])
 
+  // Scroll to bottom only on first load, or if the user is already near the bottom
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
+    if (messages.length === 0) return
+
+    if (!initialScrollDone.current) {
+      bottomRef.current?.scrollIntoView({ behavior: 'instant' as ScrollBehavior, block: 'nearest' })
+      initialScrollDone.current = true
+      return
+    }
+
+    // On poll updates: only scroll if user is already near the bottom of the chat
+    const list = messageListRef.current
+    if (!list) return
+    const nearBottom = list.scrollHeight - list.scrollTop - list.clientHeight < 100
+    if (nearBottom) {
+      bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
+    }
   }, [messages])
 
   async function handleSend(e: React.FormEvent) {
@@ -57,6 +74,8 @@ export default function ProjectMessages({ projectId, currentUserId, currentUserR
     if (res.ok) {
       setText('')
       await fetchMessages()
+      // Always scroll after user sends a message
+      setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50)
     } else {
       toast.error('Failed to send message')
     }
@@ -68,7 +87,7 @@ export default function ProjectMessages({ projectId, currentUserId, currentUserR
   return (
     <div className="flex flex-col" style={{ maxHeight: '400px' }}>
       {/* Message list */}
-      <div className="flex-1 overflow-y-auto space-y-3 p-4 min-h-[120px]"
+      <div ref={messageListRef} className="flex-1 overflow-y-auto space-y-3 p-4 min-h-[120px]"
         style={{ background: 'oklch(0.14 0.022 252)' }}>
         {loading ? (
           <p className="text-center text-xs" style={{ color: 'oklch(0.45 0.015 252)' }}>Loading…</p>
