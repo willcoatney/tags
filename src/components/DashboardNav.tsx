@@ -63,10 +63,7 @@ export default function DashboardNav({ role, name }: Props) {
       {/* Logo + links */}
       <div className="flex items-center gap-6">
         <Link href="/" className="flex items-center gap-2 mr-2 shrink-0">
-          <div className="w-7 h-7 rounded-md tags-gradient flex items-center justify-center">
-            <span className="text-white font-bold text-xs">T</span>
-          </div>
-          <span className="text-white font-semibold text-sm tracking-tight hidden sm:block">TAGS</span>
+          <img src="/tags-logo.jpg" alt="TAGS" className="h-8 w-auto rounded-md shrink-0" />
         </Link>
 
         <div className="flex items-center gap-1">

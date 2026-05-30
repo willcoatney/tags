@@ -111,10 +111,7 @@ export default function InvitePage({ params }: { params: { token: string } }) {
         {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-6">
-            <div className="w-8 h-8 rounded-lg tags-gradient flex items-center justify-center">
-              <span className="text-white font-bold text-sm">T</span>
-            </div>
-            <span className="text-white font-semibold text-lg">TAGS</span>
+            <img src="/tags-logo.jpg" alt="TAGS" className="h-12 w-auto rounded-md" />
           </div>
           <div className="rounded-2xl p-6 mb-6" style={{ background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.30 0.08 183)' }}>
             <div className="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-3" style={{ background: 'oklch(0.20 0.08 183)' }}>

@@ -8,9 +8,7 @@ export default function ForContractorsPage() {
       <nav className="sticky top-0 z-50 flex items-center justify-between px-6 md:px-12 h-16"
         style={{ background: 'oklch(0.13 0.022 252 / 0.85)', backdropFilter: 'blur(12px)', borderBottom: '1px solid oklch(0.20 0.022 252)' }}>
         <Link href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style={{ background: 'oklch(0.57 0.135 183)' }}>
-            <span className="text-white font-bold text-sm">T</span>
-          </div>
+          <img src="/tags-logo.jpg" alt="TAGS" className="h-9 w-auto rounded-md shrink-0" />
           <span className="text-white font-semibold text-lg tracking-tight">TAGS</span>
         </Link>
         <div className="flex items-center gap-3">
@@ -264,9 +262,7 @@ export default function ForContractorsPage() {
       <footer className="px-6 md:px-12 py-8" style={{ borderTop: '1px solid oklch(0.20 0.022 252)' }}>
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-md flex items-center justify-center" style={{ background: 'oklch(0.57 0.135 183)' }}>
-              <span className="text-white font-bold text-xs">T</span>
-            </div>
+            <img src="/tags-logo.jpg" alt="TAGS" className="h-7 w-auto rounded-sm" />
             <span className="text-sm font-semibold" style={{ color: 'oklch(0.65 0.02 252)' }}>TAGS</span>
             <span className="text-sm" style={{ color: 'oklch(0.38 0.015 252)' }}>— The Apartment Guys System</span>
           </div>
