@@ -3,6 +3,7 @@
 interface Props {
   text: string
   streaming?: boolean
+  hideCost?: boolean
 }
 
 const SECTION_META: Record<string, { icon: string; accent: string; bg: string }> = {
@@ -133,7 +134,7 @@ function renderContent(content: string, sectionTitle: string) {
   )
 }
 
-export default function SOWViewer({ text, streaming = false }: Props) {
+export default function SOWViewer({ text, streaming = false, hideCost = false }: Props) {
   if (!text) return null
 
   // Extract date prepared
@@ -182,7 +183,7 @@ export default function SOWViewer({ text, streaming = false }: Props) {
       </div>
 
       {/* Sections */}
-      {sections.map(({ title, content }) => {
+      {sections.filter(({ title }) => !(hideCost && title === 'Total Cost Summary')).map(({ title, content }) => {
         const meta = SECTION_META[title] || { icon: '📄', accent: 'oklch(0.65 0.02 252)', bg: 'oklch(0.18 0.022 252)' }
         const isCost = title === 'Total Cost Summary'
         return (
