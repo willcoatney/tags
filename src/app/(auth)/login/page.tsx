@@ -36,7 +36,7 @@ export default function LoginPage() {
         style={{ background: 'oklch(0.15 0.025 252)', borderRight: '1px solid oklch(0.27 0.025 252)' }}>
         <div>
           <div className="flex items-center gap-2 mb-12">
-            <img src="/tags-logo.jpg" alt="TAGS" className="h-10 w-auto rounded-md shrink-0" />
+            <img src="/tags-logo.jpg" alt="TAGS" className="h-10 max-w-[150px] object-contain rounded-md shrink-0" />
           </div>
           <h1 className="text-4xl font-bold text-white leading-tight mb-4">
             Property repair,<br />
@@ -65,7 +65,7 @@ export default function LoginPage() {
         <div className="w-full max-w-sm animate-fade-in">
           {/* Mobile logo */}
           <div className="flex items-center gap-2 mb-8 lg:hidden">
-            <img src="/tags-logo.jpg" alt="TAGS" className="h-10 w-auto rounded-md shrink-0" />
+            <img src="/tags-logo.jpg" alt="TAGS" className="h-10 max-w-[150px] object-contain rounded-md shrink-0" />
           </div>
 
           <div className="mb-8">

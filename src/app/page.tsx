@@ -27,8 +27,7 @@ function LandingPage() {
       <nav className="sticky top-0 z-50 flex items-center justify-between px-6 md:px-12 h-16"
         style={{ background: 'oklch(0.13 0.022 252 / 0.85)', backdropFilter: 'blur(12px)', borderBottom: '1px solid oklch(0.20 0.022 252)' }}>
         <div className="flex items-center gap-2">
-          <img src="/tags-logo.jpg" alt="TAGS" className="h-9 w-auto rounded-md shrink-0" />
-          <span className="text-white font-semibold text-lg tracking-tight">TAGS</span>
+          <img src="/tags-logo.jpg" alt="TAGS" className="h-10 max-w-[130px] object-contain rounded-md shrink-0" />
         </div>
         <div className="flex items-center gap-3">
           <Link href="/login"
@@ -648,8 +647,7 @@ function LandingPage() {
       <footer className="px-6 md:px-12 py-8" style={{ borderTop: '1px solid oklch(0.20 0.022 252)' }}>
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <img src="/tags-logo.jpg" alt="TAGS" className="h-7 w-auto rounded-sm" />
-            <span className="text-sm font-semibold" style={{ color: 'oklch(0.65 0.02 252)' }}>TAGS</span>
+            <img src="/tags-logo.jpg" alt="TAGS" className="h-7 max-w-[90px] object-contain rounded-sm" />
             <span className="text-sm" style={{ color: 'oklch(0.38 0.015 252)' }}>— The Apartment Guys System</span>
           </div>
           <div className="flex items-center gap-6">

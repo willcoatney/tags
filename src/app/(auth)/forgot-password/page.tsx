@@ -33,7 +33,7 @@ export default function ForgotPasswordPage() {
     <div className="min-h-screen flex items-center justify-center p-6" style={{ background: 'oklch(0.13 0.022 252)' }}>
       <div className="w-full max-w-sm animate-fade-in">
         <div className="flex items-center gap-2 mb-8">
-          <img src="/tags-logo.jpg" alt="TAGS" className="h-10 w-auto rounded-md shrink-0" />
+          <img src="/tags-logo.jpg" alt="TAGS" className="h-10 max-w-[150px] object-contain rounded-md shrink-0" />
         </div>
 
         {sent ? (
