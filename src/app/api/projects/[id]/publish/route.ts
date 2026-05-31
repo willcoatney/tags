@@ -32,9 +32,9 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   await admin.from('projects').update({ status: 'open', updated_at: new Date().toISOString() }).eq('id', params.id)
 
   // Find matching contractors: approved + matching service type
-  // Include contractors with no state restriction (empty service_states) OR matching state
+  // Use explicit FK hint to avoid ambiguity (contractor_profiles has two FKs to user_profiles)
   const { data: allContractors } = await admin.from('contractor_profiles')
-    .select('*, user_profiles(*)')
+    .select('*, user_profiles!contractor_profiles_user_id_fkey(*)')
     .eq('approval_status', 'approved')
     .contains('services', [project.project_type])
 
@@ -49,9 +49,16 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   const msg = `New ${project.project_type} project posted in ${project.properties.city}, ${project.properties.state}. View & bid: ${projectUrl}`
 
   for (const contractor of (contractors || [])) {
-    const up = contractor.user_profiles
-    if (up?.phone) await sendSMS(up.phone, msg)
-    if (up?.email) await sendEmail(up.email, `New project: ${project.title}`, `<p>${msg}</p>`)
+    const up = Array.isArray(contractor.user_profiles)
+      ? contractor.user_profiles[0]
+      : contractor.user_profiles
+    if (!up) continue
+    if (up.phone) {
+      try { await sendSMS(up.phone, msg) } catch (e) { console.error('[publish] SMS error for', up.phone, e) }
+    }
+    if (up.email) {
+      try { await sendEmail(up.email, `New project: ${project.title}`, `<p>${msg}</p>`) } catch (e) { console.error('[publish] Email error for', up.email, e) }
+    }
   }
 
   return NextResponse.json({ success: true })
