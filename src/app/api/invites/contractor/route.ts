@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
     token = invite.token
   }
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.tagyourproject.com'
   const inviteUrl = `${baseUrl}/invite/${token}`
   const orgName = (profile.organizations as { name?: string } | null)?.name || 'your property management company'
   const inviterName = profile.full_name || 'A property manager'
