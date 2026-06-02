@@ -108,7 +108,7 @@ export default function InviteContractorModal() {
                     <Input
                       value={form.name}
                       onChange={e => setForm(p => ({ ...p, name: e.target.value }))}
-                      placeholder="Rodriguez Drywall"
+                      placeholder="Enter contractor or company name"
                       className="h-10"
                       style={{ background: 'oklch(0.20 0.022 252)', border: '1px solid oklch(0.27 0.025 252)', color: 'white' }}
                     />
@@ -119,7 +119,7 @@ export default function InviteContractorModal() {
                       type="email"
                       value={form.email}
                       onChange={e => setForm(p => ({ ...p, email: e.target.value }))}
-                      placeholder="contractor@example.com"
+                      placeholder="Enter contractor's email address"
                       required
                       className="h-10"
                       style={{ background: 'oklch(0.20 0.022 252)', border: '1px solid oklch(0.27 0.025 252)', color: 'white' }}
@@ -133,7 +133,7 @@ export default function InviteContractorModal() {
                       type="tel"
                       value={form.phone}
                       onChange={e => setForm(p => ({ ...p, phone: e.target.value }))}
-                      placeholder="(555) 867-5309"
+                      placeholder="Enter contractor's mobile number"
                       className="h-10"
                       style={{ background: 'oklch(0.20 0.022 252)', border: '1px solid oklch(0.27 0.025 252)', color: 'white' }}
                     />
