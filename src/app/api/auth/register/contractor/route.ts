@@ -54,7 +54,27 @@ export async function POST(req: NextRequest) {
     approval_status: autoApprove ? 'approved' : 'pending',
   })
 
-  if (phone) await sendSMS(phone, `Thanks for applying to TAGS! Your application is under review. We'll text you within 24 hours once approved.`)
+  if (autoApprove) {
+    // Notify contractor of all currently open projects matching their services
+    if (phone) {
+      const { data: openProjects } = await admin.from('projects')
+        .select('id, title, project_type, properties(city, state)')
+        .eq('status', 'open')
+
+      const baseUrl = process.env.NEXT_PUBLIC_BASE_URL || 'https://www.tagyourproject.com'
+      const matching = (openProjects || []).filter((p: { project_type: string }) => services.includes(p.project_type))
+      for (const project of matching) {
+        const prop = Array.isArray(project.properties) ? project.properties[0] : project.properties
+        const loc = prop ? `${prop.city}, ${prop.state}` : 'your area'
+        await sendSMS(phone, `Welcome to TAGS! New project available: "${project.title}" in ${loc}. View & bid: ${baseUrl}/dashboard/contractor/projects/${project.id}`)
+      }
+      if (matching.length === 0) {
+        await sendSMS(phone, `Welcome to TAGS! Your account is approved. Log in to start bidding on projects: ${baseUrl}/dashboard/contractor`)
+      }
+    }
+  } else {
+    if (phone) await sendSMS(phone, `Thanks for applying to TAGS! Your application is under review. We'll text you within 24 hours once approved.`)
+  }
 
   if (inviteId) {
     // Mark invite as used

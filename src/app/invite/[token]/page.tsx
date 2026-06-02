@@ -13,6 +13,7 @@ const ALL_TYPES = Object.entries(PROJECT_TYPE_LABELS) as [ProjectType, string][]
 interface InviteData {
   email: string
   name: string | null
+  phone: string | null
   inviterName: string | null
   orgName: string | null
   token: string
@@ -36,7 +37,7 @@ export default function InvitePage({ params }: { params: { token: string } }) {
       .then(data => {
         if (data.error) { setInvalid(true); return }
         setInvite(data)
-        setForm(prev => ({ ...prev, fullName: data.name || '' }))
+        setForm(prev => ({ ...prev, fullName: data.name || '', phone: data.phone || '' }))
       })
   }, [params.token])
 

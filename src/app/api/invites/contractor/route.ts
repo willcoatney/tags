@@ -34,6 +34,13 @@ export async function POST(req: NextRequest) {
   let token: string
 
   if (existing) {
+    // Update phone on existing invite if provided
+    if (phone) {
+      await admin.from('contractor_invites')
+        .update({ phone })
+        .eq('inviting_org_id', profile.organization_id)
+        .eq('email', email.toLowerCase())
+    }
     token = existing.token
   } else {
     const { data: invite, error } = await admin.from('contractor_invites').insert({
@@ -41,6 +48,7 @@ export async function POST(req: NextRequest) {
       inviting_org_id: profile.organization_id,
       email: email.toLowerCase(),
       name: name || null,
+      phone: phone || null,
     }).select('token').single()
 
     if (error) return NextResponse.json({ error: error.message }, { status: 500 })

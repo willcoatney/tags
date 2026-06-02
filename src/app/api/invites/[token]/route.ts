@@ -17,6 +17,7 @@ export async function GET(req: NextRequest, { params }: { params: { token: strin
   return NextResponse.json({
     email: invite.email,
     name: invite.name,
+    phone: invite.phone || null,
     inviterName: (invite.user_profiles as { full_name?: string } | null)?.full_name,
     orgName: (invite.organizations as { name?: string } | null)?.name,
     token: invite.token,
