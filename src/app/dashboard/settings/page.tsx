@@ -71,7 +71,7 @@ export default function SettingsPage() {
                 value={form.full_name}
                 onChange={e => setForm(p => ({ ...p, full_name: e.target.value }))}
                 className="bg-slate-800 border-slate-600 text-white mt-1"
-                placeholder="Your name"
+                placeholder="Enter your full name"
               />
             </div>
             <div>
@@ -92,7 +92,7 @@ export default function SettingsPage() {
                 value={form.phone}
                 onChange={e => setForm(p => ({ ...p, phone: e.target.value }))}
                 className="bg-slate-800 border-slate-600 text-white mt-1"
-                placeholder="+1 (816) 555-0100"
+                placeholder="Enter your mobile number"
               />
               <p className="text-xs mt-1" style={{ color: 'oklch(0.45 0.015 252)' }}>
                 {role === 'contractor'

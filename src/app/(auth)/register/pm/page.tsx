@@ -77,7 +77,7 @@ export default function RegisterPMPage() {
               <Input
                 type="number"
                 min="1"
-                placeholder="e.g. 200"
+                placeholder="Enter number of units you manage"
                 value={unitCount}
                 onChange={e => setUnitCount(e.target.value)}
                 required

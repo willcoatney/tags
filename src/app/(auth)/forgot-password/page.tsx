@@ -61,7 +61,7 @@ export default function ForgotPasswordPage() {
                   type="email"
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  placeholder="you@company.com"
+                  placeholder="Enter your email address"
                   required
                   className="h-11 input-focus"
                   style={{ background: 'oklch(0.20 0.022 252)', border: '1px solid oklch(0.27 0.025 252)', color: 'white' }}

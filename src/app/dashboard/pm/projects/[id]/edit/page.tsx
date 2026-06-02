@@ -197,7 +197,7 @@ export default function EditProjectPage({ params }: { params: { id: string } }) 
               onChange={e => { setDescription(e.target.value); setDescriptionChanged(e.target.value !== project.description) }}
               rows={5}
               className="bg-slate-800 border-slate-600 text-white mt-1"
-              placeholder="Describe the problem in plain language…" />
+              placeholder="Describe what you see, what's broken, and what needs fixing" />
             {descriptionChanged && (
               <p className="text-xs mt-1.5" style={{ color: 'oklch(0.72 0.12 75)' }}>
                 ⚠️ Description changed — consider regenerating the SOW to reflect your updates.

@@ -261,11 +261,11 @@ export default function NewProjectPage() {
               {addingProperty && (
                 <div className="space-y-3 pt-2">
                   {[
-                    { key: 'name', label: 'Property Name', placeholder: 'Oakwood Apartments' },
-                    { key: 'address', label: 'Street Address', placeholder: '123 Main St' },
-                    { key: 'city', label: 'City', placeholder: 'Atlanta' },
-                    { key: 'state', label: 'State', placeholder: 'GA' },
-                    { key: 'zip', label: 'ZIP Code', placeholder: '30301' },
+                    { key: 'name', label: 'Property Name', placeholder: 'Enter property name' },
+                    { key: 'address', label: 'Street Address', placeholder: 'Enter street address' },
+                    { key: 'city', label: 'City', placeholder: 'Enter city' },
+                    { key: 'state', label: 'State', placeholder: 'Enter state (e.g. MO)' },
+                    { key: 'zip', label: 'ZIP Code', placeholder: 'Enter ZIP code' },
                   ].map(({ key, label, placeholder }) => (
                     <div key={key}>
                       <Label className="text-slate-300">{label}</Label>
@@ -299,12 +299,12 @@ export default function NewProjectPage() {
               <div>
                 <Label className="text-slate-300">Project Title</Label>
                 <Input value={projectForm.title} onChange={e => setProjectForm(p => ({ ...p, title: e.target.value }))}
-                  placeholder="Bathroom Plumbing Repair" required className="bg-slate-800 border-slate-600 text-white" />
+                  placeholder="Enter a short title for this project" required className="bg-slate-800 border-slate-600 text-white" />
               </div>
               <div>
                 <Label className="text-slate-300">Unit # <span className="text-slate-500">optional</span></Label>
                 <Input value={projectForm.unitNumber} onChange={e => setProjectForm(p => ({ ...p, unitNumber: e.target.value }))}
-                  placeholder="e.g. 4B, 12, Building C" className="bg-slate-800 border-slate-600 text-white" />
+                  placeholder="Enter unit or building number (e.g. 4B, 12, Building C)" className="bg-slate-800 border-slate-600 text-white" />
               </div>
               <div>
                 <Label className="text-slate-300">Project Type</Label>
@@ -322,18 +322,18 @@ export default function NewProjectPage() {
               <div>
                 <Label className="text-slate-300">Describe the issue in plain language. What do you see? What&apos;s broken? What needs fixing?</Label>
                 <Textarea value={projectForm.description} onChange={e => setProjectForm(p => ({ ...p, description: e.target.value }))}
-                  rows={4} required className="bg-slate-800 border-slate-600 text-white" />
+                  rows={4} required placeholder="e.g. The toilet in unit 4B is leaking at the base and water is pooling on the floor. Needs to be repaired or replaced." className="bg-slate-800 border-slate-600 text-white" />
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>
                   <Label className="text-slate-300">Budget Min ($) <span className="text-slate-500">optional</span></Label>
                   <Input type="number" value={projectForm.budgetMin} onChange={e => setProjectForm(p => ({ ...p, budgetMin: e.target.value }))}
-                    className="bg-slate-800 border-slate-600 text-white" />
+                    placeholder="Enter minimum budget" className="bg-slate-800 border-slate-600 text-white" />
                 </div>
                 <div>
                   <Label className="text-slate-300">Budget Max ($) <span className="text-slate-500">optional</span></Label>
                   <Input type="number" value={projectForm.budgetMax} onChange={e => setProjectForm(p => ({ ...p, budgetMax: e.target.value }))}
-                    className="bg-slate-800 border-slate-600 text-white" />
+                    placeholder="Enter maximum budget" className="bg-slate-800 border-slate-600 text-white" />
                 </div>
               </div>
               <div>
