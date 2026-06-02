@@ -7,10 +7,11 @@ import { toast } from 'sonner'
 
 export default function InviteContractorModal() {
   const [open, setOpen] = useState(false)
-  const [form, setForm] = useState({ name: '', email: '' })
+  const [form, setForm] = useState({ name: '', email: '', phone: '' })
   const [loading, setLoading] = useState(false)
   const [sent, setSent] = useState(false)
   const [inviteUrl, setInviteUrl] = useState('')
+  const [notified, setNotified] = useState({ email: false, sms: false })
 
   async function handleInvite(e: React.FormEvent) {
     e.preventDefault()
@@ -18,12 +19,13 @@ export default function InviteContractorModal() {
     const res = await fetch('/api/invites/contractor', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(form),
+      body: JSON.stringify({ name: form.name, email: form.email, phone: form.phone || undefined }),
     })
     const data = await res.json()
     if (res.ok) {
       setSent(true)
       setInviteUrl(data.inviteUrl)
+      setNotified({ email: data.emailSent, sms: data.smsSent })
     } else {
       toast.error(data.error || 'Failed to send invite')
       setLoading(false)
@@ -32,7 +34,7 @@ export default function InviteContractorModal() {
 
   function handleClose() {
     setOpen(false)
-    setTimeout(() => { setSent(false); setForm({ name: '', email: '' }); setLoading(false) }, 300)
+    setTimeout(() => { setSent(false); setForm({ name: '', email: '', phone: '' }); setLoading(false); setNotified({ email: false, sms: false }) }, 300)
   }
 
   return (
@@ -58,9 +60,13 @@ export default function InviteContractorModal() {
                   <span className="text-2xl">✓</span>
                 </div>
                 <h3 className="text-lg font-bold text-white mb-2">Invite Sent!</h3>
-                <p className="text-sm mb-4" style={{ color: 'oklch(0.60 0.025 252)' }}>
-                  An email was sent to <strong className="text-white">{form.email}</strong>. They&apos;ll be auto-approved when they sign up.
+                <p className="text-sm mb-2" style={{ color: 'oklch(0.60 0.025 252)' }}>
+                  Invite created for <strong className="text-white">{form.name || form.email}</strong>. They&apos;ll be auto-approved when they sign up.
                 </p>
+                <div className="flex justify-center gap-3 mb-4 text-xs" style={{ color: 'oklch(0.55 0.02 252)' }}>
+                  <span>{notified.email ? '📧 Email sent' : '📧 Email not configured'}</span>
+                  {form.phone && <span>{notified.sms ? '📱 Text sent' : '📱 Text failed'}</span>}
+                </div>
                 {inviteUrl && (
                   <div className="mb-4">
                     <p className="text-xs mb-2" style={{ color: 'oklch(0.50 0.02 252)' }}>Or share this link directly:</p>
@@ -115,6 +121,19 @@ export default function InviteContractorModal() {
                       onChange={e => setForm(p => ({ ...p, email: e.target.value }))}
                       placeholder="contractor@example.com"
                       required
+                      className="h-10"
+                      style={{ background: 'oklch(0.20 0.022 252)', border: '1px solid oklch(0.27 0.025 252)', color: 'white' }}
+                    />
+                  </div>
+                  <div>
+                    <Label className="text-sm font-medium mb-1.5 block" style={{ color: 'oklch(0.72 0.01 252)' }}>
+                      Mobile Number <span style={{ color: 'oklch(0.45 0.015 252)' }}>optional — for text invite</span>
+                    </Label>
+                    <Input
+                      type="tel"
+                      value={form.phone}
+                      onChange={e => setForm(p => ({ ...p, phone: e.target.value }))}
+                      placeholder="(555) 867-5309"
                       className="h-10"
                       style={{ background: 'oklch(0.20 0.022 252)', border: '1px solid oklch(0.27 0.025 252)', color: 'white' }}
                     />

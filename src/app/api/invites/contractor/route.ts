@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendEmail } from '@/lib/email'
+import { sendSMS } from '@/lib/sms'
 
 export async function POST(req: NextRequest) {
   const supabase = await createClient()
@@ -19,7 +20,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 })
   }
 
-  const { email, name } = await req.json()
+  const { email, name, phone } = await req.json()
   if (!email) return NextResponse.json({ error: 'Email required' }, { status: 400 })
 
   // Check for existing unused invite to this email for this org
@@ -51,29 +52,52 @@ export async function POST(req: NextRequest) {
   const orgName = (profile.organizations as { name?: string } | null)?.name || 'your property management company'
   const inviterName = profile.full_name || 'A property manager'
 
-  await sendEmail(
-    email,
-    `${inviterName} invited you to join TAGS`,
-    `
-      <div style="font-family: sans-serif; max-width: 520px; margin: 0 auto;">
-        <h2 style="color: #0f172a;">${inviterName} invited you to TAGS</h2>
-        <p style="color: #475569;">
-          ${inviterName} from <strong>${orgName}</strong> has invited you to join TAGS —
-          a platform where property managers post repair projects and contractors submit bids.
-        </p>
-        <p style="color: #475569;">
-          As an invited contractor, your account will be <strong>approved automatically</strong> — no waiting period.
-        </p>
-        <p>
-          <a href="${inviteUrl}"
-            style="display: inline-block; background: #0d9488; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">
-            Accept Invite & Create Account →
-          </a>
-        </p>
-        <p style="color: #94a3b8; font-size: 13px;">This invite is for ${email}. If you weren't expecting this, you can ignore it.</p>
-      </div>
-    `
-  )
+  let emailSent = false
+  let smsSent = false
 
-  return NextResponse.json({ success: true, inviteUrl })
+  // Send email invite
+  try {
+    await sendEmail(
+      email,
+      `${inviterName} invited you to join TAGS`,
+      `
+        <div style="font-family: sans-serif; max-width: 520px; margin: 0 auto;">
+          <h2 style="color: #0f172a;">${inviterName} invited you to TAGS</h2>
+          <p style="color: #475569;">
+            ${inviterName} from <strong>${orgName}</strong> has invited you to join TAGS —
+            a platform where property managers post repair projects and contractors submit bids.
+          </p>
+          <p style="color: #475569;">
+            As an invited contractor, your account will be <strong>approved automatically</strong> — no waiting period.
+          </p>
+          <p>
+            <a href="${inviteUrl}"
+              style="display: inline-block; background: #0d9488; color: white; padding: 12px 24px; border-radius: 8px; text-decoration: none; font-weight: 600;">
+              Accept Invite & Create Account →
+            </a>
+          </p>
+          <p style="color: #94a3b8; font-size: 13px;">This invite is for ${email}. If you weren't expecting this, you can ignore it.</p>
+        </div>
+      `
+    )
+    emailSent = !!process.env.RESEND_API_KEY && process.env.RESEND_API_KEY !== 'placeholder'
+  } catch (e) {
+    console.error('Email invite failed:', e)
+  }
+
+  // Send SMS invite if phone provided
+  if (phone) {
+    try {
+      const firstName = name ? name.split(' ')[0] : 'there'
+      await sendSMS(
+        phone,
+        `Hey ${firstName}, ${inviterName} from ${orgName} invited you to TAGS — a platform for property repair bids. Your account will be auto-approved. Sign up here: ${inviteUrl}`
+      )
+      smsSent = true
+    } catch (e) {
+      console.error('SMS invite failed:', e)
+    }
+  }
+
+  return NextResponse.json({ success: true, inviteUrl, emailSent, smsSent })
 }
