@@ -127,19 +127,7 @@ export default async function PMProjectPage({ params }: { params: { id: string }
         </Card>
       )}
 
-      {/* Message thread — visible once project is open or beyond */}
-      {['open', 'awarded', 'completed'].includes(project.status) && (
-        <Card className="bg-slate-900 border-slate-700">
-          <CardHeader><CardTitle className="text-white text-base">💬 Messages</CardTitle></CardHeader>
-          <CardContent className="p-0">
-            <ProjectMessages
-              projectId={project.id}
-              currentUserId={user.id}
-              currentUserRole="pm"
-            />
-          </CardContent>
-        </Card>
-      )}
+      {/* Messages moved to bids page */}
     </div>
   )
 }
