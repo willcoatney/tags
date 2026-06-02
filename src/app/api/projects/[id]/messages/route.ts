@@ -14,7 +14,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   const admin = createAdminClient()
   const { data: messages } = await admin
     .from('project_messages')
-    .select('*, user_profiles(full_name, role)')
+    .select('*, user_profiles!project_messages_sender_id_fkey(full_name, role)')
     .eq('project_id', params.id)
     .eq('contractor_user_id', contractorUserId)
     .order('created_at', { ascending: true })
