@@ -14,7 +14,7 @@ export async function GET(req: NextRequest) {
   const serviceType = req.nextUrl.searchParams.get('service')
 
   let query = admin.from('contractor_profiles')
-    .select('id, company_name, services, service_states, user_id, user_profiles(full_name, email)')
+    .select('id, company_name, services, service_states, user_id, user_profiles!contractor_profiles_user_id_fkey(full_name, email)')
     .eq('approval_status', 'approved')
 
   if (serviceType) {
