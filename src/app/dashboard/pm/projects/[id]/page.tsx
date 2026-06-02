@@ -6,7 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import StatusBadge from '@/components/StatusBadge'
 import PublishProjectButton from '@/components/PublishProjectButton'
 import SOWViewer from '@/components/SOWViewer'
-import ProjectMessages from '@/components/ProjectMessages'
 import CompleteProjectButton from '@/components/CompleteProjectButton'
 import { PROJECT_TYPE_LABELS } from '@/lib/types'
 

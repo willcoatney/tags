@@ -16,9 +16,10 @@ interface Props {
   projectId: string
   currentUserId: string
   currentUserRole: string
+  contractorUserId: string // required — every thread is PM ↔ one contractor
 }
 
-export default function ProjectMessages({ projectId, currentUserId, currentUserRole }: Props) {
+export default function ProjectMessages({ projectId, currentUserId, currentUserRole, contractorUserId }: Props) {
   const [messages, setMessages] = useState<Message[]>([])
   const [text, setText] = useState('')
   const [sending, setSending] = useState(false)
@@ -28,7 +29,7 @@ export default function ProjectMessages({ projectId, currentUserId, currentUserR
   const initialScrollDone = useRef(false)
 
   async function fetchMessages() {
-    const res = await fetch(`/api/projects/${projectId}/messages`)
+    const res = await fetch(`/api/projects/${projectId}/messages?contractorUserId=${contractorUserId}`)
     if (res.ok) {
       const data = await res.json()
       setMessages(data)
@@ -37,23 +38,20 @@ export default function ProjectMessages({ projectId, currentUserId, currentUserR
   }
 
   useEffect(() => {
+    initialScrollDone.current = false
     fetchMessages()
-    const interval = setInterval(fetchMessages, 10000) // poll every 10s
+    const interval = setInterval(fetchMessages, 10000)
     return () => clearInterval(interval)
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [projectId])
+  }, [projectId, contractorUserId])
 
-  // Scroll to bottom only on first load, or if the user is already near the bottom
   useEffect(() => {
     if (messages.length === 0) return
-
     if (!initialScrollDone.current) {
       bottomRef.current?.scrollIntoView({ behavior: 'instant' as ScrollBehavior, block: 'nearest' })
       initialScrollDone.current = true
       return
     }
-
-    // On poll updates: only scroll if user is already near the bottom of the chat
     const list = messageListRef.current
     if (!list) return
     const nearBottom = list.scrollHeight - list.scrollTop - list.clientHeight < 100
@@ -69,12 +67,11 @@ export default function ProjectMessages({ projectId, currentUserId, currentUserR
     const res = await fetch(`/api/projects/${projectId}/messages`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: text.trim() }),
+      body: JSON.stringify({ message: text.trim(), contractorUserId }),
     })
     if (res.ok) {
       setText('')
       await fetchMessages()
-      // Always scroll after user sends a message
       setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50)
     } else {
       toast.error('Failed to send message')
@@ -86,14 +83,13 @@ export default function ProjectMessages({ projectId, currentUserId, currentUserR
 
   return (
     <div className="flex flex-col" style={{ maxHeight: '400px' }}>
-      {/* Message list */}
       <div ref={messageListRef} className="flex-1 overflow-y-auto space-y-3 p-4 min-h-[120px]"
         style={{ background: 'oklch(0.14 0.022 252)' }}>
         {loading ? (
           <p className="text-center text-xs" style={{ color: 'oklch(0.45 0.015 252)' }}>Loading…</p>
         ) : messages.length === 0 ? (
           <p className="text-center text-xs py-6" style={{ color: 'oklch(0.45 0.015 252)' }}>
-            No messages yet. Ask a question or clarify scope.
+            No messages yet. {currentUserRole === 'pm' ? 'Ask a question or clarify scope.' : 'Ask a question about the project.'}
           </p>
         ) : (
           messages.map(msg => {
@@ -124,8 +120,7 @@ export default function ProjectMessages({ projectId, currentUserId, currentUserR
                         SMS
                       </span>
                     )}
-                    <p className="text-xs"
-                      style={{ color: 'oklch(0.40 0.015 252)' }}>
+                    <p className="text-xs" style={{ color: 'oklch(0.40 0.015 252)' }}>
                       {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                     </p>
                   </div>
@@ -137,7 +132,6 @@ export default function ProjectMessages({ projectId, currentUserId, currentUserR
         <div ref={bottomRef} />
       </div>
 
-      {/* Input */}
       <form onSubmit={handleSend} className="flex gap-2 p-3 border-t"
         style={{ borderColor: 'oklch(0.22 0.022 252)', background: 'oklch(0.16 0.022 252)' }}>
         <input

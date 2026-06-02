@@ -118,6 +118,7 @@ export default function ContractorProjectPage({ params }: { params: { id: string
               projectId={params.id}
               currentUserId={currentUserId}
               currentUserRole="contractor"
+              contractorUserId={currentUserId}
             />
           </CardContent>
         </Card>

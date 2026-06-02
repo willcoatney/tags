@@ -4,7 +4,6 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import StatusBadge from '@/components/StatusBadge'
 import AwardBidButton from '@/components/AwardBidButton'
-import ProjectMessages from '@/components/ProjectMessages'
 import type { Bid } from '@/lib/types'
 
 const CARD = { background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }
@@ -180,29 +179,20 @@ export default async function BidsPage({ params }: { params: { id: string } }) {
                   </div>
                 )}
 
+                <Link
+                  href={`/dashboard/pm/projects/${params.id}/bids/${bid.id}`}
+                  className="mt-3 w-full flex items-center justify-center h-9 rounded-lg text-xs font-medium transition-colors duration-150"
+                  style={{ color: 'oklch(0.65 0.02 252)', border: '1px solid oklch(0.27 0.025 252)' }}
+                >
+                  View Details & Messages →
+                </Link>
+
                 {bid.status === 'submitted' && project.status === 'open' && (
                   <AwardBidButton bidId={bid.id} />
                 )}
               </div>
             )
           })}
-        </div>
-      )}
-
-      {/* Message thread */}
-      {['open', 'awarded', 'completed'].includes(project.status) && (
-        <div className="rounded-xl overflow-hidden" style={{ background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
-          <div className="px-5 py-3.5" style={{ borderBottom: '1px solid oklch(0.22 0.022 252)' }}>
-            <p className="text-sm font-semibold text-white">💬 Messages</p>
-            <p className="text-xs mt-0.5" style={{ color: 'oklch(0.50 0.02 252)' }}>
-              {project.status === 'open' ? 'Ask questions or clarify scope with contractors.' : 'Coordinate directly with your awarded contractor.'}
-            </p>
-          </div>
-          <ProjectMessages
-            projectId={project.id}
-            currentUserId={user.id}
-            currentUserRole="pm"
-          />
         </div>
       )}
     </div>
