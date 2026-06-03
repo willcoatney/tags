@@ -6,7 +6,7 @@ export type ApprovalStatus = 'pending' | 'approved' | 'rejected'
 export type ProjectType =
   | 'concrete' | 'roofing' | 'plumbing' | 'electrical' | 'hvac'
   | 'drywall' | 'painting' | 'flooring' | 'windows_doors' | 'deck_repair'
-  | 'chimney' | 'landscaping' | 'general_repair' | 'other'
+  | 'chimney' | 'landscaping' | 'general_repair' | 'restoration' | 'other'
 
 export const PROJECT_TYPE_LABELS: Record<ProjectType, string> = {
   concrete: 'Concrete',
@@ -22,6 +22,7 @@ export const PROJECT_TYPE_LABELS: Record<ProjectType, string> = {
   chimney: 'Chimney',
   landscaping: 'Landscaping',
   general_repair: 'General Repair',
+  restoration: 'Restoration',
   other: 'Other',
 }
 
