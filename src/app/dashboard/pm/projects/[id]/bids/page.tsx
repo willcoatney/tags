@@ -188,7 +188,12 @@ export default async function BidsPage({ params }: { params: { id: string } }) {
                 </Link>
 
                 {bid.status === 'submitted' && project.status === 'open' && (
-                  <AwardBidButton bidId={bid.id} />
+                  <div className="mt-5 pt-4" style={{ borderTop: '1px solid oklch(0.25 0.022 252)' }}>
+                    <p className="text-xs mb-2 font-medium" style={{ color: 'oklch(0.50 0.02 252)' }}>
+                      ⚠️ Awarding is permanent — all other bids will be rejected
+                    </p>
+                    <AwardBidButton bidId={bid.id} />
+                  </div>
                 )}
               </div>
             )
