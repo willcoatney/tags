@@ -10,7 +10,7 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   const admin = createAdminClient()
 
   const { data: project } = await admin.from('projects')
-    .select('*, properties(city, state, zip), project_photos(*)')
+    .select('*, properties(name, address, city, state, zip), project_photos(*)')
     .eq('id', params.id)
     .in('status', ['open', 'awarded', 'work_complete'])
     .single()

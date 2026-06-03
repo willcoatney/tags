@@ -22,7 +22,7 @@ interface Project {
   scope_of_work: string | null
   status: string
   created_at: string
-  properties: { city: string; state: string }
+  properties: { name: string; address: string; city: string; state: string; zip: string }
   project_photos: { id: string; public_url: string }[]
 }
 
@@ -78,6 +78,11 @@ export default function ContractorProjectPage({ params }: { params: { id: string
             {PROJECT_TYPE_LABELS[project.project_type as keyof typeof PROJECT_TYPE_LABELS]} •{' '}
             {project.properties?.city}, {project.properties?.state}
           </p>
+          {project.properties?.address && (
+            <p className="text-slate-500 text-sm mt-0.5">
+              📍 {project.properties.address}, {project.properties.city}, {project.properties.state} {project.properties.zip}
+            </p>
+          )}
         </div>
         <div className="flex items-center gap-3">
           <ContractorMarkDoneButton projectId={params.id} status={project.status} />
