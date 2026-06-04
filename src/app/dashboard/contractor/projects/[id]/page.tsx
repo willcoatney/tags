@@ -109,7 +109,7 @@ export default function ContractorProjectPage({ params }: { params: { id: string
       {project.scope_of_work && (
         <Card className="bg-slate-900 border-slate-700">
           <CardContent className="pt-5">
-            <SOWViewer text={project.scope_of_work} hideCost />
+            <SOWViewer text={project.scope_of_work} contractorView />
           </CardContent>
         </Card>
       )}
