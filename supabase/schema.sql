@@ -50,7 +50,8 @@ create table properties (
 create type project_type as enum (
   'concrete', 'roofing', 'plumbing', 'electrical', 'hvac',
   'drywall', 'painting', 'flooring', 'windows_doors', 'deck_repair',
-  'chimney', 'landscaping', 'general_repair', 'restoration', 'asphalt', 'other'
+  'chimney', 'landscaping', 'general_repair', 'restoration', 'asphalt',
+  'gutters', 'other'
 );
 
 -- ============================================================
