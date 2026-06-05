@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendSMS } from '@/lib/sms'
+import { getBaseUrl } from '@/lib/url'
 import { sendEmail } from '@/lib/email'
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
@@ -44,7 +45,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     return states.length === 0 || states.includes(project.properties?.state)
   })
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
+  const baseUrl = getBaseUrl()
   const projectUrl = `${baseUrl}/dashboard/contractor/projects/${params.id}`
   const msg = `New ${project.project_type} project posted in ${project.properties.city}, ${project.properties.state}. View & bid: ${projectUrl}`
 

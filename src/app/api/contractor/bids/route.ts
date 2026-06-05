@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendSMS } from '@/lib/sms'
+import { getBaseUrl } from '@/lib/url'
 import { sendEmail, newBidEmail } from '@/lib/email'
 
 export async function POST(req: NextRequest) {
@@ -58,7 +59,7 @@ export async function POST(req: NextRequest) {
     .eq('organization_id', project.organization_id)
     .eq('role', 'pm')
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
+  const baseUrl = getBaseUrl()
   const bidsUrl = `${baseUrl}/dashboard/pm/projects/${project_id}/bids`
   const msg = `New bid received on "${project.title}" from ${contractorProfile.company_name}. Review: ${bidsUrl}`
 

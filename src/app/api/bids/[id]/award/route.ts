@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendSMS } from '@/lib/sms'
+import { getBaseUrl } from '@/lib/url'
 import { sendEmail, awardedWinnerEmail } from '@/lib/email'
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
@@ -48,7 +49,7 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     .update({ status: 'awarded', updated_at: new Date().toISOString() })
     .eq('id', winningBid.project_id)
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
+  const baseUrl = getBaseUrl()
   const projectUrl = `${baseUrl}/dashboard/contractor/projects/${winningBid.project_id}`
   const { title, properties } = winningBid.projects
 

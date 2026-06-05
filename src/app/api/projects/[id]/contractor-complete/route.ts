@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendSMS } from '@/lib/sms'
+import { getBaseUrl } from '@/lib/url'
 
 export async function POST(_req: NextRequest, { params }: { params: { id: string } }) {
   const supabase = await createClient()
@@ -36,7 +37,7 @@ export async function POST(_req: NextRequest, { params }: { params: { id: string
     .eq('organization_id', project.organization_id)
     .eq('role', 'pm')
 
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
+  const baseUrl = getBaseUrl()
   const projectUrl = `${baseUrl}/dashboard/pm/projects/${params.id}`
   const contractorName = profile.full_name || 'Your contractor'
 

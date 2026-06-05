@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendSMS } from '@/lib/sms'
+import { getBaseUrl } from '@/lib/url'
 
 export async function POST(req: NextRequest) {
   const secret = req.headers.get('x-tags-secret')
@@ -22,7 +23,7 @@ export async function POST(req: NextRequest) {
   if (!projects?.length) return NextResponse.json({ alerted: 0 })
 
   let alerted = 0
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
+  const baseUrl = getBaseUrl()
 
   for (const project of projects) {
     const { count } = await admin.from('bids')
