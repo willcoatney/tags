@@ -9,11 +9,21 @@ import { PROJECT_TYPE_LABELS, US_STATES, type ProjectType } from '@/lib/types'
 
 const ALL_TYPES = Object.entries(PROJECT_TYPE_LABELS) as [ProjectType, string][]
 
+interface Review {
+  rating: number
+  comment: string | null
+  created_at: string
+  project_title: string | null
+}
+
 interface Profile {
   company_name: string
   services: ProjectType[]
   service_states: string[]
   approval_status: string
+  ratings: Review[]
+  avgRating: number | null
+  ratingCount: number
 }
 
 export default function ContractorProfilePage() {
@@ -31,6 +41,10 @@ export default function ContractorProfilePage() {
         setSelectedStates(data.service_states || [])
       })
   }, [])
+
+  function formatDate(iso: string) {
+    return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+  }
 
   function toggleService(type: ProjectType) {
     setServices(prev => prev.includes(type) ? prev.filter(s => s !== type) : [...prev, type])
@@ -102,6 +116,54 @@ export default function ContractorProfilePage() {
           <Button onClick={handleSave} disabled={saving} className="bg-teal-600 hover:bg-teal-700">
             {saving ? 'Saving...' : 'Save Changes'}
           </Button>
+        </CardContent>
+      </Card>
+
+      {/* Ratings & Reviews */}
+      <Card className="bg-slate-900 border-slate-700">
+        <CardHeader>
+          <CardTitle className="text-white flex items-center justify-between">
+            <span>My Ratings & Reviews</span>
+            {profile.avgRating !== null && (
+              <span className="flex items-center gap-2 text-base font-normal">
+                <span style={{ color: 'oklch(0.80 0.18 75)' }}>
+                  {'★'.repeat(Math.round(profile.avgRating))}{'☆'.repeat(5 - Math.round(profile.avgRating))}
+                </span>
+                <span className="text-white font-semibold">{profile.avgRating}</span>
+                <span className="text-slate-400 text-sm">({profile.ratingCount} review{profile.ratingCount !== 1 ? 's' : ''})</span>
+              </span>
+            )}
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          {!profile.ratings?.length ? (
+            <p className="text-slate-400 text-sm py-4 text-center">
+              No reviews yet — ratings appear here after a PM marks a job complete.
+            </p>
+          ) : (
+            <div className="space-y-4">
+              {profile.ratings.map((r, i) => (
+                <div key={i} className="rounded-lg p-4 border border-slate-700 bg-slate-800">
+                  <div className="flex items-start justify-between gap-2 mb-1.5">
+                    <div>
+                      <span style={{ color: 'oklch(0.80 0.18 75)', fontSize: '1.1rem' }}>
+                        {'★'.repeat(r.rating)}{'☆'.repeat(5 - r.rating)}
+                      </span>
+                      {r.project_title && (
+                        <span className="ml-2 text-xs text-slate-400">{r.project_title}</span>
+                      )}
+                    </div>
+                    <span className="text-xs text-slate-500 shrink-0">{formatDate(r.created_at)}</span>
+                  </div>
+                  {r.comment ? (
+                    <p className="text-sm text-slate-300 leading-relaxed">&ldquo;{r.comment}&rdquo;</p>
+                  ) : (
+                    <p className="text-sm text-slate-500 italic">No written review</p>
+                  )}
+                </div>
+              ))}
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>

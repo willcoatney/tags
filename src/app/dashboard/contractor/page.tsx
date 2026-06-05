@@ -68,6 +68,14 @@ export default async function ContractorDashboard() {
     .eq('contractor_user_id', user.id)
     .order('submitted_at', { ascending: false })
 
+  const { data: myRatings } = await admin.from('ratings')
+    .select('rating')
+    .eq('contractor_user_id', user.id)
+
+  const avgRating = myRatings?.length
+    ? Math.round((myRatings.reduce((sum, r) => sum + r.rating, 0) / myRatings.length) * 10) / 10
+    : null
+
   function timeAgo(date: string) {
     const days = Math.floor((Date.now() - new Date(date).getTime()) / 86400000)
     if (days === 0) return 'today'
@@ -86,7 +94,7 @@ export default async function ContractorDashboard() {
       </div>
 
       {/* Stats row */}
-      <div className="grid grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {[
           { value: availableProjects.length, label: 'Available Projects', accent: true },
           { value: myBids?.length || 0, label: 'Bids Submitted' },
@@ -99,6 +107,15 @@ export default async function ContractorDashboard() {
             <div className="text-sm" style={{ color: 'oklch(0.55 0.02 252)' }}>{stat.label}</div>
           </div>
         ))}
+        {/* Rating stat */}
+        <div className="stat-card rounded-xl p-5" style={CARD}>
+          <div className="text-3xl font-bold mb-1" style={{ color: avgRating ? 'oklch(0.80 0.18 75)' : 'oklch(0.35 0.015 252)' }}>
+            {avgRating ? `${avgRating} ★` : '—'}
+          </div>
+          <div className="text-sm" style={{ color: 'oklch(0.55 0.02 252)' }}>
+            Avg Rating{myRatings?.length ? ` · ${myRatings.length} review${myRatings.length !== 1 ? 's' : ''}` : ''}
+          </div>
+        </div>
       </div>
 
       {/* Available Projects */}
