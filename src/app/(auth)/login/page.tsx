@@ -1,7 +1,7 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { Suspense, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
@@ -9,11 +9,12 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { toast } from 'sonner'
 
-export default function LoginPage() {
+function LoginForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const router = useRouter()
+  const searchParams = useSearchParams()
   const supabase = createClient()
 
   async function handleLogin(e: React.FormEvent) {
@@ -25,7 +26,9 @@ export default function LoginPage() {
       setLoading(false)
       return
     }
-    router.push('/')
+    // If the user arrived via an SMS deep-link, send them straight there
+    const redirectTo = searchParams.get('redirectTo')
+    router.push(redirectTo && redirectTo.startsWith('/dashboard') ? redirectTo : '/')
     router.refresh()
   }
 
@@ -143,5 +146,13 @@ export default function LoginPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense>
+      <LoginForm />
+    </Suspense>
   )
 }

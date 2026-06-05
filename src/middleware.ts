@@ -25,17 +25,20 @@ export async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl
 
-  // Redirect unauthenticated users away from dashboard
+  // Redirect unauthenticated users away from dashboard — preserve destination for post-login redirect
   if (!user && pathname.startsWith('/dashboard')) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
+    url.searchParams.set('redirectTo', pathname)
     return NextResponse.redirect(url)
   }
 
   // Redirect authenticated users away from auth pages
   if (user && (pathname === '/login' || pathname.startsWith('/register'))) {
+    const redirectTo = request.nextUrl.searchParams.get('redirectTo')
     const url = request.nextUrl.clone()
-    url.pathname = '/'
+    url.pathname = redirectTo && redirectTo.startsWith('/dashboard') ? redirectTo : '/'
+    url.search = ''
     return NextResponse.redirect(url)
   }
 
