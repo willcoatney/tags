@@ -36,14 +36,14 @@ export default async function PMDashboard() {
   if (!profile || profile.role !== 'pm') redirect('/login')
 
   const { data: projects } = await admin.from('projects')
-    .select('*, properties(name, city, state), bids(id, status, contractor_user_id)')
+    .select('*, properties(name, city, state), bids(id, status, contractor_user_id, amount)')
     .eq('organization_id', profile.organization_id)
     .order('created_at', { ascending: false })
 
   // Collect contractor IDs from awarded bids so we can show names on cards
   const awardedContractorIdSet = new Set<string>()
   for (const p of projects || []) {
-    for (const b of (p.bids || []) as { status: string; contractor_user_id: string }[]) {
+    for (const b of (p.bids || []) as { status: string; contractor_user_id: string; amount: number }[]) {
       if (b.status === 'awarded' && b.contractor_user_id) {
         awardedContractorIdSet.add(b.contractor_user_id)
       }
@@ -143,11 +143,12 @@ export default async function PMDashboard() {
                       <h3 className="font-semibold text-white truncate">{project.title}</h3>
                       <StatusBadge status={project.status} />
                       {(() => {
-                        const awardedBid = project.bids?.find((b: { status: string; contractor_user_id: string }) => b.status === 'awarded')
+                        const awardedBid = project.bids?.find((b: { status: string; contractor_user_id: string; amount: number }) => b.status === 'awarded')
                         const contractorName = awardedBid ? contractorNameMap[awardedBid.contractor_user_id] : null
+                        const awardedAmount = awardedBid?.amount
                         return contractorName ? (
                           <span className="text-xs font-medium px-2 py-0.5 rounded-full" style={{ background: 'oklch(0.22 0.04 145)', color: 'oklch(0.72 0.12 145)' }}>
-                            🔨 {contractorName}
+                            🔨 {contractorName}{awardedAmount != null ? ` · $${Number(awardedAmount).toLocaleString()}` : ''}
                           </span>
                         ) : null
                       })()}
