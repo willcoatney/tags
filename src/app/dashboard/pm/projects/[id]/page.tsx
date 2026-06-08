@@ -7,6 +7,7 @@ import StatusBadge from '@/components/StatusBadge'
 import PublishProjectButton from '@/components/PublishProjectButton'
 import SOWViewer from '@/components/SOWViewer'
 import CompleteProjectButton from '@/components/CompleteProjectButton'
+import LeaveReviewButton from '@/components/LeaveReviewButton'
 import { PROJECT_TYPE_LABELS } from '@/lib/types'
 
 export default async function PMProjectPage({ params }: { params: { id: string } }) {
@@ -19,12 +20,18 @@ export default async function PMProjectPage({ params }: { params: { id: string }
   if (!profile || profile.role !== 'pm') redirect('/login')
 
   const { data: project } = await admin.from('projects')
-    .select('*, properties(*), project_photos(*), bids(id, status)')
+    .select('*, properties(*), project_photos(*), bids(id, status, contractor_user_id, contractor_profiles!contractor_profiles_user_id_fkey(company_name))')
     .eq('id', params.id)
     .eq('organization_id', profile.organization_id)
     .single()
 
   if (!project) notFound()
+
+  // For completed projects, check if a rating already exists
+  const awardedBid = project.bids?.find((b: { status: string }) => b.status === 'awarded')
+  const { data: existingRating } = project.status === 'completed' && awardedBid
+    ? await admin.from('ratings').select('id').eq('project_id', project.id).eq('rated_by', user.id).maybeSingle()
+    : { data: null }
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
@@ -74,6 +81,13 @@ export default async function PMProjectPage({ params }: { params: { id: string }
           )}
           {project.status === 'awarded' && (
             <CompleteProjectButton projectId={project.id} />
+          )}
+          {project.status === 'completed' && awardedBid && !existingRating && (
+            <LeaveReviewButton
+              projectId={project.id}
+              contractorUserId={awardedBid.contractor_user_id}
+              contractorName={(awardedBid.contractor_profiles as { company_name?: string })?.company_name || 'the contractor'}
+            />
           )}
           <Link
             href="/dashboard/pm"
