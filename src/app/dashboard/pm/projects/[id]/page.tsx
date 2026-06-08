@@ -20,18 +20,26 @@ export default async function PMProjectPage({ params }: { params: { id: string }
   if (!profile || profile.role !== 'pm') redirect('/login')
 
   const { data: project } = await admin.from('projects')
-    .select('*, properties(*), project_photos(*), bids(id, status, contractor_user_id, contractor_profiles!contractor_profiles_user_id_fkey(company_name))')
+    .select('*, properties(*), project_photos(*), bids(id, status, contractor_user_id)')
     .eq('id', params.id)
     .eq('organization_id', profile.organization_id)
     .single()
 
   if (!project) notFound()
 
-  // For completed projects, check if a rating already exists
-  const awardedBid = project.bids?.find((b: { status: string }) => b.status === 'awarded')
-  const { data: existingRating } = project.status === 'completed' && awardedBid
-    ? await admin.from('ratings').select('id').eq('project_id', project.id).eq('rated_by', user.id).maybeSingle()
-    : { data: null }
+  // For completed projects, fetch awarded contractor name + check for existing rating
+  const awardedBid = project.bids?.find((b: { status: string; contractor_user_id: string }) => b.status === 'awarded')
+  let contractorName = 'the contractor'
+  let existingRating = null
+
+  if (project.status === 'completed' && awardedBid) {
+    const [{ data: cp }, { data: rating }] = await Promise.all([
+      admin.from('contractor_profiles').select('company_name').eq('user_id', awardedBid.contractor_user_id).maybeSingle(),
+      admin.from('ratings').select('id').eq('project_id', project.id).eq('rated_by', user.id).maybeSingle(),
+    ])
+    if (cp?.company_name) contractorName = cp.company_name
+    existingRating = rating
+  }
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
@@ -86,7 +94,7 @@ export default async function PMProjectPage({ params }: { params: { id: string }
             <LeaveReviewButton
               projectId={project.id}
               contractorUserId={awardedBid.contractor_user_id}
-              contractorName={(awardedBid.contractor_profiles as { company_name?: string })?.company_name || 'the contractor'}
+              contractorName={contractorName}
             />
           )}
           <Link
