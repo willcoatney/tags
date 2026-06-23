@@ -64,13 +64,24 @@ export default async function BidsPage({ params }: { params: { id: string } }) {
             {project.properties?.city}, {project.properties?.state} · {bids?.length || 0} bid{bids?.length !== 1 ? 's' : ''}
           </p>
         </div>
-        <Link
-          href={`/dashboard/pm/projects/${params.id}`}
-          className="px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-150"
-          style={{ color: 'oklch(0.65 0.02 252)', border: '1px solid oklch(0.27 0.025 252)' }}
-        >
-          ← Project
-        </Link>
+        <div className="flex items-center gap-2">
+          <Link
+            href={`/dashboard/pm/projects/${params.id}/bids/print`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-3 py-1.5 rounded-md text-xs font-semibold transition-colors duration-150"
+            style={{ background: 'oklch(0.22 0.06 183)', color: 'oklch(0.70 0.12 183)', border: '1px solid oklch(0.30 0.08 183)' }}
+          >
+            📄 Export PDF
+          </Link>
+          <Link
+            href={`/dashboard/pm/projects/${params.id}`}
+            className="px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-150"
+            style={{ color: 'oklch(0.65 0.02 252)', border: '1px solid oklch(0.27 0.025 252)' }}
+          >
+            ← Project
+          </Link>
+        </div>
       </div>
 
       {/* Comparison table */}

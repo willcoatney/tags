@@ -133,7 +133,10 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
       if (otherProfile?.phone) {
         const senderName = senderProfile.full_name || (senderRole === 'pm' ? 'Property Manager' : 'Contractor')
-        await sendSMS(otherProfile.phone, `${senderName} via TAGS (${project?.title}): ${body.trim()}`)
+        const projectLink = senderRole === 'contractor'
+          ? `https://www.tagyourproject.com/dashboard/pm/projects/${projectId}`
+          : `https://www.tagyourproject.com/dashboard/contractor/projects/${projectId}`
+        await sendSMS(otherProfile.phone, `${senderName} via TAGS (${project?.title}): ${body.trim()}\n\nReply in the app: ${projectLink}`)
       }
     }
   } catch (e) {

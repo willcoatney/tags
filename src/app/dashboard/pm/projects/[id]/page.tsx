@@ -9,6 +9,7 @@ import SOWViewer from '@/components/SOWViewer'
 import CompleteProjectButton from '@/components/CompleteProjectButton'
 import LeaveReviewButton from '@/components/LeaveReviewButton'
 import { PROJECT_TYPE_LABELS } from '@/lib/types'
+import PreBidQA from '@/components/PreBidQA'
 
 export default async function PMProjectPage({ params }: { params: { id: string } }) {
   const supabase = await createClient()
@@ -126,14 +127,37 @@ export default async function PMProjectPage({ params }: { params: { id: string }
         )}
       </div>
 
-      {project.project_photos?.length > 0 && (
+      {/* Pre-work photos */}
+      {project.project_photos?.filter((p: { photo_type?: string }) => !p.photo_type || p.photo_type === 'pre_work').length > 0 && (
         <Card className="bg-slate-900 border-slate-700">
-          <CardHeader><CardTitle className="text-white text-base">Photos</CardTitle></CardHeader>
+          <CardHeader><CardTitle className="text-white text-base">📷 Project Photos</CardTitle></CardHeader>
           <CardContent>
             <div className="flex gap-3 flex-wrap">
-              {project.project_photos.map((photo: { id: string; public_url: string }) => (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img key={photo.id} src={photo.public_url} alt="" className="w-32 h-32 object-cover rounded border border-slate-600" />
+              {project.project_photos
+                .filter((p: { photo_type?: string }) => !p.photo_type || p.photo_type === 'pre_work')
+                .map((photo: { id: string; public_url: string }) => (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img key={photo.id} src={photo.public_url} alt="" className="w-32 h-32 object-cover rounded border border-slate-600" />
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Completion photos — shown when contractor has uploaded them */}
+      {project.project_photos?.filter((p: { photo_type?: string }) => p.photo_type === 'completion').length > 0 && (
+        <Card className="bg-slate-900 border-slate-700" style={{ borderColor: 'oklch(0.35 0.10 160)' }}>
+          <CardHeader>
+            <CardTitle className="text-white text-base">✅ Completion Photos</CardTitle>
+            <p className="text-xs mt-0.5 text-slate-400">Uploaded by the contractor upon job completion.</p>
+          </CardHeader>
+          <CardContent>
+            <div className="flex gap-3 flex-wrap">
+              {project.project_photos
+                .filter((p: { photo_type?: string }) => p.photo_type === 'completion')
+                .map((photo: { id: string; public_url: string }) => (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img key={photo.id} src={photo.public_url} alt="" className="w-32 h-32 object-cover rounded border border-slate-600" />
               ))}
             </div>
           </CardContent>
@@ -148,7 +172,18 @@ export default async function PMProjectPage({ params }: { params: { id: string }
         </Card>
       )}
 
-      {/* Messages moved to bids page */}
+      {/* Pre-bid Q&A — visible for open projects */}
+      {project.status === 'open' && (
+        <div className="rounded-xl overflow-hidden" style={{ background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
+          <div className="px-5 py-3.5" style={{ borderBottom: '1px solid oklch(0.22 0.022 252)' }}>
+            <p className="text-sm font-semibold text-white">💬 Pre-Bid Questions</p>
+            <p className="text-xs mt-0.5" style={{ color: 'oklch(0.50 0.02 252)' }}>
+              Questions from contractors before they submit a bid.
+            </p>
+          </div>
+          <PreBidQA projectId={project.id} currentUserId={user.id} />
+        </div>
+      )}
     </div>
   )
 }

@@ -13,6 +13,7 @@ import { Textarea } from '@/components/ui/textarea'
 import { toast } from 'sonner'
 import { PROJECT_TYPE_LABELS } from '@/lib/types'
 import ContractorMarkDoneButton from '@/components/ContractorMarkDoneButton'
+import CompletionPhotoUpload from '@/components/CompletionPhotoUpload'
 
 interface Project {
   id: string
@@ -114,10 +115,34 @@ export default function ContractorProjectPage({ params }: { params: { id: string
         </Card>
       )}
 
+      {/* Completion photos — only when job is awarded/in progress */}
+      {project.status === 'awarded' && (
+        <Card className="bg-slate-900 border-slate-700">
+          <CardHeader>
+            <CardTitle className="text-white text-base">📸 Completion Photos</CardTitle>
+            <p className="text-xs mt-0.5 text-slate-400">
+              Upload photos of the completed work. The property manager will review these before signing off.
+            </p>
+          </CardHeader>
+          <CardContent>
+            <CompletionPhotoUpload projectId={params.id} />
+          </CardContent>
+        </Card>
+      )}
+
       {/* Message thread */}
       {currentUserId && (
         <Card className="bg-slate-900 border-slate-700">
-          <CardHeader><CardTitle className="text-white text-base">💬 Messages</CardTitle></CardHeader>
+          <CardHeader>
+            <CardTitle className="text-white text-base">
+              {alreadyBid ? '💬 Messages' : '💬 Ask a Question'}
+            </CardTitle>
+            {!alreadyBid && (
+              <p className="text-xs mt-0.5 text-slate-400">
+                Have questions before bidding? Ask the property manager here.
+              </p>
+            )}
+          </CardHeader>
           <CardContent className="p-0">
             <ProjectMessages
               projectId={params.id}

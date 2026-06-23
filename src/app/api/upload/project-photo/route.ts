@@ -10,16 +10,22 @@ export async function POST(req: NextRequest) {
   const formData = await req.formData()
   const file = formData.get('file') as File
   const projectId = formData.get('projectId') as string
+  const photoType = (formData.get('photoType') as string) || 'pre_work'
 
   if (!file || !projectId) {
     return NextResponse.json({ error: 'Missing file or projectId' }, { status: 400 })
+  }
+
+  const validTypes = ['pre_work', 'completion']
+  if (!validTypes.includes(photoType)) {
+    return NextResponse.json({ error: 'Invalid photoType' }, { status: 400 })
   }
 
   const bytes = await file.arrayBuffer()
   const buffer = Buffer.from(bytes)
   const ext = file.name.split('.').pop()
   const filename = `${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`
-  const storagePath = `projects/${projectId}/${filename}`
+  const storagePath = `projects/${projectId}/${photoType}/${filename}`
 
   const admin = createAdminClient()
 
@@ -40,6 +46,7 @@ export async function POST(req: NextRequest) {
     storage_path: storagePath,
     public_url: publicUrl,
     uploaded_by: user.id,
+    photo_type: photoType,
   })
 
   return NextResponse.json({ publicUrl, storagePath })

@@ -9,9 +9,31 @@ export async function GET(req: NextRequest, { params }: { params: { id: string }
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const contractorUserId = req.nextUrl.searchParams.get('contractorUserId')
-  if (!contractorUserId) return NextResponse.json({ error: 'contractorUserId required' }, { status: 400 })
-
   const admin = createAdminClient()
+
+  if (!contractorUserId) {
+    // PM mode: return all threads for this project
+    const { data: profile } = await admin
+      .from('user_profiles')
+      .select('role')
+      .eq('id', user.id)
+      .maybeSingle()
+
+    if (profile?.role !== 'pm') {
+      return NextResponse.json({ error: 'contractorUserId required' }, { status: 400 })
+    }
+
+    const { data: messages } = await admin
+      .from('project_messages')
+      .select('*, user_profiles!project_messages_sender_id_fkey(full_name, role)')
+      .eq('project_id', params.id)
+      .order('contractor_user_id', { ascending: true })
+      .order('created_at', { ascending: true })
+
+    return NextResponse.json(messages || [])
+  }
+
+  // Single contractor thread (existing behavior)
   const { data: messages } = await admin
     .from('project_messages')
     .select('*, user_profiles!project_messages_sender_id_fkey(full_name, role)')
@@ -60,7 +82,6 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     if (senderProfile && project) {
       const senderRole = senderProfile.role
       const senderName = senderProfile.full_name || (senderRole === 'pm' ? 'Property Manager' : 'Contractor')
-      // PM sends → notify contractor. Contractor sends → notify PM.
       const otherPartyId = senderRole === 'pm' ? contractorUserId : project.created_by
 
       const { data: otherProfile } = await admin
@@ -70,9 +91,12 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
         .maybeSingle()
 
       if (otherProfile?.phone) {
+        const projectLink = senderRole === 'pm'
+          ? `https://www.tagyourproject.com/dashboard/contractor/projects/${project.id}`
+          : `https://www.tagyourproject.com/dashboard/pm/projects/${project.id}`
         await sendSMS(
           otherProfile.phone,
-          `${senderName} via TAGS (${project.title}): ${message.trim()}`
+          `${senderName} via TAGS (${project.title}): ${message.trim()}\n\nReply in the app: ${projectLink}`
         )
       }
     }

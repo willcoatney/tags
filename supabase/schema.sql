@@ -211,3 +211,6 @@ create trigger set_projects_updated_at
 create trigger set_bids_updated_at
   before update on bids
   for each row execute function handle_updated_at();
+
+-- Migration: add photo_type column (run separately if project_photos already exists)
+-- ALTER TABLE project_photos ADD COLUMN IF NOT EXISTS photo_type TEXT NOT NULL DEFAULT 'pre_work' CHECK (photo_type IN ('pre_work', 'completion'));
