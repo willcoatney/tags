@@ -58,8 +58,8 @@ function LandingPage() {
           </div>
 
           <h1 className="text-5xl md:text-6xl font-bold text-white leading-[1.08] tracking-tight mb-6">
-            Stop chasing contractors.<br />
-            <span style={{ color: 'oklch(0.57 0.135 183)' }}>Start managing repairs.</span>
+            Every repair starts with a Scope of Work.<br />
+            <span style={{ color: 'oklch(0.57 0.135 183)' }}>Yours is ready in seconds.</span>
           </h1>
 
           <p className="text-xl leading-relaxed mb-10 max-w-2xl mx-auto" style={{ color: 'oklch(0.65 0.02 252)' }}>
