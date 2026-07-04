@@ -5,7 +5,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import StatusBadge from '@/components/StatusBadge'
 import AdminContractorActions from '@/components/AdminContractorActions'
 import ViewAsButton from '@/components/ViewAsButton'
-import { PROJECT_TYPE_LABELS } from '@/lib/types'
+import { PROJECT_TYPE_LABELS, JOB_CATEGORY_LABELS, type JobCategory } from '@/lib/types'
 
 const CARD = { background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }
 
@@ -119,6 +119,11 @@ export default async function AdminDashboard() {
                   <td className="px-4 py-3" style={{ color: 'oklch(0.65 0.02 252)' }}>{project.properties?.name}</td>
                   <td className="px-4 py-3 text-white font-medium">{project.title}</td>
                   <td className="px-4 py-3" style={{ color: 'oklch(0.65 0.02 252)' }}>
+                    {project.job_category && (
+                      <span className="block text-xs font-medium mb-0.5" style={{ color: 'oklch(0.72 0.12 183)' }}>
+                        {JOB_CATEGORY_LABELS[project.job_category as JobCategory]}
+                      </span>
+                    )}
                     {PROJECT_TYPE_LABELS[project.project_type as keyof typeof PROJECT_TYPE_LABELS]}
                   </td>
                   <td className="px-4 py-3"><StatusBadge status={project.status} /></td>

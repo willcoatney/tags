@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
 
   if (!profile) return NextResponse.json({ error: 'Profile not found' }, { status: 404 })
 
-  const { propertyId, title, projectType, description, unitNumber, budgetMin, budgetMax } = await req.json()
+  const { propertyId, title, jobCategory, projectType, description, unitNumber, budgetMin, budgetMax } = await req.json()
 
   const { data: property } = await admin.from('properties').select('*').eq('id', propertyId).single()
 
@@ -24,6 +24,7 @@ export async function POST(req: NextRequest) {
     property_id: propertyId,
     created_by: user.id,
     title,
+    job_category: jobCategory || null,
     project_type: projectType,
     description,
     unit_number: unitNumber || null,

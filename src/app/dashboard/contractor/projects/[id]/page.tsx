@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { toast } from 'sonner'
-import { PROJECT_TYPE_LABELS } from '@/lib/types'
+import { PROJECT_TYPE_LABELS, JOB_CATEGORY_LABELS, type JobCategory } from '@/lib/types'
 import ContractorMarkDoneButton from '@/components/ContractorMarkDoneButton'
 import CompletionPhotoUpload from '@/components/CompletionPhotoUpload'
 
@@ -19,6 +19,7 @@ interface Project {
   id: string
   title: string
   project_type: string
+  job_category: string | null
   description: string
   scope_of_work: string | null
   status: string
@@ -76,6 +77,12 @@ export default function ContractorProjectPage({ params }: { params: { id: string
         <div>
           <h1 className="text-2xl font-bold text-white">{project.title}</h1>
           <p className="text-slate-400 mt-1">
+            {project.job_category && (
+              <span className="mr-2 font-medium" style={{ color: 'oklch(0.72 0.12 183)' }}>
+                {JOB_CATEGORY_LABELS[project.job_category as JobCategory]}
+              </span>
+            )}
+            {project.job_category && <span className="mr-2">·</span>}
             {PROJECT_TYPE_LABELS[project.project_type as keyof typeof PROJECT_TYPE_LABELS]} •{' '}
             {project.properties?.city}, {project.properties?.state}
           </p>

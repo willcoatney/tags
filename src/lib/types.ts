@@ -29,6 +29,35 @@ export const PROJECT_TYPE_LABELS: Record<ProjectType, string> = {
   other: 'Other',
 }
 
+export type JobCategory =
+  | 'work_order'
+  | 'capital_project'
+  | 'make_ready'
+  | 'occupied_unit'
+  | 'vacant_turn'
+  | 'preventive_maintenance'
+  | 'resident_damage'
+
+export const JOB_CATEGORY_LABELS: Record<JobCategory, string> = {
+  work_order: 'Work Order',
+  capital_project: 'Capital Project',
+  make_ready: 'Make Ready',
+  occupied_unit: 'Occupied Unit',
+  vacant_turn: 'Vacant Turn',
+  preventive_maintenance: 'Preventive Maintenance',
+  resident_damage: 'Resident Damage',
+}
+
+export const JOB_CATEGORY_DESCRIPTIONS: Record<JobCategory, string> = {
+  work_order: 'Reactive maintenance request from staff or resident',
+  capital_project: 'Planned, budgeted improvement or major repair',
+  make_ready: 'Light prep between tenants — paint, clean, punch list',
+  occupied_unit: 'Work performed while resident is in place',
+  vacant_turn: 'Full unit turnover — anything goes',
+  preventive_maintenance: 'Scheduled, proactive maintenance',
+  resident_damage: 'Damage caused by tenant — liability may apply',
+}
+
 export interface Organization {
   id: string
   name: string
@@ -65,6 +94,7 @@ export interface Project {
   created_by: string
   title: string
   project_type: ProjectType
+  job_category: JobCategory | null
   description: string
   budget_min: number | null
   budget_max: number | null

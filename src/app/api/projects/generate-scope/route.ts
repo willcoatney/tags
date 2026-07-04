@@ -15,7 +15,7 @@ export async function POST(req: NextRequest) {
     return new Response(JSON.stringify({ error: 'ANTHROPIC_API_KEY not configured' }), { status: 500 })
   }
 
-  const { projectId, projectType, description, propertyAddress, unitNumber, photoUrls } = await req.json()
+  const { projectId, jobCategory, projectType, description, propertyAddress, unitNumber, photoUrls } = await req.json()
 
   const Anthropic = (await import('@anthropic-ai/sdk')).default
   const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
@@ -48,10 +48,20 @@ export async function POST(req: NextRequest) {
                 type: 'text',
                 text: `You are a professional construction estimator writing a Scope of Work for a multifamily property repair job.
 
-Project Type: ${projectType}
+Job Category: ${jobCategory ? jobCategory.replace(/_/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase()) : 'Work Order'}
+Trade Type: ${projectType}
 Property: ${propertyAddress}${unitNumber ? `\nUnit: ${unitNumber}` : ''}
 Issue Description (from property manager): ${description}
 Date Prepared: ${datePrepared}
+
+Context by Job Category:
+- Work Order: reactive maintenance — focus on fast resolution, minimal disruption
+- Capital Project: planned improvement — include phasing notes, spec-grade materials
+- Make Ready: between tenants — light touch, efficiency, unit rent-ready checklist mindset
+- Occupied Unit: resident in place — coordinate access, protect belongings, minimize noise/dust
+- Vacant Turn: full turnover — comprehensive scope, no access restrictions
+- Preventive Maintenance: proactive — include inspection checklist and future service interval
+- Resident Damage: tenant-caused — document existing damage clearly, note what is beyond normal wear and tear
 
 Generate a professional Scope of Work a licensed contractor can act on immediately. Use this exact structure:
 

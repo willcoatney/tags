@@ -8,7 +8,7 @@ import PublishProjectButton from '@/components/PublishProjectButton'
 import SOWViewer from '@/components/SOWViewer'
 import CompleteProjectButton from '@/components/CompleteProjectButton'
 import LeaveReviewButton from '@/components/LeaveReviewButton'
-import { PROJECT_TYPE_LABELS } from '@/lib/types'
+import { PROJECT_TYPE_LABELS, JOB_CATEGORY_LABELS, type JobCategory } from '@/lib/types'
 import PreBidQA from '@/components/PreBidQA'
 
 export default async function PMProjectPage({ params }: { params: { id: string } }) {
@@ -57,6 +57,12 @@ export default async function PMProjectPage({ params }: { params: { id: string }
             <StatusBadge status={project.status} />
           </div>
           <p className="text-slate-400 mt-1">
+            {project.job_category && (
+              <span className="mr-2 font-medium" style={{ color: 'oklch(0.72 0.12 183)' }}>
+                {JOB_CATEGORY_LABELS[project.job_category as JobCategory]}
+              </span>
+            )}
+            {project.job_category && <span className="mr-2">·</span>}
             {PROJECT_TYPE_LABELS[project.project_type as keyof typeof PROJECT_TYPE_LABELS]} •{' '}
             {project.properties?.name} — {project.properties?.address}, {project.properties?.city}
           </p>

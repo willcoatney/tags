@@ -1,7 +1,7 @@
 import { redirect, notFound } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
-import { PROJECT_TYPE_LABELS, type ProjectType } from '@/lib/types'
+import { PROJECT_TYPE_LABELS, JOB_CATEGORY_LABELS, type ProjectType, type JobCategory } from '@/lib/types'
 import PrintButton from './PrintButton'
 
 export default async function BidsPrintPage({ params }: { params: { id: string } }) {
@@ -475,7 +475,15 @@ export default async function BidsPrintPage({ params }: { params: { id: string }
             </div>
           </div>
           <div className="info-cell">
-            <div className="info-label">Project Type</div>
+            <div className="info-label">Job Category</div>
+            <div className="info-value">
+              {project.job_category
+                ? JOB_CATEGORY_LABELS[project.job_category as JobCategory]
+                : '—'}
+            </div>
+          </div>
+          <div className="info-cell">
+            <div className="info-label">Trade Type</div>
             <div className="info-value">
               {PROJECT_TYPE_LABELS[project.project_type as ProjectType]}
               {project.unit_number ? ` · Unit ${project.unit_number}` : ''}

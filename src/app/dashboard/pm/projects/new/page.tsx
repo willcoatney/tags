@@ -11,7 +11,7 @@ import SOWViewer from '@/components/SOWViewer'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { toast } from 'sonner'
-import { PROJECT_TYPE_LABELS, type ProjectType, type Property } from '@/lib/types'
+import { PROJECT_TYPE_LABELS, JOB_CATEGORY_LABELS, JOB_CATEGORY_DESCRIPTIONS, type ProjectType, type JobCategory, type Property } from '@/lib/types'
 
 type Step = 1 | 2 | 3
 
@@ -24,7 +24,7 @@ export default function NewProjectPage() {
   const [addingProperty, setAddingProperty] = useState(false)
   const [newProp, setNewProp] = useState({ name: '', address: '', city: '', state: '', zip: '' })
   const [projectForm, setProjectForm] = useState({
-    title: '', projectType: '' as ProjectType, description: '', unitNumber: '',
+    title: '', jobCategory: '' as JobCategory, projectType: '' as ProjectType, description: '', unitNumber: '',
     budgetMin: '', budgetMax: '',
   })
   const [photos, setPhotos] = useState<File[]>([])
@@ -34,6 +34,7 @@ export default function NewProjectPage() {
   const [generatingSow, setGeneratingSow] = useState(false)
   const [sowFailed, setSowFailed] = useState(false)
   const [projectId, setProjectId] = useState<string | null>(null)
+  const [jobCategoryForRetry, setJobCategoryForRetry] = useState('')
   const [projectTypeForRetry, setProjectTypeForRetry] = useState('')
   const [descriptionForRetry, setDescriptionForRetry] = useState('')
   const [propertyAddressForRetry, setPropertyAddressForRetry] = useState('')
@@ -82,7 +83,8 @@ export default function NewProjectPage() {
 
   async function handleStep2Submit(e: React.FormEvent) {
     e.preventDefault()
-    if (!projectForm.projectType) { toast.error('Select a project type'); return }
+    if (!projectForm.jobCategory) { toast.error('Select a job category'); return }
+    if (!projectForm.projectType) { toast.error('Select a trade type'); return }
     setStep(3)
 
     // Create draft project
@@ -92,6 +94,7 @@ export default function NewProjectPage() {
       body: JSON.stringify({
         propertyId: selectedPropertyId,
         title: projectForm.title,
+        jobCategory: projectForm.jobCategory,
         projectType: projectForm.projectType,
         description: projectForm.description,
         unitNumber: projectForm.unitNumber || null,
@@ -119,16 +122,17 @@ export default function NewProjectPage() {
 
     // Save retry params
     const propAddr = `${property.address}, ${property.city}, ${property.state}`
+    setJobCategoryForRetry(projectForm.jobCategory)
     setProjectTypeForRetry(projectForm.projectType)
     setDescriptionForRetry(projectForm.description)
     setPropertyAddressForRetry(propAddr)
     setPhotoUrlsForRetry(photoUrls)
 
     // Generate SOW
-    await generateSow(project.id, projectForm.projectType, projectForm.description, propAddr, photoUrls)
+    await generateSow(project.id, projectForm.jobCategory, projectForm.projectType, projectForm.description, propAddr, photoUrls)
   }
 
-  async function generateSow(pid: string, pType: string, desc: string, propAddr: string, urls: string[]) {
+  async function generateSow(pid: string, jobCat: string, pType: string, desc: string, propAddr: string, urls: string[]) {
     setGeneratingSow(true)
     setSowFailed(false)
     setSow('')
@@ -139,6 +143,7 @@ export default function NewProjectPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           projectId: pid,
+          jobCategory: jobCat,
           projectType: pType,
           description: desc,
           propertyAddress: propAddr,
@@ -191,7 +196,7 @@ export default function NewProjectPage() {
 
   async function retrySow() {
     if (!projectId) return
-    await generateSow(projectId, projectTypeForRetry, descriptionForRetry, propertyAddressForRetry, photoUrlsForRetry)
+    await generateSow(projectId, jobCategoryForRetry, projectTypeForRetry, descriptionForRetry, propertyAddressForRetry, photoUrlsForRetry)
   }
 
   async function handlePublish() {
@@ -297,6 +302,31 @@ export default function NewProjectPage() {
           <CardContent>
             <form onSubmit={handleStep2Submit} className="space-y-4">
               <div>
+                <Label className="text-slate-300">Job Category</Label>
+                <p className="text-xs text-slate-500 mb-2">What kind of job is this?</p>
+                <div className="grid grid-cols-1 gap-2">
+                  {(Object.entries(JOB_CATEGORY_LABELS) as [JobCategory, string][]).map(([val, label]) => (
+                    <button
+                      key={val}
+                      type="button"
+                      onClick={() => setProjectForm(p => ({ ...p, jobCategory: val }))}
+                      className="flex items-start gap-3 w-full text-left px-4 py-3 rounded-lg border transition-all duration-150"
+                      style={{
+                        background: projectForm.jobCategory === val ? 'oklch(0.20 0.06 183)' : 'oklch(0.14 0.022 252)',
+                        borderColor: projectForm.jobCategory === val ? 'oklch(0.57 0.135 183)' : 'oklch(0.27 0.025 252)',
+                        color: projectForm.jobCategory === val ? 'oklch(0.85 0.08 183)' : 'oklch(0.65 0.02 252)',
+                      }}
+                    >
+                      <span className="font-semibold text-sm leading-tight">{label}</span>
+                      <span className="text-xs leading-tight ml-auto pl-4 text-right shrink-0"
+                        style={{ color: projectForm.jobCategory === val ? 'oklch(0.65 0.07 183)' : 'oklch(0.45 0.015 252)' }}>
+                        {JOB_CATEGORY_DESCRIPTIONS[val]}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+              <div>
                 <Label className="text-slate-300">Project Title</Label>
                 <Input value={projectForm.title} onChange={e => setProjectForm(p => ({ ...p, title: e.target.value }))}
                   placeholder="Enter a short title for this project" required className="bg-slate-800 border-slate-600 text-white" />
@@ -307,10 +337,10 @@ export default function NewProjectPage() {
                   placeholder="Enter unit or building number (e.g. 4B, 12, Building C)" className="bg-slate-800 border-slate-600 text-white" />
               </div>
               <div>
-                <Label className="text-slate-300">Project Type</Label>
+                <Label className="text-slate-300">Trade Type</Label>
                 <Select onValueChange={val => setProjectForm(p => ({ ...p, projectType: val as ProjectType }))} value={projectForm.projectType}>
                   <SelectTrigger className="bg-slate-800 border-slate-600 text-white">
-                    <SelectValue placeholder="Select type" />
+                    <SelectValue placeholder="Select trade" />
                   </SelectTrigger>
                   <SelectContent className="bg-slate-800 border-slate-600">
                     {Object.entries(PROJECT_TYPE_LABELS).map(([val, label]) => (
