@@ -35,9 +35,17 @@ export default async function BidDetailPage({ params }: { params: { id: string; 
   const contractorUserId: string = bid.contractor_user_id
 
   const { data: contractorProfile } = await admin.from('contractor_profiles')
-    .select('company_name, services, service_states, license_url, insurance_url')
+    .select('company_name, services, service_states, license_url, insurance_url, w9_url, coi_expiration_date')
     .eq('user_id', contractorUserId)
     .single()
+
+  // COI status for PM warning
+  const coiExpired = contractorProfile?.coi_expiration_date
+    ? new Date(contractorProfile.coi_expiration_date) < new Date()
+    : false
+  const coiExpiringSoon = !coiExpired && contractorProfile?.coi_expiration_date
+    ? Math.ceil((new Date(contractorProfile.coi_expiration_date).getTime() - Date.now()) / 86400000) <= 30
+    : false
 
   const { data: ratings } = await admin.from('ratings')
     .select('rating, comment, created_at')
@@ -122,7 +130,31 @@ export default async function BidDetailPage({ params }: { params: { id: string; 
             </>
           )}
         </div>
-        <div className="flex gap-2 pt-1">
+        {/* COI / compliance warnings */}
+        {coiExpired && (
+          <div className="rounded-lg px-3 py-2.5 text-sm flex items-start gap-2"
+            style={{ background: 'oklch(0.16 0.07 25)', border: '1px solid oklch(0.30 0.12 25)', color: 'oklch(0.75 0.18 25)' }}>
+            <span>⚠️</span>
+            <span>
+              <strong>COI Expired</strong> — This contractor&apos;s certificate of insurance expired on{' '}
+              {new Date(contractorProfile!.coi_expiration_date!).toLocaleDateString()}.
+              Verify active coverage before awarding this bid.
+            </span>
+          </div>
+        )}
+        {coiExpiringSoon && (
+          <div className="rounded-lg px-3 py-2.5 text-sm flex items-start gap-2"
+            style={{ background: 'oklch(0.16 0.06 75)', border: '1px solid oklch(0.28 0.12 75)', color: 'oklch(0.78 0.18 75)' }}>
+            <span>⚠️</span>
+            <span>
+              <strong>COI Expiring Soon</strong> — Expires{' '}
+              {new Date(contractorProfile!.coi_expiration_date!).toLocaleDateString()}.
+              Confirm renewal before work starts.
+            </span>
+          </div>
+        )}
+
+        <div className="flex gap-2 pt-1 flex-wrap">
           {contractorProfile?.license_url && (
             <a href={contractorProfile.license_url} target="_blank" rel="noopener noreferrer"
               className="text-xs px-3 py-1.5 rounded-lg font-medium"
@@ -134,7 +166,14 @@ export default async function BidDetailPage({ params }: { params: { id: string; 
             <a href={contractorProfile.insurance_url} target="_blank" rel="noopener noreferrer"
               className="text-xs px-3 py-1.5 rounded-lg font-medium"
               style={{ background: 'oklch(0.20 0.04 183)', color: 'oklch(0.65 0.10 183)', border: '1px solid oklch(0.30 0.08 183)' }}>
-              View Insurance
+              View COI
+            </a>
+          )}
+          {contractorProfile?.w9_url && (
+            <a href={contractorProfile.w9_url} target="_blank" rel="noopener noreferrer"
+              className="text-xs px-3 py-1.5 rounded-lg font-medium"
+              style={{ background: 'oklch(0.20 0.04 183)', color: 'oklch(0.65 0.10 183)', border: '1px solid oklch(0.30 0.08 183)' }}>
+              View W-9
             </a>
           )}
         </div>
