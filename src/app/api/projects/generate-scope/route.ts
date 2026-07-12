@@ -86,7 +86,6 @@ Generate a professional Scope of Work a licensed contractor can act on immediate
 |---|---|
 | Materials | $X |
 | Labor | $X |
-| Profit Margin (30%) | $X |
 | **TOTAL** | **$X** |
 
 > ⚠️ This estimate is for budgeting purposes only. Final pricing is determined by contractor bids. Costs reflect current regional market rates and may vary based on site conditions, material availability, and contractor overhead.
@@ -109,7 +108,7 @@ Rules:
   • Plumber: $95/hr | Electrician: $105/hr | HVAC Tech: $100/hr | Drywall/Painter: $65/hr | Flooring: $70/hr | Roofer: $80/hr | General Labor: $55/hr | Carpenter: $75/hr | Landscaper: $50/hr
   Estimate hours from the scope steps, then add 25% to the labor subtotal for mobilization, supervision, and scheduling overhead. Round to nearest $5.
 - Always present a single cost figure — never a range. Use the calculated totals with buffers applied. Do not hedge or qualify the numbers.
-- In the Total Cost Summary: calculate the Profit Margin as exactly 30% of the combined Materials + Labor subtotal. Round to nearest $5. The TOTAL is Materials + Labor + Profit Margin.
+- In the Total Cost Summary: the TOTAL is Materials + Labor. Do not include any profit margin line.
 - The Total Cost Summary table MUST always appear at the end — never omit it`,
               },
             ],
