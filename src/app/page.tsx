@@ -600,18 +600,18 @@ function LandingPage() {
 
             {/* Contractor Card */}
             <div className="rounded-2xl p-8" style={{ background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
-              <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center justify-between mb-4">
                 <div>
                   <p className="text-xl font-bold text-white">Contractor</p>
-                  <p className="text-sm mt-1" style={{ color: 'oklch(0.60 0.025 252)' }}>Pay only when you win</p>
+                  <p className="text-sm mt-1" style={{ color: 'oklch(0.60 0.025 252)' }}>Annual membership</p>
                 </div>
                 <div className="text-right">
-                  <div className="text-4xl font-black text-white">$50</div>
-                  <div className="text-xs" style={{ color: 'oklch(0.55 0.02 252)' }}>per won bid</div>
+                  <div className="text-4xl font-black text-white">$100</div>
+                  <div className="text-xs" style={{ color: 'oklch(0.55 0.02 252)' }}>per year</div>
                 </div>
               </div>
               <div className="rounded-xl p-4 mb-6 text-sm" style={{ background: 'oklch(0.20 0.022 252)', border: '1px solid oklch(0.27 0.022 252)' }}>
-                <p style={{ color: 'oklch(0.65 0.02 252)' }}>No monthly fees. <strong className="text-white">$0 until you win.</strong></p>
+                <p style={{ color: 'oklch(0.65 0.02 252)' }}>+ <strong className="text-white">1.5%</strong> of each awarded bid — paid only when you win.</p>
               </div>
               <ul className="space-y-3 mb-8">
                 {[
@@ -621,7 +621,7 @@ function LandingPage() {
                   'SMS notifications for matching projects',
                   'Two-way messaging — no app required',
                   'Job history and completion records',
-                  '$50 charged only when you win a bid',
+                  '1.5% fee only when you win a bid',
                 ].map(feat => (
                   <li key={feat} className="flex items-center gap-3 text-sm" style={{ color: 'oklch(0.75 0.015 252)' }}>
                     <span style={{ color: 'oklch(0.57 0.135 183)' }}>✓</span> {feat}

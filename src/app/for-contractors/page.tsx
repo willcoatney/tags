@@ -51,7 +51,7 @@ export default function ForContractorsPage() {
               See How It Works
             </Link>
           </div>
-          <p className="mt-4 text-sm" style={{ color: 'oklch(0.45 0.015 252)' }}>Apply free. $50 only when you win a bid.</p>
+          <p className="mt-4 text-sm" style={{ color: 'oklch(0.45 0.015 252)' }}>$100/year membership + 1.5% of each awarded bid.</p>
         </div>
       </section>
 
@@ -60,8 +60,8 @@ export default function ForContractorsPage() {
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-12 text-center">
           {[
             { value: 'SOW', label: 'on every job — no vague requests' },
-            { value: '$50', label: 'only when you win' },
-            { value: '$0', label: 'monthly fees' },
+            { value: '$100', label: 'flat annual membership' },
+            { value: '1.5%', label: 'of each awarded bid' },
             { value: '2-way SMS', label: 'no app required' },
           ].map(({ value, label }) => (
             <div key={label}>
@@ -83,7 +83,7 @@ export default function ForContractorsPage() {
             { step: '01', icon: '📋', title: 'Apply & get approved', body: 'Submit your license, insurance, and service areas. TAGS reviews and approves — usually within 24 hours.', accent: 'oklch(0.62 0.14 230)', bg: 'oklch(0.20 0.05 230)' },
             { step: '02', icon: '📱', title: 'Get notified of matching jobs', body: 'When a PM posts a project matching your trades and zip code, you get a text with a link. View the full SOW before you decide to bid.', accent: 'oklch(0.57 0.135 183)', bg: 'oklch(0.18 0.06 183)' },
             { step: '03', icon: '⚖️', title: 'Submit your bid', body: "Bid on a clearly defined scope — not a vague description. Enter your price and timeline with full confidence.", accent: 'oklch(0.72 0.14 75)', bg: 'oklch(0.20 0.06 75)' },
-            { step: '04', icon: '💰', title: 'Win and get paid', body: "PM awards the job, you get a text. Work directly with the PM through the platform. TAGS charges $50 when you win — that's it.", accent: 'oklch(0.60 0.16 160)', bg: 'oklch(0.18 0.06 160)' },
+            { step: '04', icon: '💰', title: 'Win and get paid', body: "PM awards the job, you get a text. Work directly with the PM through the platform. TAGS charges 1.5% of the awarded bid amount — that's it.", accent: 'oklch(0.60 0.16 160)', bg: 'oklch(0.18 0.06 160)' },
           ].map(card => (
             <div key={card.step} className="rounded-2xl p-6 relative overflow-hidden"
               style={{ background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
@@ -166,20 +166,28 @@ export default function ForContractorsPage() {
       <section className="px-6 md:px-12 py-20 max-w-6xl mx-auto">
         <div className="max-w-lg mx-auto text-center">
           <div className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'oklch(0.57 0.135 183)' }}>Pricing</div>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-5">Pay only when you win.</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-5">Simple pricing. No surprises.</h2>
           <p className="text-lg leading-relaxed mb-10" style={{ color: 'oklch(0.60 0.025 252)' }}>
-            No subscription. No monthly fee. No pay-to-play. You pay TAGS $50 when a bid is awarded to you. If you don&apos;t win, you pay nothing.
+            A flat annual membership gets you in the door. Then TAGS takes 1.5% of each job you win — nothing more. No per-bid fees, no monthly charges.
           </p>
           <div className="rounded-2xl p-8 text-left mb-6" style={{ background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.30 0.08 183)' }}>
-            <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center justify-between mb-4">
               <div>
                 <p className="text-2xl font-bold text-white">Contractor</p>
-                <p className="text-sm mt-1" style={{ color: 'oklch(0.57 0.135 183)' }}>Pay only when you win</p>
+                <p className="text-sm mt-1" style={{ color: 'oklch(0.57 0.135 183)' }}>Annual membership</p>
               </div>
               <div className="text-right">
-                <div className="text-4xl font-black text-white">$50</div>
-                <div className="text-xs mt-1" style={{ color: 'oklch(0.55 0.02 252)' }}>per won bid</div>
+                <div className="text-4xl font-black text-white">$100</div>
+                <div className="text-xs mt-1" style={{ color: 'oklch(0.55 0.02 252)' }}>per year</div>
               </div>
+            </div>
+            <div className="rounded-xl p-4 mb-6" style={{ background: 'oklch(0.20 0.05 183)', border: '1px solid oklch(0.30 0.08 183)' }}>
+              <p className="text-sm" style={{ color: 'oklch(0.75 0.10 183)' }}>
+                + <strong className="text-white">1.5%</strong> of each awarded bid &mdash; paid only when you win
+              </p>
+              <p className="text-xs mt-1" style={{ color: 'oklch(0.55 0.10 183)' }}>
+                Example: win a $5,000 job → TAGS fee is $75
+              </p>
             </div>
             <ul className="space-y-3 mb-8">
               {[
@@ -189,8 +197,7 @@ export default function ForContractorsPage() {
                 'SMS notifications for matching projects',
                 'Two-way messaging with property managers',
                 'Job history and completion records',
-                '$50 charged only when you win a bid',
-                'No monthly fees, ever',
+                '1.5% fee only charged when you win a bid',
               ].map(feat => (
                 <li key={feat} className="flex items-center gap-3 text-sm" style={{ color: 'oklch(0.75 0.015 252)' }}>
                   <span style={{ color: 'oklch(0.57 0.135 183)' }}>✓</span> {feat}
@@ -203,7 +210,7 @@ export default function ForContractorsPage() {
               Apply to Join TAGS →
             </Link>
           </div>
-          <p className="text-sm" style={{ color: 'oklch(0.40 0.015 252)' }}>Billing via Stripe. Charged automatically when a bid is awarded to you.</p>
+          <p className="text-sm" style={{ color: 'oklch(0.40 0.015 252)' }}>Annual membership billed via Stripe. 1.5% fee charged automatically when a bid is awarded to you.</p>
         </div>
       </section>
 
