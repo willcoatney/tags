@@ -29,6 +29,12 @@ const NAV_LINKS: Record<UserRole, { href: string; label: string }[]> = {
     { href: '/dashboard/pm/projects/new', label: 'New Project' },
     { href: '/dashboard/settings', label: 'Settings' },
   ],
+  asset_manager: [
+    { href: '/dashboard/asset-manager', label: 'Portfolio' },
+    { href: '/dashboard/asset-manager/projects', label: 'All Projects' },
+    { href: '/dashboard/asset-manager/properties', label: 'Properties' },
+    { href: '/dashboard/settings', label: 'Settings' },
+  ],
 }
 
 const ROLE_LABELS: Record<UserRole, string> = {
@@ -36,6 +42,7 @@ const ROLE_LABELS: Record<UserRole, string> = {
   contractor: 'Contractor',
   admin: 'Admin',
   homeowner: 'Homeowner',
+  asset_manager: 'Regional Manager',
 }
 
 export default function DashboardNav({ role, name }: Props) {

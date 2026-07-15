@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import StatusBadge from '@/components/StatusBadge'
 import InviteContractorModal from '@/components/InviteContractorModal'
+import ConnectToPortfolio from '@/components/ConnectToPortfolio'
 import { PROJECT_TYPE_LABELS } from '@/lib/types'
 
 const S = {
@@ -65,6 +66,13 @@ export default async function PMDashboard() {
     .select('*')
     .eq('organization_id', profile.organization_id)
     .order('created_at', { ascending: false })
+
+  // Check if PM is already in a portfolio
+  const { data: portfolioMembership } = await admin
+    .from('portfolio_organizations')
+    .select('id')
+    .eq('organization_id', profile.organization_id)
+    .maybeSingle()
 
   const totalBids = projects?.reduce((sum, p) => sum + (p.bids?.length || 0), 0) || 0
   const completedCount = projects?.filter(p => p.status === 'completed').length || 0
@@ -206,6 +214,9 @@ export default async function PMDashboard() {
           </Link>
         </div>
       </div>
+
+      {/* Portfolio connection — only show if not already in one */}
+      {!portfolioMembership && <ConnectToPortfolio />}
     </div>
   )
 }

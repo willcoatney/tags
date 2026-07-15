@@ -1,4 +1,4 @@
-export type UserRole = 'pm' | 'contractor' | 'admin' | 'homeowner'
+export type UserRole = 'pm' | 'contractor' | 'admin' | 'homeowner' | 'asset_manager'
 export type ProjectStatus = 'draft' | 'open' | 'awarded' | 'work_complete' | 'completed' | 'cancelled'
 export type BidStatus = 'submitted' | 'awarded' | 'rejected'
 export type ApprovalStatus = 'pending' | 'approved' | 'rejected'
@@ -168,4 +168,28 @@ export interface Bid {
   updated_at: string
   contractor_profiles?: ContractorProfile
   user_profiles?: UserProfile
+}
+
+export interface Portfolio {
+  id: string
+  name: string
+  owner_id: string
+  created_at: string
+}
+
+export interface PortfolioOrganization {
+  id: string
+  portfolio_id: string
+  organization_id: string
+  joined_at: string
+}
+
+export interface PortfolioInvite {
+  id: string
+  portfolio_id: string
+  token: string
+  created_by: string
+  used_by_org_id: string | null
+  expires_at: string
+  created_at: string
 }
