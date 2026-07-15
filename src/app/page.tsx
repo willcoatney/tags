@@ -2,6 +2,7 @@ import { redirect } from 'next/navigation'
 import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import WistiaPlayer from '@/components/WistiaPlayer'
 
 export default async function Home() {
   const supabase = await createClient()
@@ -80,9 +81,28 @@ function LandingPage() {
             </Link>
           </div>
 
-          <p className="mt-4 text-sm" style={{ color: 'oklch(0.45 0.015 252)' }}>
-            $1/door/month for property managers. Free during early access.
+          <div className="mt-4 flex items-center justify-center gap-2">
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold"
+              style={{ background: 'oklch(0.22 0.08 75)', color: 'oklch(0.85 0.16 75)', border: '1px solid oklch(0.38 0.14 75)' }}>
+              🔒 Invite-only beta
+            </span>
+            <span className="text-sm" style={{ color: 'oklch(0.45 0.015 252)' }}>$50/community · temporary beta pricing</span>
+          </div>
+        </div>
+      </section>
+
+      {/* VIDEO DEMO */}
+      <section className="px-6 md:px-12 pb-20 max-w-4xl mx-auto">
+        <div className="text-center mb-8">
+          <p className="text-sm font-semibold uppercase tracking-widest" style={{ color: 'oklch(0.57 0.135 183)' }}>
+            See it in action
           </p>
+          <h2 className="text-2xl md:text-3xl font-bold text-white mt-2">
+            From photo to Scope of Work in under 60 seconds.
+          </h2>
+        </div>
+        <div className="rounded-2xl overflow-hidden shadow-2xl" style={{ border: '1px solid oklch(0.22 0.022 252)' }}>
+          <WistiaPlayer />
         </div>
       </section>
 
@@ -93,7 +113,7 @@ function LandingPage() {
             { value: '< 60s', label: 'SOW generated' },
             { value: '$0', label: 'for property managers' },
             { value: '8', label: 'automated alerts per job' },
-            { value: '$1/door', label: 'per month for PMs' },
+            { value: '$50', label: 'per community (beta)' },
           ].map(({ value, label }) => (
             <div key={label}>
               <div className="text-2xl font-bold text-white">{value}</div>
@@ -536,18 +556,25 @@ function LandingPage() {
           <div className="grid md:grid-cols-2 gap-6">
             {/* PM Card */}
             <div className="rounded-2xl p-8" style={{ background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.30 0.08 183)' }}>
-              <div className="flex items-center justify-between mb-6">
+              <div className="flex items-center justify-between mb-4">
                 <div>
                   <p className="text-xl font-bold text-white">Property Manager</p>
-                  <p className="text-sm mt-1" style={{ color: 'oklch(0.57 0.135 183)' }}>Monthly subscription</p>
+                  <p className="text-sm mt-1" style={{ color: 'oklch(0.57 0.135 183)' }}>Per community</p>
                 </div>
                 <div className="text-right">
-                  <div className="text-4xl font-black text-white">$1</div>
-                  <div className="text-xs" style={{ color: 'oklch(0.55 0.02 252)' }}>per door / month</div>
+                  <div className="text-4xl font-black text-white">$50</div>
+                  <div className="text-xs" style={{ color: 'oklch(0.55 0.02 252)' }}>per community / month</div>
                 </div>
               </div>
+              <div className="flex items-center gap-2 mb-5">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold"
+                  style={{ background: 'oklch(0.22 0.08 75)', color: 'oklch(0.85 0.16 75)', border: '1px solid oklch(0.38 0.14 75)' }}>
+                  🔒 Invite-only beta
+                </span>
+                <span className="text-xs" style={{ color: 'oklch(0.50 0.02 252)' }}>Temporary pricing · locked in for early access</span>
+              </div>
               <div className="rounded-xl p-4 mb-6 text-sm" style={{ background: 'oklch(0.20 0.05 183)', border: '1px solid oklch(0.30 0.08 183)' }}>
-                <p style={{ color: 'oklch(0.75 0.10 183)' }}>200-unit complex = <strong className="text-white">$200/month</strong></p>
+                <p style={{ color: 'oklch(0.75 0.10 183)' }}>One flat rate per property. <strong className="text-white">No per-door math.</strong></p>
               </div>
               <ul className="space-y-3 mb-8">
                 {[
@@ -610,7 +637,7 @@ function LandingPage() {
           </div>
 
           <p className="text-center text-sm mt-6" style={{ color: 'oklch(0.40 0.015 252)' }}>
-            Billing launching soon. Early access accounts will be grandfathered at current rates.
+            Beta pricing is temporary and invite-only. Early access accounts are grandfathered at current rates when billing goes live.
           </p>
         </div>
       </section>
