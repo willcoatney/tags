@@ -39,7 +39,7 @@ function LandingPage() {
           <Link href="/register/pm"
             className="px-4 py-2 rounded-lg text-sm font-semibold text-white transition-all duration-150 active:scale-[0.98]"
             style={{ background: 'oklch(0.57 0.135 183)' }}>
-            Get Started Free
+            Sign Up
           </Link>
         </div>
       </nav>
@@ -71,7 +71,7 @@ function LandingPage() {
             <Link href="/register/pm"
               className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-base font-semibold text-white transition-all duration-150 active:scale-[0.98] shadow-glow"
               style={{ background: 'oklch(0.57 0.135 183)' }}>
-              Get Started Free
+              Start Tagging
               <span>→</span>
             </Link>
             <Link href="#how-it-works"
@@ -594,7 +594,7 @@ function LandingPage() {
               <Link href="/register/pm"
                 className="inline-flex items-center justify-center w-full py-3 rounded-xl text-sm font-semibold text-white transition-all"
                 style={{ background: 'oklch(0.57 0.135 183)' }}>
-                Get Started →
+                Start Tagging →
               </Link>
             </div>
 
@@ -655,7 +655,7 @@ function LandingPage() {
           <Link href="/register/pm"
             className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-semibold text-white transition-all duration-150 active:scale-[0.98]"
             style={{ background: 'oklch(0.57 0.135 183)' }}>
-            Get Started →
+            Start Tagging →
           </Link>
           <Link href="/for-contractors"
             className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-medium transition-colors duration-150"
