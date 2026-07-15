@@ -566,12 +566,12 @@ function LandingPage() {
                   <div className="text-xs" style={{ color: 'oklch(0.55 0.02 252)' }}>per community / month</div>
                 </div>
               </div>
-              <div className="flex items-center gap-2 mb-5">
-                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold"
+              <div className="flex items-center gap-2 mb-5 w-1/2">
+                <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold whitespace-nowrap"
                   style={{ background: 'oklch(0.22 0.08 75)', color: 'oklch(0.85 0.16 75)', border: '1px solid oklch(0.38 0.14 75)' }}>
                   🔒 Invite-only beta
                 </span>
-                <span className="text-xs" style={{ color: 'oklch(0.50 0.02 252)' }}>Temporary pricing · locked in for early access</span>
+                <span className="text-xs whitespace-nowrap" style={{ color: 'oklch(0.50 0.02 252)' }}>Temporary pricing</span>
               </div>
               <div className="rounded-xl p-4 mb-6 text-sm" style={{ background: 'oklch(0.20 0.05 183)', border: '1px solid oklch(0.30 0.08 183)' }}>
                 <p style={{ color: 'oklch(0.75 0.10 183)' }}>One flat rate per property. <strong className="text-white">No per-door math.</strong></p>
