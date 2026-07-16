@@ -686,6 +686,47 @@ function LandingPage() {
         </div>
       </section>
 
+      {/* FAQ */}
+      <section className="px-6 md:px-12 py-24 max-w-4xl mx-auto">
+        <div className="text-center mb-14">
+          <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'oklch(0.57 0.135 183)' }}>FAQ</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-white">Questions we hear most</h2>
+        </div>
+        <div className="space-y-4">
+          {[
+            {
+              q: 'How does TAGS generate a Scope of Work?',
+              a: 'You describe the problem in plain English and upload a photo. TAGS sends that to our AI — built on Anthropic\'s Claude — which returns a professional 7-section construction document: Project Overview, Scope of Work, Materials Required, Labor Requirements, Site Safety, Cleanup & Disposal, and Warranty Expectations. The whole thing takes under 60 seconds.',
+            },
+            {
+              q: 'How are contractors vetted?',
+              a: 'Every contractor applies to TAGS and submits proof of licensing and insurance before they can bid on a single project. TAGS reviews and approves each application manually. Contractors who receive poor ratings or fail to complete awarded work are removed from the platform.',
+            },
+            {
+              q: 'What if no contractors bid on my project?',
+              a: 'If no contractor bids within 48 hours, you receive an automatic text alert. TAGS notifies all approved contractors in your area who match your project type — so the right people always know the job is available.',
+            },
+            {
+              q: 'Is my project data secure?',
+              a: 'Yes. All data is stored on Supabase with row-level security — meaning each user can only see data they\'re authorized to access. Photos and documents are stored in encrypted storage. We never sell your data or share it with anyone outside of the platform operators listed in our Privacy Policy.',
+            },
+            {
+              q: 'How does contractor pricing work?',
+              a: 'Contractors pay a $100 annual membership to access the platform and bid on projects. When a bid is awarded, TAGS charges 1.5% of the bid amount. That\'s it — no per-bid fees, no monthly charges. A contractor who wins a $5,000 job pays $75 to TAGS.',
+            },
+            {
+              q: 'Can I use TAGS on my phone?',
+              a: 'Yes — TAGS is fully mobile-responsive. Post a project, upload photos from your camera roll, review bids, and message contractors all from your phone browser. No app download required for anyone.',
+            },
+          ].map(({ q, a }) => (
+            <div key={q} className="rounded-2xl p-6" style={{ background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
+              <h3 className="text-base font-semibold text-white mb-2">{q}</h3>
+              <p className="text-sm leading-relaxed" style={{ color: 'oklch(0.60 0.025 252)' }}>{a}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* FINAL CTA */}
       <section className="px-6 md:px-12 py-24 max-w-4xl mx-auto text-center">
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-5 leading-tight">
@@ -725,10 +766,15 @@ function LandingPage() {
 
           </div>
         </div>
-        <div className="max-w-6xl mx-auto mt-6 pt-5 text-center" style={{ borderTop: '1px solid oklch(0.17 0.022 252)' }}>
+        <div className="max-w-6xl mx-auto mt-6 pt-5 flex flex-col sm:flex-row items-center justify-between gap-3" style={{ borderTop: '1px solid oklch(0.17 0.022 252)' }}>
           <p className="text-xs" style={{ color: 'oklch(0.32 0.015 252)' }}>
-            © {new Date().getFullYear()} TAGS — The Apartment Guys System. All rights reserved. TAGS and its AI-generated Scope of Work technology are proprietary. Unauthorized reproduction or distribution is prohibited.
+            © {new Date().getFullYear()} TAGS — The Apartment Guys System. All rights reserved.
           </p>
+          <div className="flex items-center gap-4">
+            <a href="mailto:hello@tagyourproject.com" className="text-xs transition-colors" style={{ color: 'oklch(0.45 0.015 252)' }}>hello@tagyourproject.com</a>
+            <Link href="/privacy" className="text-xs transition-colors" style={{ color: 'oklch(0.45 0.015 252)' }}>Privacy Policy</Link>
+            <Link href="/terms" className="text-xs transition-colors" style={{ color: 'oklch(0.45 0.015 252)' }}>Terms of Service</Link>
+          </div>
         </div>
       </footer>
 

@@ -278,10 +278,15 @@ export default function ForContractorsPage() {
             <Link href="/register/contractor" className="text-sm" style={{ color: 'oklch(0.45 0.015 252)' }}>Apply Now</Link>
           </div>
         </div>
-        <div className="max-w-6xl mx-auto mt-6 pt-5 text-center" style={{ borderTop: '1px solid oklch(0.17 0.022 252)' }}>
+        <div className="max-w-6xl mx-auto mt-6 pt-5 flex flex-col sm:flex-row items-center justify-between gap-3" style={{ borderTop: '1px solid oklch(0.17 0.022 252)' }}>
           <p className="text-xs" style={{ color: 'oklch(0.32 0.015 252)' }}>
-            © {new Date().getFullYear()} TAGS — The Apartment Guys System. All rights reserved. TAGS and its AI-generated Scope of Work technology are proprietary. Unauthorized reproduction or distribution is prohibited.
+            © {new Date().getFullYear()} TAGS — The Apartment Guys System. All rights reserved.
           </p>
+          <div className="flex items-center gap-4">
+            <a href="mailto:hello@tagyourproject.com" className="text-xs transition-colors" style={{ color: 'oklch(0.45 0.015 252)' }}>hello@tagyourproject.com</a>
+            <Link href="/privacy" className="text-xs transition-colors" style={{ color: 'oklch(0.45 0.015 252)' }}>Privacy Policy</Link>
+            <Link href="/terms" className="text-xs transition-colors" style={{ color: 'oklch(0.45 0.015 252)' }}>Terms of Service</Link>
+          </div>
         </div>
       </footer>
 
