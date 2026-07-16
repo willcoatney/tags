@@ -706,11 +706,7 @@ function LandingPage() {
             style={{ color: 'oklch(0.65 0.02 252)', border: '1px solid oklch(0.27 0.025 252)' }}>
             Join as a Contractor
           </Link>
-          <Link href="/register/homeowner"
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-medium transition-colors duration-150"
-            style={{ color: 'oklch(0.72 0.12 183)', border: '1px solid oklch(0.35 0.10 183)', background: 'oklch(0.18 0.06 183)' }}>
-            I&apos;m a Homeowner →
-          </Link>
+
         </div>
       </section>
 
@@ -726,7 +722,7 @@ function LandingPage() {
             <Link href="/register/pm" className="text-sm transition-colors duration-150" style={{ color: 'oklch(0.45 0.015 252)' }}>For PMs</Link>
             <Link href="/register/rm" className="text-sm transition-colors duration-150" style={{ color: 'oklch(0.45 0.015 252)' }}>For RMs</Link>
             <Link href="/for-contractors" className="text-sm transition-colors duration-150" style={{ color: 'oklch(0.45 0.015 252)' }}>For Contractors</Link>
-            <Link href="/register/homeowner" className="text-sm transition-colors duration-150" style={{ color: 'oklch(0.45 0.015 252)' }}>For Homeowners</Link>
+
           </div>
         </div>
         <div className="max-w-6xl mx-auto mt-6 pt-5 text-center" style={{ borderTop: '1px solid oklch(0.17 0.022 252)' }}>
