@@ -14,7 +14,13 @@ export default async function Home() {
       .select('role')
       .eq('id', user.id)
       .single()
-    if (profile) redirect(`/dashboard/${profile.role}`)
+    if (profile) {
+      const roleToPath: Record<string, string> = {
+        asset_manager: 'asset-manager',
+      }
+      const path = roleToPath[profile.role] ?? profile.role
+      redirect(`/dashboard/${path}`)
+    }
   }
 
   return <LandingPage />
