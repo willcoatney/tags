@@ -235,7 +235,7 @@ function LandingPage() {
               The Scope of Work that ends contractor disputes forever.
             </h2>
             <p className="text-lg leading-relaxed mb-6" style={{ color: 'oklch(0.60 0.025 252)' }}>
-              Most repairs go sideways because nobody defined the scope upfront. Contractors guess. PMs assume. Then someone gets a surprise bill. TAGS generates a professional Scope of Work from your photo and description — before a single contractor bids.
+              Most repairs go sideways because nobody defined the scope upfront. Contractors guess. PMs assume. Then someone gets a surprise bill. TAGS generates a professional Scope of Work from your photos and description — before a single contractor bids.
             </p>
             <ul className="space-y-3">
               {[
@@ -320,7 +320,7 @@ function LandingPage() {
             {
               icon: '📱',
               title: 'Post a repair in 60 seconds — from anywhere',
-              body: 'Snap a photo on-site, describe it in plain English, and post. TAGS handles the rest. Built for PMs on the move, not desk workers.',
+              body: 'Snap up to 5 photos on-site, describe it in plain English, and post. TAGS handles the rest. Built for PMs on the move, not desk workers.',
               accent: 'oklch(0.62 0.14 230)',
             },
             {
@@ -696,7 +696,7 @@ function LandingPage() {
           {[
             {
               q: 'How does TAGS generate a Scope of Work?',
-              a: 'You describe the problem in plain English and upload a photo. TAGS sends that to our AI — built on Anthropic\'s Claude — which returns a professional 7-section construction document: Project Overview, Scope of Work, Materials Required, Labor Requirements, Site Safety, Cleanup & Disposal, and Warranty Expectations. The whole thing takes under 60 seconds.',
+              a: 'You describe the problem in plain English and snap up to 5 photos. TAGS\'s proprietary document engine analyzes your submission and returns a professional, contractor-ready Scope of Work in under 60 seconds — covering everything from materials and labor to safety, cleanup, and warranty expectations. How it works under the hood is our business. Getting you a professional document in seconds is yours.',
             },
             {
               q: 'How are contractors vetted?',
