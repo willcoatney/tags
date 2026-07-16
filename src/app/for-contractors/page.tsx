@@ -278,6 +278,11 @@ export default function ForContractorsPage() {
             <Link href="/register/contractor" className="text-sm" style={{ color: 'oklch(0.45 0.015 252)' }}>Apply Now</Link>
           </div>
         </div>
+        <div className="max-w-6xl mx-auto mt-6 pt-5 text-center" style={{ borderTop: '1px solid oklch(0.17 0.022 252)' }}>
+          <p className="text-xs" style={{ color: 'oklch(0.32 0.015 252)' }}>
+            © {new Date().getFullYear()} TAGS — The Apartment Guys System. All rights reserved. TAGS and its AI-generated Scope of Work technology are proprietary. Unauthorized reproduction or distribution is prohibited.
+          </p>
+        </div>
       </footer>
 
     </div>
