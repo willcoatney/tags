@@ -97,6 +97,44 @@ function LandingPage() {
         </div>
       </section>
 
+      {/* THE TAGS DIFFERENCE */}
+      <section className="px-6 md:px-12 py-16 max-w-6xl mx-auto">
+        <div className="text-center mb-10">
+          <p className="text-xs font-semibold uppercase tracking-widest" style={{ color: 'oklch(0.57 0.135 183)' }}>The TAGS Difference</p>
+        </div>
+
+        {/* Stat row */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+          {[
+            { value: '< 60s', label: 'Professional Scope of Work generated', icon: '⚡' },
+            { value: '100%', label: 'Scope standardization — every project, every time', icon: '✓' },
+            { value: '7', label: 'Sections in every professional SOW', icon: '📋' },
+            { value: '$0', label: 'For a PM to post a project', icon: '🏢' },
+          ].map(({ value, label, icon }) => (
+            <div key={value} className="rounded-2xl p-6 text-center"
+              style={{ background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
+              <div className="text-2xl mb-2">{icon}</div>
+              <div className="text-3xl font-black text-white mb-1">{value}</div>
+              <div className="text-xs leading-snug" style={{ color: 'oklch(0.55 0.02 252)' }}>{label}</div>
+            </div>
+          ))}
+        </div>
+
+        {/* 100% Scope Standardization callout */}
+        <div className="rounded-2xl p-8" style={{ background: 'oklch(0.18 0.06 183)', border: '1px solid oklch(0.35 0.10 183)' }}>
+          <div className="max-w-3xl mx-auto text-center">
+            <div className="inline-flex items-center justify-center w-12 h-12 rounded-xl text-2xl mb-4"
+              style={{ background: 'oklch(0.25 0.08 183)' }}>📐</div>
+            <h3 className="text-xl font-bold text-white mb-3">100% Scope Standardization</h3>
+            <p className="text-base leading-relaxed" style={{ color: 'oklch(0.72 0.06 183)' }}>
+              Every project is written using the same professional format. Every contractor bids the same work.
+              Every property manager knows exactly what&apos;s included. That consistency is what separates TAGS
+              from every other contractor marketplace in existence.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* VIDEO DEMO */}
       <section className="px-6 md:px-12 pb-20 max-w-4xl mx-auto">
         <div className="text-center mb-8">
