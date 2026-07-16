@@ -65,12 +65,12 @@ function LandingPage() {
           </div>
 
           <h1 className="text-5xl md:text-6xl font-bold text-white leading-[1.08] tracking-tight mb-6">
-            Every repair starts with a Scope of Work.<br />
-            <span style={{ color: 'oklch(0.57 0.135 183)' }}>Yours is ready in seconds.</span>
+            Stop running your repairs.<br />
+            <span style={{ color: 'oklch(0.57 0.135 183)' }}>Start running your properties.</span>
           </h1>
 
           <p className="text-xl leading-relaxed mb-10 max-w-2xl mx-auto" style={{ color: 'oklch(0.65 0.02 252)' }}>
-            Describe the problem in plain English. TAGS generates a professional Scope of Work using proprietary software, gets you competitive bids, and keeps the whole job — including contractor communication — in one place.
+            Post a repair in 60 seconds. TAGS generates a professional Scope of Work — contractors bid on exactly that. Get competitive prices, close jobs without chasing anyone, and know where every repair stands without logging in to check.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -104,7 +104,7 @@ function LandingPage() {
             See it in action
           </p>
           <h2 className="text-2xl md:text-3xl font-bold text-white mt-2">
-            From photo to Scope of Work in under 60 seconds.
+            See what your maintenance week looks like with TAGS.
           </h2>
         </div>
         <div className="rounded-2xl overflow-hidden shadow-2xl" style={{ border: '1px solid oklch(0.22 0.022 252)' }}>
@@ -116,10 +116,10 @@ function LandingPage() {
       <div className="px-6 md:px-12 py-6" style={{ borderTop: '1px solid oklch(0.20 0.022 252)', borderBottom: '1px solid oklch(0.20 0.022 252)' }}>
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-12 text-center">
           {[
-            { value: '< 60s', label: 'SOW generated' },
-            { value: '$0', label: 'for property managers' },
-            { value: '8', label: 'automated alerts per job' },
-            { value: '$50', label: 'per community (beta)' },
+            { value: '10–20 hrs', label: 'saved per week' },
+            { value: 'Zero', label: 'scope disputes' },
+            { value: 'Never', label: 'chase a contractor again' },
+            { value: 'Always', label: 'know where every job stands' },
           ].map(({ value, label }) => (
             <div key={label}>
               <div className="text-2xl font-bold text-white">{value}</div>
@@ -191,21 +191,21 @@ function LandingPage() {
         <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
           <div>
             <div className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'oklch(0.57 0.135 183)' }}>
-              The core product
+              The document that changes everything
             </div>
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-5">
-              A Scope of Work a contractor can act on immediately.
+              The Scope of Work that ends contractor disputes forever.
             </h2>
             <p className="text-lg leading-relaxed mb-6" style={{ color: 'oklch(0.60 0.025 252)' }}>
-              Most repair requests fail because PMs can&apos;t write specs and contractors guess at scope. TAGS eliminates that gap — every project gets a professional construction document before a single bid is submitted.
+              Most repairs go sideways because nobody defined the scope upfront. Contractors guess. PMs assume. Then someone gets a surprise bill. TAGS generates a professional Scope of Work from your photo and description — before a single contractor bids.
             </p>
             <ul className="space-y-3">
               {[
-                'No more scope disputes mid-project',
-                'Apples-to-apples bid comparison',
-                'High-end cost estimate so you know if a bid is reasonable',
-                'Contractors know exactly what they\'re bidding on',
-                'Reduces change orders and cost overruns',
+                'Contractors bid on the same locked scope — no surprises',
+                'Apples-to-apples comparison across every bid',
+                'Built-in cost estimate so you know instantly if a bid is reasonable',
+                'No change orders. No mid-project scope creep.',
+                'Every repair documented from day one',
               ].map(item => (
                 <li key={item} className="flex items-start gap-3 text-sm" style={{ color: 'oklch(0.75 0.015 252)' }}>
                   <span className="mt-0.5 shrink-0 text-base" style={{ color: 'oklch(0.57 0.135 183)' }}>✓</span>
@@ -264,9 +264,9 @@ function LandingPage() {
       {/* FEATURES GRID */}
       <section className="px-6 md:px-12 py-24 max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Everything you need to run repairs</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">What your maintenance week looks like with TAGS</h2>
           <p className="text-lg" style={{ color: 'oklch(0.60 0.025 252)' }}>
-            Not just a bid board. A complete repair management system.
+            Less chasing. Less guessing. Every repair running like a system.
           </p>
         </div>
 
@@ -274,58 +274,58 @@ function LandingPage() {
           {[
             {
               icon: '💬',
-              title: 'Two-way SMS with contractors',
-              body: 'Message contractors directly from your dashboard. They reply by text — no app required. Every message syncs to the project thread automatically.',
+              title: 'Contractors can\'t ghost you',
+              body: 'Every message you send reaches the contractor as a text. They reply by text — it shows up in your dashboard. The conversation lives on record whether they use the app or not.',
               accent: 'oklch(0.57 0.135 183)',
               highlight: true,
             },
             {
               icon: '📱',
-              title: 'Mobile-first photo uploads',
-              body: 'Take photos directly from your phone camera or upload from your library. TAGS is built for PMs on the move, not desk workers.',
+              title: 'Post a repair in 60 seconds — from anywhere',
+              body: 'Snap a photo on-site, describe it in plain English, and post. TAGS handles the rest. Built for PMs on the move, not desk workers.',
               accent: 'oklch(0.62 0.14 230)',
             },
             {
               icon: '🏢',
-              title: 'Unit-level tracking',
-              body: 'Tag every project with a unit number. "Unit 4B — Plumbing" lives in the right place in your records, not buried in a generic list.',
+              title: 'Nothing falls through the cracks',
+              body: 'Every project is tagged to a unit number. "Unit 4B — Plumbing" lives in the right place automatically — not buried in a text chain or someone\'s memory.',
               accent: 'oklch(0.72 0.14 75)',
             },
             {
               icon: '⚖️',
-              title: 'Side-by-side bid comparison',
-              body: 'When multiple bids come in, compare them in a table — price, timeline, contractor rating. Pick the right contractor, not just the cheapest.',
+              title: 'Never overpay on a bid again',
+              body: 'Compare bids side-by-side — price, timeline, contractor rating. You\'ll know immediately if someone is overpriced. Pick the right contractor, not just the cheapest.',
               accent: 'oklch(0.60 0.16 160)',
             },
             {
               icon: '⭐',
-              title: 'Contractor ratings',
-              body: 'Rate contractors after every completed job. Ratings show on future bids so you know who shows up, who does quality work, and who to avoid.',
+              title: 'Only work with contractors who show up',
+              body: 'Rate every contractor after completion. Ratings appear on future bids — so your whole team knows who delivers and who to avoid before the job is awarded.',
               accent: 'oklch(0.80 0.18 75)',
             },
             {
               icon: '📊',
-              title: 'Portfolio analytics',
-              body: 'See open projects, total bids received, average bids per project, and completed jobs at a glance. Know the health of your maintenance backlog.',
+              title: 'Know your property\'s health at a glance',
+              body: 'Open repairs, bids received, jobs completed this month — all in one view. Stop guessing at your maintenance backlog.',
               accent: 'oklch(0.62 0.14 230)',
             },
             {
               icon: '✏️',
-              title: 'Edit & regenerate SOW',
-              body: 'Scope changed? Edit the project description, add more photos, and regenerate the SOW. The new version is ready for bids in seconds.',
+              title: 'Change your mind without starting over',
+              body: 'Scope changed? Update the description, add photos, regenerate the Scope of Work. New version is ready for bids in seconds.',
               accent: 'oklch(0.57 0.135 183)',
             },
             {
               icon: '🔔',
-              title: 'You\'re always in the loop',
-              body: 'New bid? Text. Contractor marked work done? Text. 48 hours with no bids? Text. Every stage of every job triggers an automatic alert — no logging in just to check.',
+              title: 'Zero log-ins just to check status',
+              body: 'New bid? Text. Contractor marked work done? Text. 48 hours with no bids? Text. Every stage of every job triggers an automatic alert — you\'re always informed.',
               accent: 'oklch(0.60 0.16 160)',
               highlight: true,
             },
             {
               icon: '✓',
-              title: 'Completion & close-out',
-              body: 'Mark projects complete, rate the contractor, and keep a permanent record of every job — bids, SOW, contractor, cost, and completion date.',
+              title: 'Every repair on record — automatically',
+              body: 'Close a job and it\'s documented forever: Scope of Work, bids, contractor, cost, completion date. No spreadsheet required.',
               accent: 'oklch(0.60 0.16 160)',
             },
           ].map(feat => (
@@ -651,11 +651,11 @@ function LandingPage() {
       {/* FINAL CTA */}
       <section className="px-6 md:px-12 py-24 max-w-4xl mx-auto text-center">
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-5 leading-tight">
-          Your next repair project<br />
-          <span style={{ color: 'oklch(0.57 0.135 183)' }}>takes 60 seconds to post.</span>
+          Your worst repair week<br />
+          <span style={{ color: 'oklch(0.57 0.135 183)' }}>is the last one you&apos;ll have.</span>
         </h2>
         <p className="text-lg mb-10" style={{ color: 'oklch(0.60 0.025 252)' }}>
-          Join property managers who&apos;ve stopped guessing at scope, stopped chasing contractors, and started running repairs like a system.
+          Stop chasing contractors. Stop arguing scope. Stop wondering where every job stands. TAGS runs your repair workflow so you can run your properties.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link href="/register"
