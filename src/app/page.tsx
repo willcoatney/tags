@@ -104,7 +104,7 @@ function LandingPage() {
             See it in action
           </p>
           <h2 className="text-2xl md:text-3xl font-bold text-white mt-2">
-            See what your maintenance week looks like with TAGS.
+            See what your project management week looks like with TAGS.
           </h2>
         </div>
         <div className="rounded-2xl overflow-hidden shadow-2xl" style={{ border: '1px solid oklch(0.22 0.022 252)' }}>
@@ -264,7 +264,7 @@ function LandingPage() {
       {/* FEATURES GRID */}
       <section className="px-6 md:px-12 py-24 max-w-6xl mx-auto">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">What your maintenance week looks like with TAGS</h2>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">What your project management week looks like with TAGS</h2>
           <p className="text-lg" style={{ color: 'oklch(0.60 0.025 252)' }}>
             Less chasing. Less guessing. Every repair running like a system.
           </p>
