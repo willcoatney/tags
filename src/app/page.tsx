@@ -278,7 +278,7 @@ function LandingPage() {
                 </ol>
               </div>
               <div className="rounded-xl overflow-hidden" style={{ border: '1px solid oklch(0.30 0.08 145)' }}>
-                <div className="px-4 py-2 text-xs font-semibold uppercase tracking-wide" style={{ background: 'oklch(0.20 0.07 145)', color: 'oklch(0.75 0.15 145)' }}>Total Cost Summary</div>
+                <div className="px-4 py-2 text-xs font-semibold uppercase tracking-wide" style={{ background: 'oklch(0.20 0.07 145)', color: 'oklch(0.75 0.15 145)' }}>Estimated Project Cost</div>
                 <table className="w-full text-sm">
                   <tbody>
                     {[['Materials', '$180'], ['Labor', '$320'], ['TOTAL', '$500']].map(([label, val], i) => (

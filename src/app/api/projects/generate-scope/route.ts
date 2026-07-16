@@ -77,18 +77,18 @@ Generate a professional Scope of Work a licensed contractor can act on immediate
 [Bullet list with estimated quantity and unit cost for each item, e.g. "- 12x 4'x8' drywall sheets — ~$15/sheet (~$180)"]
 
 ## Labor Requirements
-[Trade skills needed, crew size, and estimated hours only — do NOT include cost figures here, those go in Total Cost Summary]
+[Trade skills needed, crew size, and estimated hours only — do NOT include cost figures here, those go in Estimated Project Cost]
 
 ---
 
-## Total Cost Summary
-| | Estimated Cost |
+## Estimated Project Cost
+| | Ballpark Estimate |
 |---|---|
 | Materials | $X |
 | Labor | $X |
 | **TOTAL** | **$X** |
 
-> ⚠️ This estimate is for budgeting purposes only. Final pricing is determined by contractor bids. Costs reflect current regional market rates and may vary based on site conditions, material availability, and contractor overhead.
+> ⚠️ These figures are ballpark estimates for scoping purposes only — not a quote. Actual costs will vary by market, contractor overhead, and site conditions. Final pricing is set by contractor bids.
 
 ## Site Safety Requirements
 [Relevant OSHA or safety considerations]
@@ -107,9 +107,9 @@ Rules:
 - Use these base labor rates by trade ($/hr, US national average, 2025):
   • Plumber: $95/hr | Electrician: $105/hr | HVAC Tech: $100/hr | Drywall/Painter: $65/hr | Flooring: $70/hr | Roofer: $80/hr | General Labor: $55/hr | Carpenter: $75/hr | Landscaper: $50/hr
   Estimate hours from the scope steps, then add 25% to the labor subtotal for mobilization, supervision, and scheduling overhead. Round to nearest $5.
-- Always present a single cost figure — never a range. Use the calculated totals with buffers applied. Do not hedge or qualify the numbers.
-- In the Total Cost Summary: the TOTAL is Materials + Labor. Do not include any profit margin line.
-- The Total Cost Summary table MUST always appear at the end — never omit it`,
+- Present a single ballpark figure — never a range. These are estimates for scoping purposes, not binding quotes. Contractors set their own prices.
+- In the Estimated Project Cost: the TOTAL is Materials + Labor. Do not include any profit margin line.
+- The Estimated Project Cost table MUST always appear — never omit it`,
               },
             ],
           }],

@@ -3,7 +3,7 @@
 const CONTRACTOR_HIDDEN_SECTIONS = new Set([
   'Materials Required',
   'Labor Requirements',
-  'Total Cost Summary',
+  'Estimated Project Cost',
 ])
 
 interface Props {
@@ -18,7 +18,7 @@ const SECTION_META: Record<string, { icon: string; accent: string; bg: string }>
   'Scope of Work':          { icon: '🔨', accent: 'oklch(0.62 0.14 230)', bg: 'oklch(0.18 0.05 230)' },
   'Materials Required':     { icon: '📦', accent: 'oklch(0.65 0.14 160)', bg: 'oklch(0.17 0.05 160)' },
   'Labor Requirements':     { icon: '👷', accent: 'oklch(0.72 0.12 75)',  bg: 'oklch(0.20 0.06 75)'  },
-  'Total Cost Summary':     { icon: '💰', accent: 'oklch(0.75 0.15 145)', bg: 'oklch(0.17 0.06 145)' },
+  'Estimated Project Cost':  { icon: '💰', accent: 'oklch(0.75 0.15 145)', bg: 'oklch(0.17 0.06 145)' },
   'Site Safety Requirements':{ icon: '⚠️', accent: 'oklch(0.75 0.14 55)', bg: 'oklch(0.20 0.06 55)'  },
   'Cleanup & Disposal':     { icon: '🧹', accent: 'oklch(0.65 0.08 252)', bg: 'oklch(0.18 0.04 252)' },
   'Warranty Expectations':  { icon: '🛡️', accent: 'oklch(0.62 0.12 300)', bg: 'oklch(0.18 0.05 300)' },
@@ -46,7 +46,7 @@ function renderContent(content: string, sectionTitle: string) {
   const lines = content.split('\n').map(l => l.trim()).filter(Boolean)
 
   // Special: cost table
-  if (sectionTitle === 'Total Cost Summary') {
+  if (sectionTitle === 'Estimated Project Cost') {
     const table = parseTable(lines)
     const note = lines.find(l => l.startsWith('>'))?.replace(/^>\s*⚠️?\s*/, '')
     if (table) {
@@ -192,11 +192,11 @@ export default function SOWViewer({ text, streaming = false, hideCost = false, c
       {/* Sections */}
       {sections.filter(({ title }) => {
         if (contractorView && CONTRACTOR_HIDDEN_SECTIONS.has(title)) return false
-        if (hideCost && title === 'Total Cost Summary') return false
+        if (hideCost && title === 'Estimated Project Cost') return false
         return true
       }).map(({ title, content }) => {
         const meta = SECTION_META[title] || { icon: '📄', accent: 'oklch(0.65 0.02 252)', bg: 'oklch(0.18 0.022 252)' }
-        const isCost = title === 'Total Cost Summary'
+        const isCost = title === 'Estimated Project Cost'
         return (
           <div key={title} className="rounded-xl overflow-hidden"
             style={{
