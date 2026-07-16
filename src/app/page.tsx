@@ -42,7 +42,7 @@ function LandingPage() {
             style={{ color: 'oklch(0.65 0.02 252)' }}>
             Sign In
           </Link>
-          <Link href="/register/pm"
+          <Link href="/register"
             className="px-4 py-2 rounded-lg text-sm font-semibold text-white transition-all duration-150 active:scale-[0.98]"
             style={{ background: 'oklch(0.57 0.135 183)' }}>
             Sign Up
@@ -74,7 +74,7 @@ function LandingPage() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
-            <Link href="/register/pm"
+            <Link href="/register"
               className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-base font-semibold text-white transition-all duration-150 active:scale-[0.98] shadow-glow"
               style={{ background: 'oklch(0.57 0.135 183)' }}>
               Start Tagging
@@ -658,7 +658,7 @@ function LandingPage() {
           Join property managers who&apos;ve stopped guessing at scope, stopped chasing contractors, and started running repairs like a system.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Link href="/register/pm"
+          <Link href="/register"
             className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-semibold text-white transition-all duration-150 active:scale-[0.98]"
             style={{ background: 'oklch(0.57 0.135 183)' }}>
             Start Tagging →
