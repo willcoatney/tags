@@ -436,10 +436,11 @@ function LandingPage() {
               <div className="p-4 space-y-2">
                 {([
                   { icon: '📬', time: 'Day 0', label: 'Project posted', msg: '3 contractors notified in your area', color: 'oklch(0.57 0.135 183)' },
-                  { icon: '💰', time: 'Day 1', label: 'Bid received', msg: 'New bid: A&amp;B Plumbing — $1,950 / 2 days', color: 'oklch(0.72 0.14 75)' },
+                  { icon: '💰', time: 'Day 1', label: 'Bid received', msg: 'New bid: Apex Plumbing Co. — $1,950 / 2 days', color: 'oklch(0.72 0.14 75)' },
                   { icon: '💰', time: 'Day 1', label: 'Bid received', msg: 'New bid: ProFix Services — $2,200 / 3 days', color: 'oklch(0.72 0.14 75)' },
-                  { icon: '🏆', time: 'Day 2', label: 'Bid awarded', msg: 'A&amp;B Plumbing awarded — they\'ve been notified', color: 'oklch(0.57 0.135 183)' },
-                  { icon: '🔨', time: 'Day 4', label: 'Work complete', msg: 'A&amp;B Plumbing marked work done — tap to confirm', color: 'oklch(0.80 0.16 160)' },
+                  { icon: '💰', time: 'Day 2', label: 'Bid received', msg: 'New bid: Riverside Repairs — $2,050 / 2 days', color: 'oklch(0.72 0.14 75)' },
+                  { icon: '🏆', time: 'Day 2', label: 'Bid awarded', msg: 'Apex Plumbing Co. awarded — they\'ve been notified', color: 'oklch(0.57 0.135 183)' },
+                  { icon: '🔨', time: 'Day 4', label: 'Work complete', msg: 'Apex Plumbing Co. marked work done — tap to confirm', color: 'oklch(0.80 0.16 160)' },
                   { icon: '✅', time: 'Day 4', label: 'Job confirmed', msg: 'Unit 4B bathtub replacement complete. Record saved.', color: 'oklch(0.65 0.15 145)' },
                 ] as Array<{ icon: string; time: string; label: string; msg: string; color: string }>).map((item, i) => (
                   <div key={i} className="flex items-start gap-3 rounded-xl px-3 py-2.5" style={{ background: 'oklch(0.17 0.022 252)' }}>
@@ -521,7 +522,7 @@ function LandingPage() {
                     { msg: 'Can you confirm you have access to Unit 4B on Wednesday morning?', me: true, tag: null },
                     { msg: 'Yes, I\'ll be there at 8am. Do I need to check in at the office first?', me: false, tag: 'SMS' },
                     { msg: 'Yes, ask for Maria at the front desk. She\'ll have the key ready.', me: true, tag: null },
-                    { msg: 'Got it. See you Wednesday. Tub should be done same day.', me: false, tag: 'SMS' },
+                    { msg: 'Got it. See you Wednesday. Should be wrapped up same day.', me: false, tag: 'SMS' },
                   ].map((m, i) => (
                     <div key={i} className={`flex ${m.me ? 'justify-end' : 'justify-start'}`}>
                       <div className="max-w-[80%]">
