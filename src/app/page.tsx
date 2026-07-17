@@ -180,7 +180,7 @@ function LandingPage() {
               step: '01',
               icon: '📸',
               title: 'Snap & describe',
-              body: 'Photo + plain English description. "Leaking pipe, unit 4B." That\'s all you need.',
+              body: 'Photo + plain English description. "I need to remove and replace this bathtub — Unit 4B." That\'s all you need.',
               accent: 'oklch(0.62 0.14 230)',
               bg: 'oklch(0.20 0.05 230)',
             },
@@ -255,33 +255,56 @@ function LandingPage() {
 
           {/* SOW preview card */}
           <div className="rounded-2xl overflow-hidden" style={{ background: 'oklch(0.13 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
-            <div className="px-5 py-3 flex items-center justify-between" style={{ borderBottom: '1px solid oklch(0.20 0.022 252)' }}>
+            {/* Card header */}
+            <div className="px-5 py-3 flex items-center justify-between" style={{ borderBottom: '1px solid oklch(0.20 0.022 252)', background: 'oklch(0.16 0.022 252)' }}>
               <div className="flex items-center gap-2">
                 <div className="w-2.5 h-2.5 rounded-full" style={{ background: 'oklch(0.57 0.135 183)' }} />
                 <span className="text-xs font-semibold text-white">Generated Scope of Work</span>
               </div>
               <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: 'oklch(0.18 0.06 160)', color: 'oklch(0.70 0.13 160)' }}>● Ready</span>
             </div>
+
+            {/* Project meta */}
+            <div className="px-5 pt-4 pb-3" style={{ borderBottom: '1px solid oklch(0.20 0.022 252)' }}>
+              <div className="flex items-start gap-3">
+                {/* Photo thumbnail */}
+                <div className="shrink-0 w-16 h-16 rounded-xl overflow-hidden" style={{ border: '1px solid oklch(0.27 0.022 252)' }}>
+                  <img src="/demo-bathtub.jpg" alt="Bathtub replacement — Unit 4B" className="w-full h-full object-cover" />
+                </div>
+                <div className="min-w-0">
+                  <p className="text-sm font-bold text-white leading-tight">Bathtub Replacement</p>
+                  <p className="text-xs mt-0.5" style={{ color: 'oklch(0.57 0.135 183)' }}>ABC Properties · 123 ABC Blvd, Riverside, TX</p>
+                  <p className="text-xs mt-1" style={{ color: 'oklch(0.55 0.02 252)' }}>Unit 4B · Plumbing</p>
+                  <div className="mt-2 rounded-lg px-2.5 py-1.5 text-xs italic" style={{ background: 'oklch(0.17 0.022 252)', color: 'oklch(0.62 0.02 252)' }}>
+                    &ldquo;I need to remove and replace this bathtub.&rdquo;
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div className="p-5 space-y-4 text-sm" style={{ color: 'oklch(0.72 0.015 252)' }}>
               <div>
                 <p className="font-semibold text-xs uppercase tracking-wide mb-1.5" style={{ color: 'oklch(0.57 0.135 183)' }}>Project Overview</p>
-                <p className="leading-relaxed text-sm" style={{ color: 'oklch(0.65 0.015 252)' }}>Replace failed P-trap and supply lines — Unit 4B kitchen sink. Active leak causing cabinet moisture damage.</p>
+                <p className="leading-relaxed text-sm" style={{ color: 'oklch(0.65 0.015 252)' }}>Remove and replace existing 60&quot; alcove bathtub in Unit 4B bathroom. Existing tub has aging finish and failing drain assembly. Replacement tub to be installed in same location with new drain, overflow, and supply connections.</p>
               </div>
               <div>
                 <p className="font-semibold text-xs uppercase tracking-wide mb-1.5" style={{ color: 'oklch(0.57 0.135 183)' }}>Scope of Work</p>
-                <ol className="space-y-1 list-decimal list-inside text-sm" style={{ color: 'oklch(0.65 0.015 252)' }}>
-                  <li>Shut off water supply to affected sink</li>
-                  <li>Remove and replace P-trap assembly</li>
-                  <li>Replace supply lines and shutoff valves</li>
-                  <li>Inspect subfloor for moisture damage</li>
-                  <li>Pressure test and verify no active leaks</li>
+                <ol className="space-y-1.5 list-decimal list-inside text-sm" style={{ color: 'oklch(0.65 0.015 252)' }}>
+                  <li>Shut off water supply at nearest isolation point; confirm no active flow</li>
+                  <li>Remove tub surround panels to expose wall flanges and framing</li>
+                  <li>Disconnect drain assembly, overflow plate, and supply lines</li>
+                  <li>Remove existing tub; inspect subfloor and framing for moisture damage</li>
+                  <li>Set and secure new 60&quot; alcove tub to wall studs per manufacturer specs</li>
+                  <li>Reconnect drain assembly, overflow, and supply connections</li>
+                  <li>Reinstall surround; caulk all seams and penetrations</li>
+                  <li>Fill tub and verify drain function; inspect all connections for leaks</li>
                 </ol>
               </div>
               <div className="rounded-xl overflow-hidden" style={{ border: '1px solid oklch(0.30 0.08 145)' }}>
                 <div className="px-4 py-2 text-xs font-semibold uppercase tracking-wide" style={{ background: 'oklch(0.20 0.07 145)', color: 'oklch(0.75 0.15 145)' }}>Estimated Project Cost</div>
                 <table className="w-full text-sm">
                   <tbody>
-                    {[['Materials', '$180'], ['Labor', '$320'], ['TOTAL', '$500']].map(([label, val], i) => (
+                    {[['Materials', '$850'], ['Labor', '$1,200'], ['TOTAL', '$2,050']].map(([label, val], i) => (
                       <tr key={label} style={{ background: i === 2 ? 'oklch(0.20 0.07 145)' : i % 2 === 0 ? 'oklch(0.15 0.04 145)' : 'oklch(0.16 0.04 145)', borderTop: i === 2 ? '1px solid oklch(0.30 0.08 145)' : undefined }}>
                         <td className={`px-4 py-2 text-xs ${i === 2 ? 'font-bold' : ''}`} style={{ color: i === 2 ? 'oklch(0.90 0.12 145)' : 'oklch(0.75 0.02 252)' }}>{label}</td>
                         <td className={`px-4 py-2 text-xs ${i === 2 ? 'font-bold' : ''} text-right`} style={{ color: i === 2 ? 'oklch(0.90 0.12 145)' : 'white' }}>{val}</td>
@@ -292,7 +315,7 @@ function LandingPage() {
               </div>
               <div className="flex items-center gap-2 text-xs" style={{ color: 'oklch(0.45 0.015 252)' }}>
                 <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
-                Generated in 4.2s · Ready for contractor bids
+                Generated in 3.8s · Ready for contractor bids
               </div>
             </div>
           </div>
@@ -401,16 +424,16 @@ function LandingPage() {
             <div className="rounded-2xl overflow-hidden" style={{ background: 'oklch(0.13 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
               <div className="px-5 py-3 flex items-center gap-2" style={{ borderBottom: '1px solid oklch(0.20 0.022 252)', background: 'oklch(0.16 0.022 252)' }}>
                 <div className="w-2.5 h-2.5 rounded-full animate-pulse" style={{ background: 'oklch(0.57 0.135 183)' }} />
-                <span className="text-xs font-semibold text-white">TAGS Alerts — Unit 4B Plumbing</span>
+                <span className="text-xs font-semibold text-white">TAGS Alerts — Unit 4B Bathtub Replacement</span>
               </div>
               <div className="p-4 space-y-2">
                 {([
                   { icon: '📬', time: 'Day 0', label: 'Project posted', msg: '3 contractors notified in your area', color: 'oklch(0.57 0.135 183)' },
-                  { icon: '💰', time: 'Day 1', label: 'Bid received', msg: 'New bid: ABC Plumbing — $485 / 3 days', color: 'oklch(0.72 0.14 75)' },
-                  { icon: '💰', time: 'Day 1', label: 'Bid received', msg: 'New bid: ProFix Services — $520 / 2 days', color: 'oklch(0.72 0.14 75)' },
-                  { icon: '🏆', time: 'Day 2', label: 'Bid awarded', msg: 'ABC Plumbing awarded — they\'ve been notified', color: 'oklch(0.57 0.135 183)' },
-                  { icon: '🔨', time: 'Day 5', label: 'Work complete', msg: 'ABC Plumbing marked work done — tap to confirm', color: 'oklch(0.80 0.16 160)' },
-                  { icon: '✅', time: 'Day 5', label: 'Job confirmed', msg: 'Unit 4B plumbing complete. Record saved.', color: 'oklch(0.65 0.15 145)' },
+                  { icon: '💰', time: 'Day 1', label: 'Bid received', msg: 'New bid: A&amp;B Plumbing — $1,950 / 2 days', color: 'oklch(0.72 0.14 75)' },
+                  { icon: '💰', time: 'Day 1', label: 'Bid received', msg: 'New bid: ProFix Services — $2,200 / 3 days', color: 'oklch(0.72 0.14 75)' },
+                  { icon: '🏆', time: 'Day 2', label: 'Bid awarded', msg: 'A&amp;B Plumbing awarded — they\'ve been notified', color: 'oklch(0.57 0.135 183)' },
+                  { icon: '🔨', time: 'Day 4', label: 'Work complete', msg: 'A&amp;B Plumbing marked work done — tap to confirm', color: 'oklch(0.80 0.16 160)' },
+                  { icon: '✅', time: 'Day 4', label: 'Job confirmed', msg: 'Unit 4B bathtub replacement complete. Record saved.', color: 'oklch(0.65 0.15 145)' },
                 ] as Array<{ icon: string; time: string; label: string; msg: string; color: string }>).map((item, i) => (
                   <div key={i} className="flex items-start gap-3 rounded-xl px-3 py-2.5" style={{ background: 'oklch(0.17 0.022 252)' }}>
                     <span className="text-base shrink-0 mt-0.5">{item.icon}</span>
@@ -484,14 +507,14 @@ function LandingPage() {
               <div className="rounded-2xl overflow-hidden" style={{ background: 'oklch(0.14 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
                 <div className="px-4 py-3 flex items-center gap-2" style={{ borderBottom: '1px solid oklch(0.20 0.022 252)', background: 'oklch(0.16 0.022 252)' }}>
                   <div className="w-2 h-2 rounded-full" style={{ background: 'oklch(0.57 0.135 183)' }} />
-                  <span className="text-xs font-semibold text-white">Unit 4B — Plumbing Repair</span>
+                  <span className="text-xs font-semibold text-white">Unit 4B — Bathtub Replacement</span>
                 </div>
                 <div className="p-4 space-y-3">
                   {[
-                    { msg: 'Can you confirm you have access to the unit on Thursday?', me: true, tag: null },
-                    { msg: 'Yes, I\'ll be there at 9am. Do I need to check in at the office?', me: false, tag: 'SMS' },
-                    { msg: 'Yes, ask for Maria at the front desk. She\'ll have the key.', me: true, tag: null },
-                    { msg: 'Got it. See you Thursday.', me: false, tag: 'SMS' },
+                    { msg: 'Can you confirm you have access to Unit 4B on Wednesday morning?', me: true, tag: null },
+                    { msg: 'Yes, I\'ll be there at 8am. Do I need to check in at the office first?', me: false, tag: 'SMS' },
+                    { msg: 'Yes, ask for Maria at the front desk. She\'ll have the key ready.', me: true, tag: null },
+                    { msg: 'Got it. See you Wednesday. Tub should be done same day.', me: false, tag: 'SMS' },
                   ].map((m, i) => (
                     <div key={i} className={`flex ${m.me ? 'justify-end' : 'justify-start'}`}>
                       <div className="max-w-[80%]">
