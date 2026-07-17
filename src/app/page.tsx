@@ -266,18 +266,25 @@ function LandingPage() {
 
             {/* Project meta */}
             <div className="px-5 pt-4 pb-3" style={{ borderBottom: '1px solid oklch(0.20 0.022 252)' }}>
-              <div className="flex items-start gap-3">
-                {/* Photo thumbnail */}
-                <div className="shrink-0 w-16 h-16 rounded-xl overflow-hidden" style={{ border: '1px solid oklch(0.27 0.022 252)' }}>
-                  <img src="/demo-bathtub.jpg" alt="Bathtub replacement — Unit 4B" className="w-full h-full object-cover" />
-                </div>
-                <div className="min-w-0">
+              <div>
+                {/* Project meta row */}
+                <div className="mb-3">
                   <p className="text-sm font-bold text-white leading-tight">Bathtub Replacement</p>
                   <p className="text-xs mt-0.5" style={{ color: 'oklch(0.57 0.135 183)' }}>ABC Properties · 123 ABC Blvd, Riverside, TX</p>
-                  <p className="text-xs mt-1" style={{ color: 'oklch(0.55 0.02 252)' }}>Unit 4B · Plumbing</p>
-                  <div className="mt-2 rounded-lg px-2.5 py-1.5 text-xs italic" style={{ background: 'oklch(0.17 0.022 252)', color: 'oklch(0.62 0.02 252)' }}>
-                    &ldquo;I need to remove and replace this bathtub.&rdquo;
+                  <p className="text-xs mt-0.5" style={{ color: 'oklch(0.55 0.02 252)' }}>Unit 4B · Plumbing · 2 photos attached</p>
+                </div>
+                {/* Photo gallery */}
+                <div className="grid grid-cols-2 gap-2 mb-3">
+                  <div className="rounded-xl overflow-hidden aspect-[4/3]" style={{ border: '1px solid oklch(0.27 0.022 252)' }}>
+                    <img src="/demo-bathtub-1.jpg" alt="Bathtub — overhead view showing rusted drain" className="w-full h-full object-cover" />
                   </div>
+                  <div className="rounded-xl overflow-hidden aspect-[4/3]" style={{ border: '1px solid oklch(0.27 0.022 252)' }}>
+                    <img src="/demo-bathtub-2.jpg" alt="Bathtub — side view showing rust and deterioration" className="w-full h-full object-cover" />
+                  </div>
+                </div>
+                {/* PM description */}
+                <div className="rounded-lg px-3 py-2 text-xs italic" style={{ background: 'oklch(0.17 0.022 252)', color: 'oklch(0.62 0.02 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
+                  &ldquo;I need to remove and replace this bathtub. The bottom is completely rusted out around the drain.&rdquo;
                 </div>
               </div>
             </div>
