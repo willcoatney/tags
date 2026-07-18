@@ -10,7 +10,7 @@ export default function TermsPage() {
         <Link href="/" className="flex items-center gap-2">
           <img src="/tags-logo.jpg" alt="TAGS" className="h-10 max-w-[130px] object-contain rounded-md shrink-0" />
         </Link>
-        <Link href="/" className="text-sm" style={{ color: 'oklch(0.57 0.135 183)' }}>← Back to Home</Link>
+        <Link href="/legal" className="text-sm" style={{ color: 'oklch(0.57 0.135 183)' }}>← Legal Center</Link>
       </nav>
 
       <div className="max-w-3xl mx-auto px-6 md:px-12 py-20">

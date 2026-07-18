@@ -803,8 +803,9 @@ function LandingPage() {
           </p>
           <div className="flex items-center gap-4">
             <a href="mailto:hello@tagyourproject.com" className="text-xs transition-colors" style={{ color: 'oklch(0.45 0.015 252)' }}>hello@tagyourproject.com</a>
-            <Link href="/privacy" className="text-xs transition-colors" style={{ color: 'oklch(0.45 0.015 252)' }}>Privacy Policy</Link>
-            <Link href="/terms" className="text-xs transition-colors" style={{ color: 'oklch(0.45 0.015 252)' }}>Terms of Service</Link>
+            <Link href="/legal" className="text-xs transition-colors" style={{ color: 'oklch(0.45 0.015 252)' }}>Legal</Link>
+            <Link href="/privacy" className="text-xs transition-colors" style={{ color: 'oklch(0.45 0.015 252)' }}>Privacy</Link>
+            <Link href="/terms" className="text-xs transition-colors" style={{ color: 'oklch(0.45 0.015 252)' }}>Terms</Link>
           </div>
         </div>
       </footer>
