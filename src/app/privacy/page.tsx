@@ -21,7 +21,7 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="text-xl font-semibold text-white mb-3">Who We Are</h2>
-            <p className="leading-relaxed">TAGS (The Apartment Guys System) is a two-sided marketplace for multifamily property repair, operated at tagyourproject.com. We connect property managers and regional managers with vetted contractors using AI-generated Scopes of Work.</p>
+            <p className="leading-relaxed">TAGS (The Apartment Guys System) is a two-sided marketplace for multifamily property repair, operated at tagyourproject.com. We connect property managers and regional managers with vetted contractors using TAGS-generated Scopes of Work.</p>
           </section>
 
           <section>
@@ -42,7 +42,7 @@ export default function PrivacyPage() {
               <li>To operate the TAGS platform and provide its core services.</li>
               <li>To send SMS notifications via Twilio (bid alerts, job updates, completion confirmations).</li>
               <li>To send transactional emails via Resend (account confirmations, project notifications).</li>
-              <li>To generate AI-powered Scopes of Work using Anthropic&apos;s Claude — your project description and photos are sent to Anthropic&apos;s API for this purpose.</li>
+              <li>To generate TAGS-proprietary Scopes of Work — your project description and photos are processed through TAGS&apos;s document engine, which uses Anthropic&apos;s API as a component of that system.</li>
               <li>To process payments through Stripe for contractor membership fees and per-bid charges.</li>
               <li>To improve the platform and diagnose technical issues.</li>
             </ul>

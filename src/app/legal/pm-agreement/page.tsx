@@ -18,7 +18,7 @@ export default function PMagreementPage() {
         <h2 className="text-xl font-semibold text-white mb-3">2. Who This Applies To</h2>
         <p className="leading-relaxed">This Agreement applies to two roles on the TAGS platform:</p>
         <ul className="space-y-2 list-disc list-inside leading-relaxed mt-3">
-          <li><strong className="text-white">Property Manager (PM)</strong> — A professional responsible for managing one or more multifamily residential communities. PMs post projects, review AI-generated Scopes of Work, and award bids.</li>
+          <li><strong className="text-white">Property Manager (PM)</strong> — A professional responsible for managing one or more multifamily residential communities. PMs post projects, review TAGS-generated Scopes of Work, and award bids.</li>
           <li><strong className="text-white">Regional Manager (RM) / Asset Manager</strong> — A professional overseeing a portfolio of multiple communities managed by one or more PMs. RMs can view activity across their portfolio and manage PM access via invite links.</li>
         </ul>
       </section>
@@ -39,7 +39,7 @@ export default function PMagreementPage() {
         <ul className="space-y-2 list-disc list-inside leading-relaxed mt-3">
           <li>Provide accurate and complete project descriptions that give contractors a genuine picture of the scope.</li>
           <li>Upload clear, relevant photos that fairly represent the condition requiring repair.</li>
-          <li>Review all AI-generated Scopes of Work before publishing a project for bid. You are responsible for the accuracy of any SOW you publish — not TAGS.</li>
+          <li>Review all TAGS-generated Scopes of Work before publishing a project for bid. You are responsible for the accuracy of any SOW you publish — not TAGS.</li>
           <li>Respond to contractor questions in a reasonable timeframe (we recommend within 2 business days).</li>
           <li>Not post projects you have no genuine intent to proceed with.</li>
         </ul>
@@ -64,13 +64,13 @@ export default function PMagreementPage() {
       <section>
         <h2 className="text-xl font-semibold text-white mb-3">6. AI-Generated Scopes of Work</h2>
         <p className="leading-relaxed">
-          TAGS uses artificial intelligence (Anthropic&apos;s Claude) to generate Scopes of Work from your project description and photos. These documents are provided as a professional starting point. You acknowledge that:
+          TAGS uses its proprietary document engine to generate Scopes of Work from your project description and photos. These documents are provided as a professional starting point. You acknowledge that:
         </p>
         <ul className="space-y-2 list-disc list-inside leading-relaxed mt-3">
-          <li>AI-generated SOWs may not be complete, accurate, or sufficient for every regulatory, insurance, or contractual purpose.</li>
+          <li>TAGS-generated SOWs may not be complete, accurate, or sufficient for every regulatory, insurance, or contractual purpose.</li>
           <li>You are responsible for reviewing the SOW before publishing and for any modifications you make.</li>
           <li>By publishing a project, you confirm you have reviewed the SOW and find it acceptable for soliciting bids.</li>
-          <li>TAGS is not liable for errors or omissions in an AI-generated SOW or for any consequences arising from contractor reliance on a SOW you approved and published.</li>
+          <li>TAGS is not liable for errors or omissions in a TAGS-generated SOW or for any consequences arising from contractor reliance on a SOW you approved and published.</li>
         </ul>
       </section>
 

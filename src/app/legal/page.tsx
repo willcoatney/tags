@@ -28,13 +28,13 @@ const documents = [
   {
     href: '/legal/ip-notice',
     title: 'Intellectual Property & Copyright',
-    desc: 'Who owns what on the TAGS platform — including AI-generated Scopes of Work, the platform itself, user-uploaded content, and the TAGS brand.',
+    desc: 'Who owns what on the TAGS platform — including TAGS-generated Scopes of Work, the platform itself, user-uploaded content, and the TAGS brand.',
     badge: 'All Users',
   },
   {
     href: '/legal/disclaimer',
     title: 'Website Disclaimer',
-    desc: 'Important limitations on AI-generated content, contractor quality assurance, platform availability, and TAGS\'s role as a marketplace intermediary.',
+    desc: 'Important limitations on TAGS-generated content, contractor quality assurance, platform availability, and TAGS\'s role as a marketplace intermediary.',
     badge: 'All Users',
   },
   {
