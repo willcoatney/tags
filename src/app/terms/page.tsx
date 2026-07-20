@@ -68,7 +68,7 @@ export default function TermsPage() {
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-white mb-3">AI-Generated Scopes of Work</h2>
+            <h2 className="text-xl font-semibold text-white mb-3">TAGS-Generated Scopes of Work</h2>
             <p className="leading-relaxed">TAGS uses its proprietary document engine to generate Scopes of Work from project descriptions and photos. These documents are provided as a professional starting point and should be reviewed by the property manager before publication. TAGS does not guarantee that TAGS-generated SOWs are complete, accurate, or sufficient for all regulatory or contractual purposes. By publishing a project, you confirm you have reviewed the SOW and find it acceptable.</p>
             <p className="leading-relaxed mt-3">All TAGS-generated Scopes of Work are the intellectual property of TAGS — The Apartment Guys System. Reproduction or distribution outside the platform is prohibited without written permission.</p>
           </section>

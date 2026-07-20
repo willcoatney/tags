@@ -62,7 +62,7 @@ export default function PMagreementPage() {
       </section>
 
       <section>
-        <h2 className="text-xl font-semibold text-white mb-3">6. AI-Generated Scopes of Work</h2>
+        <h2 className="text-xl font-semibold text-white mb-3">6. TAGS-Generated Scopes of Work</h2>
         <p className="leading-relaxed">
           TAGS uses its proprietary document engine to generate Scopes of Work from your project description and photos. These documents are provided as a professional starting point. You acknowledge that:
         </p>
