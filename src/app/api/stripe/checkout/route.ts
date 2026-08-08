@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
-import { stripe } from '@/lib/stripe'
+import { getStripe } from '@/lib/stripe'
 
 export async function POST() {
   const cookieStore = await cookies()
@@ -22,16 +22,28 @@ export async function POST() {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
-  // Fetch the org for this user
-  const { data: org, error: orgError } = await supabase
-    .from('organizations')
-    .select('id, name, stripe_customer_id')
-    .eq('owner_id', user.id)
+  // Get user profile to determine role and organization
+  const { data: profile } = await supabase
+    .from('user_profiles')
+    .select('role, organization_id')
+    .eq('id', user.id)
     .single()
 
-  if (orgError || !org) {
+  if (!profile?.organization_id) {
     return NextResponse.json({ error: 'Organization not found' }, { status: 404 })
   }
+
+  const { data: org } = await supabase
+    .from('organizations')
+    .select('id, name, stripe_customer_id')
+    .eq('id', profile.organization_id)
+    .single()
+
+  if (!org) {
+    return NextResponse.json({ error: 'Organization not found' }, { status: 404 })
+  }
+
+  const stripe = getStripe()
 
   // Re-use existing Stripe customer or create a new one
   let customerId = org.stripe_customer_id
@@ -40,7 +52,10 @@ export async function POST() {
     const customer = await stripe.customers.create({
       email: user.email,
       name: org.name,
-      metadata: { organization_id: org.id },
+      metadata: {
+        organization_id: org.id,
+        role: profile.role,
+      },
     })
     customerId = customer.id
 
@@ -51,18 +66,21 @@ export async function POST() {
   }
 
   const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://www.tagyourproject.com'
+  const isContractor = profile.role === 'contractor'
+
+  // Route to correct Stripe price based on role
+  const priceId = isContractor
+    ? process.env.STRIPE_CONTRACTOR_PRICE_ID!   // $100/year
+    : process.env.STRIPE_PM_PRICE_ID!            // $50/month
 
   const session = await stripe.checkout.sessions.create({
     customer: customerId,
     mode: 'subscription',
-    line_items: [
-      {
-        price: process.env.STRIPE_PM_PRICE_ID!, // $50/month price ID from Stripe dashboard
-        quantity: 1,
-      },
-    ],
+    line_items: [{ price: priceId, quantity: 1 }],
+    // Collect payment method so we can charge per-job fees off-session
+    payment_method_collection: 'always',
     subscription_data: {
-      metadata: { organization_id: org.id },
+      metadata: { organization_id: org.id, role: profile.role },
     },
     success_url: `${baseUrl}/dashboard/billing?success=1`,
     cancel_url: `${baseUrl}/dashboard/billing?canceled=1`,

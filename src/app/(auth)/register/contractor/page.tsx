@@ -52,8 +52,15 @@ export default function RegisterContractorPage() {
       const { error } = await supabase.auth.signInWithPassword({ email: form.email, password: form.password })
       if (error) throw error
 
-      router.push('/dashboard/contractor')
-      router.refresh()
+      // Redirect to Stripe Checkout for $100/year subscription
+      const checkoutRes = await fetch('/api/stripe/checkout', { method: 'POST' })
+      const checkoutData = await checkoutRes.json()
+      if (checkoutData.url) {
+        window.location.href = checkoutData.url
+      } else {
+        router.push('/dashboard/billing')
+        router.refresh()
+      }
     } catch (err: unknown) {
       toast.error(err instanceof Error ? err.message : 'Registration failed')
       setLoading(false)

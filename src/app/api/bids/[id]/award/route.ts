@@ -4,6 +4,9 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { sendSMS } from '@/lib/sms'
 import { getBaseUrl } from '@/lib/url'
 import { sendEmail, awardedWinnerEmail } from '@/lib/email'
+import { getStripe } from '@/lib/stripe'
+
+const PLATFORM_FEE_RATE = 0.015 // 1.5%
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
   const supabase = await createClient()
@@ -48,6 +51,65 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
   await admin.from('projects')
     .update({ status: 'awarded', updated_at: new Date().toISOString() })
     .eq('id', winningBid.project_id)
+
+  // ── Charge contractor 1.5% platform fee ─────────────────────────────────
+  try {
+    const { data: contractorProfile } = await admin.from('user_profiles')
+      .select('organization_id')
+      .eq('id', winningBid.contractor_user_id)
+      .single()
+
+    if (contractorProfile?.organization_id) {
+      const { data: contractorOrg } = await admin.from('organizations')
+        .select('stripe_customer_id, subscription_status')
+        .eq('id', contractorProfile.organization_id)
+        .single()
+
+      if (contractorOrg?.stripe_customer_id && contractorOrg.subscription_status === 'active') {
+        const stripe = getStripe()
+        const bidAmountCents = Math.round(winningBid.amount * 100)
+        const feeCents = Math.round(bidAmountCents * PLATFORM_FEE_RATE)
+
+        // Create invoice item then auto-advance invoice → charges immediately
+        await stripe.invoiceItems.create({
+          customer: contractorOrg.stripe_customer_id,
+          amount: feeCents,
+          currency: 'usd',
+          description: `TAGS platform fee (1.5%) — "${winningBid.projects.title}" ($${winningBid.amount.toLocaleString()})`,
+          metadata: {
+            bid_id: winningBid.id,
+            project_id: winningBid.project_id,
+            bid_amount_cents: bidAmountCents,
+          },
+        })
+
+        const invoice = await stripe.invoices.create({
+          customer: contractorOrg.stripe_customer_id,
+          auto_advance: true, // auto-finalizes and charges default payment method
+          collection_method: 'charge_automatically',
+          metadata: {
+            bid_id: winningBid.id,
+            project_id: winningBid.project_id,
+          },
+        })
+
+        // Finalize + pay immediately
+        const finalizedInvoice = await stripe.invoices.finalizeInvoice(invoice.id)
+        // Pay the finalized invoice (charges the customer's default payment method)
+        const paidInvoice = await stripe.invoices.pay(finalizedInvoice.id)
+
+        // Record charge on the bid — use invoice ID as the stable reference
+        await admin.from('bids').update({
+          stripe_charge_id: paidInvoice.id,
+          platform_fee_cents: feeCents,
+        }).eq('id', params.id)
+      }
+    }
+  } catch (err) {
+    // Log but don't fail the award — billing issues shouldn't block project flow
+    console.error('Platform fee charge failed for bid', params.id, err)
+  }
+  // ────────────────────────────────────────────────────────────────────────
 
   const baseUrl = getBaseUrl()
   const projectUrl = `${baseUrl}/dashboard/contractor/projects/${winningBid.project_id}`

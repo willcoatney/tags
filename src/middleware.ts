@@ -56,16 +56,16 @@ export async function middleware(request: NextRequest) {
   ) {
     // Only gate PM role — contractors and admins are not subscription-gated
     const { data: profile } = await supabase
-      .from('users')
-      .select('role')
+      .from('user_profiles')
+      .select('role, organization_id')
       .eq('id', user.id)
       .single()
 
-    if (profile?.role === 'pm') {
+    if (profile?.role === 'pm' || profile?.role === 'contractor') {
       const { data: org } = await supabase
         .from('organizations')
         .select('subscription_status')
-        .eq('owner_id', user.id)
+        .eq('id', profile.organization_id)
         .single()
 
       if (!org || org.subscription_status !== 'active') {
