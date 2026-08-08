@@ -1,6 +1,11 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
+// Routes that require an active subscription (PM dashboard)
+const BILLING_GATED_PREFIX = '/dashboard'
+// These dashboard routes are always accessible (billing management itself)
+const BILLING_EXEMPT = ['/dashboard/billing']
+
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
 
@@ -25,7 +30,7 @@ export async function middleware(request: NextRequest) {
 
   const { pathname } = request.nextUrl
 
-  // Redirect unauthenticated users away from dashboard — preserve destination for post-login redirect
+  // 1. Auth gate — unauthenticated users can't access dashboard
   if (!user && pathname.startsWith('/dashboard')) {
     const url = request.nextUrl.clone()
     url.pathname = '/login'
@@ -33,13 +38,43 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
-  // Redirect authenticated users away from auth pages
+  // 2. Redirect authenticated users away from auth pages
   if (user && (pathname === '/login' || pathname.startsWith('/register'))) {
     const redirectTo = request.nextUrl.searchParams.get('redirectTo')
     const url = request.nextUrl.clone()
     url.pathname = redirectTo && redirectTo.startsWith('/dashboard') ? redirectTo : '/'
     url.search = ''
     return NextResponse.redirect(url)
+  }
+
+  // 3. Subscription gate — PMs must have an active subscription to use the dashboard
+  //    Skip for: billing page (so they can subscribe/manage), non-dashboard routes, unauthenticated users
+  if (
+    user &&
+    pathname.startsWith(BILLING_GATED_PREFIX) &&
+    !BILLING_EXEMPT.some(exempt => pathname.startsWith(exempt))
+  ) {
+    // Only gate PM role — contractors and admins are not subscription-gated
+    const { data: profile } = await supabase
+      .from('users')
+      .select('role')
+      .eq('id', user.id)
+      .single()
+
+    if (profile?.role === 'pm') {
+      const { data: org } = await supabase
+        .from('organizations')
+        .select('subscription_status')
+        .eq('owner_id', user.id)
+        .single()
+
+      if (!org || org.subscription_status !== 'active') {
+        const url = request.nextUrl.clone()
+        url.pathname = '/dashboard/billing'
+        url.searchParams.set('required', '1')
+        return NextResponse.redirect(url)
+      }
+    }
   }
 
   return supabaseResponse
