@@ -83,10 +83,20 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
           },
         })
 
+        // Retrieve the customer's default payment method — enforce card only for per-job
+        // charges. ACH takes 3–5 days to settle and can bounce late; cards are instant.
+        const customer = await stripe.customers.retrieve(contractorOrg.stripe_customer_id) as import('stripe').default.Customer
+        const defaultPm = customer.invoice_settings?.default_payment_method as string | null
+
         const invoice = await stripe.invoices.create({
           customer: contractorOrg.stripe_customer_id,
-          auto_advance: true, // auto-finalizes and charges default payment method
+          auto_advance: true,
           collection_method: 'charge_automatically',
+          // Pin to explicit card payment method if available
+          ...(defaultPm ? { default_payment_method: defaultPm } : {}),
+          payment_settings: {
+            payment_method_types: ['card'], // never ACH for per-job fees
+          },
           metadata: {
             bid_id: winningBid.id,
             project_id: winningBid.project_id,

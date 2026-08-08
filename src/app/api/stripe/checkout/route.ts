@@ -77,7 +77,12 @@ export async function POST() {
     customer: customerId,
     mode: 'subscription',
     line_items: [{ price: priceId, quantity: 1 }],
-    // Collect payment method so we can charge per-job fees off-session
+    // Offer both card and ACH bank account.
+    // Note: per-job contractor fees (1.5%) are always charged to the card saved at checkout
+    // regardless of which method is used here — ACH settlement delay makes it unsuitable
+    // for real-time job charges.
+    payment_method_types: ['card', 'us_bank_account'],
+    // Collect payment method so we can charge per-job fees off-session (card only)
     payment_method_collection: 'always',
     subscription_data: {
       metadata: { organization_id: org.id, role: profile.role },
