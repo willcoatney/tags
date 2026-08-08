@@ -13,11 +13,13 @@ const NAV_LINKS: Record<UserRole, { href: string; label: string }[]> = {
     { href: '/dashboard/pm', label: 'Dashboard' },
     { href: '/dashboard/pm/projects/new', label: 'New Project' },
     { href: '/dashboard/pm/contractors', label: 'Contractors' },
+    { href: '/dashboard/billing', label: 'Billing' },
     { href: '/dashboard/settings', label: 'Settings' },
   ],
   contractor: [
     { href: '/dashboard/contractor', label: 'Dashboard' },
     { href: '/dashboard/contractor/profile', label: 'Profile' },
+    { href: '/dashboard/billing', label: 'Billing' },
     { href: '/dashboard/settings', label: 'Settings' },
   ],
   admin: [
