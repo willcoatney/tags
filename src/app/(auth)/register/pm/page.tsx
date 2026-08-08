@@ -10,6 +10,7 @@ import { toast } from 'sonner'
 
 function RegisterPMForm() {
   const [form, setForm] = useState({ fullName: '', email: '', phone: '', password: '', companyName: '' })
+  const [consented, setConsented] = useState(false)
   const [loading, setLoading] = useState(false)
   const [portfolioName, setPortfolioName] = useState<string | null>(null)
   const router = useRouter()
@@ -32,6 +33,7 @@ function RegisterPMForm() {
 
   async function handleRegister(e: React.FormEvent) {
     e.preventDefault()
+    if (!consented) { toast.error('Please agree to the Terms of Service and SMS notifications to continue'); return }
     setLoading(true)
 
     try {
@@ -156,9 +158,27 @@ function RegisterPMForm() {
               </div>
             ))}
 
+            {/* Consent checkbox — required for TCPA compliance and Terms agreement */}
+            <label className="flex items-start gap-3 cursor-pointer mt-2">
+              <input
+                type="checkbox"
+                checked={consented}
+                onChange={e => setConsented(e.target.checked)}
+                className="mt-0.5 h-4 w-4 rounded accent-teal-500 cursor-pointer flex-shrink-0"
+              />
+              <span className="text-xs leading-relaxed" style={{ color: 'oklch(0.60 0.025 252)' }}>
+                I agree to the{' '}
+                <Link href="/terms" target="_blank" className="underline" style={{ color: 'oklch(0.57 0.135 183)' }}>Terms of Service</Link>
+                {' '}and{' '}
+                <Link href="/privacy" target="_blank" className="underline" style={{ color: 'oklch(0.57 0.135 183)' }}>Privacy Policy</Link>
+                , and I consent to receive text message notifications from TAGS regarding my account, projects, and bids.
+                Message &amp; data rates may apply. Reply STOP to opt out.
+              </span>
+            </label>
+
             <button
               type="submit"
-              disabled={loading}
+              disabled={loading || !consented}
               className="w-full h-11 rounded-lg font-semibold text-white transition-all duration-150 active:scale-[0.98] disabled:opacity-50 mt-2"
               style={{ background: 'oklch(0.57 0.135 183)' }}
             >

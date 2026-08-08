@@ -19,6 +19,8 @@ export default function RegisterContractorPage() {
   })
   const [services, setServices] = useState<ProjectType[]>([])
   const [selectedStates, setSelectedStates] = useState<string[]>([])
+  const [consented, setConsented] = useState(false)
+  const [licenseCertified, setLicenseCertified] = useState(false)
   const [loading, setLoading] = useState(false)
   const router = useRouter()
   const supabase = createClient()
@@ -34,6 +36,8 @@ export default function RegisterContractorPage() {
   async function handleRegister(e: React.FormEvent) {
     e.preventDefault()
     if (!services.length) { toast.error('Select at least one service type'); return }
+    if (!consented) { toast.error('Please agree to the Terms of Service and SMS notifications to continue'); return }
+    if (!licenseCertified) { toast.error('Please certify that you hold all required licenses and insurance'); return }
     setLoading(true)
 
     try {
@@ -134,7 +138,42 @@ export default function RegisterContractorPage() {
               </div>
             </div>
 
-            <Button type="submit" disabled={loading} className="w-full bg-teal-600 hover:bg-teal-700">
+            {/* TCPA SMS consent */}
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={consented}
+                onChange={e => setConsented(e.target.checked)}
+                className="mt-0.5 h-4 w-4 rounded accent-teal-500 cursor-pointer flex-shrink-0"
+              />
+              <span className="text-xs text-slate-400 leading-relaxed">
+                I agree to the{' '}
+                <Link href="/terms" target="_blank" className="text-teal-400 underline">Terms of Service</Link>
+                ,{' '}
+                <Link href="/privacy" target="_blank" className="text-teal-400 underline">Privacy Policy</Link>
+                , and{' '}
+                <Link href="/legal/contractor-agreement" target="_blank" className="text-teal-400 underline">Contractor Agreement</Link>
+                . I consent to receive text message notifications from TAGS regarding my account, leads, and bids.
+                Message &amp; data rates may apply. Reply STOP to opt out.
+              </span>
+            </label>
+
+            {/* Licensing & insurance certification */}
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={licenseCertified}
+                onChange={e => setLicenseCertified(e.target.checked)}
+                className="mt-0.5 h-4 w-4 rounded accent-teal-500 cursor-pointer flex-shrink-0"
+              />
+              <span className="text-xs text-slate-400 leading-relaxed">
+                I certify that I hold all licenses and insurance required by my state and trade(s),
+                and that I am solely responsible for maintaining them. I understand TAGS does not verify
+                licensing and assumes no liability for work performed on the platform.
+              </span>
+            </label>
+
+            <Button type="submit" disabled={loading || !consented || !licenseCertified} className="w-full bg-teal-600 hover:bg-teal-700">
               {loading ? 'Submitting...' : 'Submit Application'}
             </Button>
             <p className="text-xs text-slate-500 text-center">Applications are reviewed by TAGS admin before activation.</p>
