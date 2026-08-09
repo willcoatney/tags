@@ -23,24 +23,45 @@ export async function POST() {
   }
 
   // Get user profile to determine role and organization
-  const { data: profile } = await supabase
+  const { data: profile, error: profileError } = await supabase
     .from('user_profiles')
     .select('role, organization_id')
     .eq('id', user.id)
     .single()
 
-  if (!profile?.organization_id) {
-    return NextResponse.json({ error: 'Organization not found' }, { status: 404 })
+  if (profileError || !profile) {
+    console.error('Checkout: user_profiles lookup failed', profileError)
+    return NextResponse.json({ error: 'User profile not found. Please contact support.' }, { status: 404 })
   }
 
-  const { data: org } = await supabase
+  if (!profile.organization_id) {
+    console.error('Checkout: user has no organization_id', user.id)
+    return NextResponse.json({ error: 'No organization linked to this account. Please contact support.' }, { status: 404 })
+  }
+
+  // Fetch org — select only base columns first to avoid failing if stripe migration hasn't run
+  const { data: orgBase, error: orgError } = await supabase
     .from('organizations')
-    .select('id, name, stripe_customer_id')
+    .select('id, name')
     .eq('id', profile.organization_id)
     .single()
 
-  if (!org) {
-    return NextResponse.json({ error: 'Organization not found' }, { status: 404 })
+  if (orgError || !orgBase) {
+    console.error('Checkout: organizations lookup failed', orgError)
+    return NextResponse.json({ error: 'Organization record not found. Please contact support.' }, { status: 404 })
+  }
+
+  // Fetch stripe columns separately (requires migration 20260808_stripe_billing.sql to be run)
+  const { data: orgStripe } = await supabase
+    .from('organizations')
+    .select('stripe_customer_id')
+    .eq('id', profile.organization_id)
+    .single()
+
+  const org = { ...orgBase, stripe_customer_id: orgStripe?.stripe_customer_id ?? null }
+
+  if (!orgStripe) {
+    console.warn('Checkout: stripe columns not found on org — has 20260808_stripe_billing.sql been run in Supabase?')
   }
 
   const stripe = getStripe()
