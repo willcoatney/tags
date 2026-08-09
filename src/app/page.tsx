@@ -806,6 +806,7 @@ function LandingPage() {
             <Link href="/legal" className="text-xs transition-colors" style={{ color: 'oklch(0.45 0.015 252)' }}>Legal</Link>
             <Link href="/privacy" className="text-xs transition-colors" style={{ color: 'oklch(0.45 0.015 252)' }}>Privacy</Link>
             <Link href="/terms" className="text-xs transition-colors" style={{ color: 'oklch(0.45 0.015 252)' }}>Terms</Link>
+            <Link href="/accessibility" className="text-xs transition-colors" style={{ color: 'oklch(0.45 0.015 252)' }}>Accessibility</Link>
           </div>
         </div>
       </footer>

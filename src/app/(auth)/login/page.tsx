@@ -78,30 +78,34 @@ function LoginForm() {
 
           <form onSubmit={handleLogin} className="space-y-5">
             <div className="space-y-1.5">
-              <Label className="text-sm font-medium" style={{ color: 'oklch(0.82 0.01 252)' }}>Email</Label>
+              <Label htmlFor="login-email" className="text-sm font-medium" style={{ color: 'oklch(0.82 0.01 252)' }}>Email</Label>
               <Input
+                id="login-email"
                 type="email"
                 value={email}
                 onChange={e => setEmail(e.target.value)}
                 placeholder="Enter your email address"
                 required
+                autoComplete="email"
                 className="h-11 input-focus"
                 style={{ background: 'oklch(0.20 0.022 252)', border: '1px solid oklch(0.27 0.025 252)', color: 'white' }}
               />
             </div>
             <div className="space-y-1.5">
               <div className="flex items-center justify-between">
-                <Label className="text-sm font-medium" style={{ color: 'oklch(0.82 0.01 252)' }}>Password</Label>
+                <Label htmlFor="login-password" className="text-sm font-medium" style={{ color: 'oklch(0.82 0.01 252)' }}>Password</Label>
                 <Link href="/forgot-password" className="text-xs" style={{ color: 'oklch(0.57 0.135 183)' }}>
                   Forgot password?
                 </Link>
               </div>
               <Input
+                id="login-password"
                 type="password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 placeholder="••••••••"
                 required
+                autoComplete="current-password"
                 className="h-11 input-focus"
                 style={{ background: 'oklch(0.20 0.022 252)', border: '1px solid oklch(0.27 0.025 252)', color: 'white' }}
               />

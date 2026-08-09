@@ -68,6 +68,7 @@ export default function LegalPageWrapper({ title, updated = 'July 2026', childre
             <Link href="/legal" className="text-xs" style={{ color: 'oklch(0.45 0.015 252)' }}>Legal Center</Link>
             <Link href="/privacy" className="text-xs" style={{ color: 'oklch(0.45 0.015 252)' }}>Privacy Policy</Link>
             <Link href="/terms" className="text-xs" style={{ color: 'oklch(0.45 0.015 252)' }}>Terms of Service</Link>
+            <Link href="/accessibility" className="text-xs" style={{ color: 'oklch(0.45 0.015 252)' }}>Accessibility</Link>
           </div>
         </div>
       </footer>

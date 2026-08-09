@@ -121,36 +121,40 @@ function RegisterPMForm() {
 
           <form onSubmit={handleRegister} className="space-y-4">
             <div>
-              <Label className="text-sm font-medium mb-1.5 block" style={{ color: 'oklch(0.72 0.01 252)' }}>
+              <Label htmlFor="pm-companyName" className="text-sm font-medium mb-1.5 block" style={{ color: 'oklch(0.72 0.01 252)' }}>
                 Company Name
               </Label>
               <Input
+                id="pm-companyName"
                 type="text"
                 value={form.companyName}
                 onChange={e => set('companyName', e.target.value)}
                 placeholder="Apex Property Group"
                 required
+                autoComplete="organization"
                 className="h-11"
                 style={{ background: 'oklch(0.20 0.022 252)', border: '1px solid oklch(0.27 0.025 252)', color: 'white' }}
               />
             </div>
 
             {[
-              { key: 'fullName', label: 'Your Name', type: 'text', placeholder: 'Jane Smith' },
-              { key: 'email', label: 'Email', type: 'email', placeholder: 'jane@example.com' },
-              { key: 'phone', label: 'Phone', type: 'tel', placeholder: '(404) 555-0100' },
-              { key: 'password', label: 'Password', type: 'password', placeholder: '••••••••' },
-            ].map(({ key, label, type, placeholder }) => (
+              { key: 'fullName', label: 'Your Name', type: 'text', placeholder: 'Jane Smith', autoComplete: 'name' },
+              { key: 'email', label: 'Email', type: 'email', placeholder: 'jane@example.com', autoComplete: 'email' },
+              { key: 'phone', label: 'Phone', type: 'tel', placeholder: '(404) 555-0100', autoComplete: 'tel' },
+              { key: 'password', label: 'Password', type: 'password', placeholder: '••••••••', autoComplete: 'new-password' },
+            ].map(({ key, label, type, placeholder, autoComplete }) => (
               <div key={key}>
-                <Label className="text-sm font-medium mb-1.5 block" style={{ color: 'oklch(0.72 0.01 252)' }}>
+                <Label htmlFor={`pm-${key}`} className="text-sm font-medium mb-1.5 block" style={{ color: 'oklch(0.72 0.01 252)' }}>
                   {label}
                 </Label>
                 <Input
+                  id={`pm-${key}`}
                   type={type}
                   value={form[key as keyof typeof form]}
                   onChange={e => set(key, e.target.value)}
                   placeholder={placeholder}
                   required
+                  autoComplete={autoComplete}
                   minLength={key === 'password' ? 8 : undefined}
                   className="h-11"
                   style={{ background: 'oklch(0.20 0.022 252)', border: '1px solid oklch(0.27 0.025 252)', color: 'white' }}

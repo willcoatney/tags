@@ -81,19 +81,21 @@ export default function RegisterContractorPage() {
         <CardContent>
           <form onSubmit={handleRegister} className="space-y-4">
             {[
-              { key: 'companyName', label: 'Company Name', type: 'text' },
-              { key: 'fullName', label: 'Your Name', type: 'text' },
-              { key: 'email', label: 'Email', type: 'email' },
-              { key: 'phone', label: 'Phone', type: 'tel' },
-              { key: 'password', label: 'Password', type: 'password' },
-            ].map(({ key, label, type }) => (
+              { key: 'companyName', label: 'Company Name', type: 'text', autoComplete: 'organization' },
+              { key: 'fullName', label: 'Your Name', type: 'text', autoComplete: 'name' },
+              { key: 'email', label: 'Email', type: 'email', autoComplete: 'email' },
+              { key: 'phone', label: 'Phone', type: 'tel', autoComplete: 'tel' },
+              { key: 'password', label: 'Password', type: 'password', autoComplete: 'new-password' },
+            ].map(({ key, label, type, autoComplete }) => (
               <div key={key}>
-                <Label className="text-slate-300">{label}</Label>
+                <Label htmlFor={`contractor-${key}`} className="text-slate-300">{label}</Label>
                 <Input
+                  id={`contractor-${key}`}
                   type={type}
                   value={form[key as keyof typeof form]}
                   onChange={e => setForm(p => ({ ...p, [key]: e.target.value }))}
                   required
+                  autoComplete={autoComplete}
                   className="bg-slate-800 border-slate-600 text-white"
                 />
               </div>
