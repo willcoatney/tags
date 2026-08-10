@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { logError, ErrorCategory, ErrorSeverity } from '@/lib/error-logger'
 
 export async function POST(req: NextRequest) {
   const { token } = await req.json()
@@ -46,11 +47,18 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: joinErr.message }, { status: 500 })
   }
 
-  // Mark invite as used
-  await admin
+  // H-07: Check invite used update — failure leaves token reusable
+  const { error: markErr } = await admin
     .from('portfolio_invites')
     .update({ used_by_org_id: profile.organization_id })
     .eq('id', invite.id)
+
+  if (markErr) {
+    console.error('[portfolio/connect] Failed to mark invite used:', markErr)
+    void logError(ErrorCategory.DB, 'Failed to mark portfolio invite as used — token remains reusable', {
+      markErr: markErr.message, inviteId: invite.id, orgId: profile.organization_id,
+    }, { route: '/api/portfolio/connect', user_id: user.id, severity: ErrorSeverity.HIGH })
+  }
 
   return NextResponse.json({ success: true })
 }

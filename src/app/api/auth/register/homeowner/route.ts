@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { logError, ErrorCategory, ErrorSeverity } from '@/lib/error-logger'
 
 export async function POST(req: NextRequest) {
   const { fullName, email, phone, password, address } = await req.json()
@@ -34,9 +35,9 @@ export async function POST(req: NextRequest) {
 
   if (profileErr) return NextResponse.json({ error: profileErr.message }, { status: 500 })
 
-  // Store address as a property for this homeowner
+  // M-04: Check property insert error
   if (address) {
-    await admin.from('properties').insert({
+    const { error: propErr } = await admin.from('properties').insert({
       organization_id: org.id,
       created_by: authData.user.id,
       name: 'My Home',
@@ -45,6 +46,13 @@ export async function POST(req: NextRequest) {
       state: '',
       zip: '',
     })
+    if (propErr) {
+      console.error('[homeowner/register] Address property insert failed:', propErr)
+      void logError(ErrorCategory.DB, 'Homeowner address property insert failed during registration', {
+        propErr: propErr.message,
+      }, { route: '/api/auth/register/homeowner', severity: ErrorSeverity.MEDIUM })
+      // Non-fatal — user account is created, address can be set later
+    }
   }
 
   return NextResponse.json({ success: true })

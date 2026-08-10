@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { stripe } from '@/lib/stripe'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { logError, ErrorCategory, ErrorSeverity } from '@/lib/error-logger'
 import Stripe from 'stripe'
 
 // Disable body parsing — we need the raw body for Stripe signature verification
@@ -68,6 +69,9 @@ export async function POST(req: NextRequest) {
 
     if (error) {
       console.error('Webhook: failed to update org subscription status', error)
+      void logError(ErrorCategory.DB, 'Webhook: failed to update org subscription status', {
+        err: error.message, orgId, subscriptionId: sub.id, newStatus,
+      }, { route: '/api/stripe/webhook', severity: ErrorSeverity.CRITICAL })
       return NextResponse.json({ error: 'DB update failed' }, { status: 500 })
     }
 
@@ -86,6 +90,11 @@ export async function POST(req: NextRequest) {
 
       if (error) {
         console.error('Webhook: failed to update past_due status', error)
+        void logError(ErrorCategory.DB, 'Webhook: failed to update past_due subscription status — billing integrity risk', {
+          err: error.message, stripeCustomerId: customerId,
+        }, { route: '/api/stripe/webhook', severity: ErrorSeverity.CRITICAL })
+        // H-05: Return 500 so Stripe retries this event
+        return NextResponse.json({ error: 'DB update failed' }, { status: 500 })
       }
     }
   }

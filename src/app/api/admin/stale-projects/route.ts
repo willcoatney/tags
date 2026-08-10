@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendSMS } from '@/lib/sms'
 import { getBaseUrl } from '@/lib/url'
+import { logError, ErrorCategory, ErrorSeverity } from '@/lib/error-logger'
 
 export async function POST(req: NextRequest) {
   const secret = req.headers.get('x-tags-secret')
@@ -39,10 +40,18 @@ export async function POST(req: NextRequest) {
 
     const projectUrl = `${baseUrl}/dashboard/pm/projects/${project.id}`
 
+    // H-09: Individual try/catch per PM so loop continues on failure
     for (const pm of (pms || [])) {
       if (pm.phone) {
-        await sendSMS(pm.phone, `Your project "${project.title}" has been live for 48 hours with no bids yet. TAGS is actively expanding contractor coverage in your area. View project: ${projectUrl}`)
-        alerted++
+        try {
+          await sendSMS(pm.phone, `Your project "${project.title}" has been live for 48 hours with no bids yet. TAGS is actively expanding contractor coverage in your area. View project: ${projectUrl}`)
+          alerted++
+        } catch (e) {
+          console.error('[stale-projects] SMS failed for PM:', e)
+          void logError(ErrorCategory.SMS, 'Stale project reminder SMS failed', {
+            err: e instanceof Error ? e.message : String(e), projectId: project.id,
+          }, { route: '/api/admin/stale-projects', severity: ErrorSeverity.LOW })
+        }
       }
     }
   }

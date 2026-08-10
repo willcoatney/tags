@@ -25,6 +25,7 @@ const NAV_LINKS: Record<UserRole, { href: string; label: string }[]> = {
   admin: [
     { href: '/dashboard/admin', label: 'Overview' },
     { href: '/dashboard/admin/contractors', label: 'Contractors' },
+    { href: '/dashboard/admin/error-logs', label: 'Error Logs' },
   ],
   homeowner: [
     { href: '/dashboard/homeowner', label: 'Dashboard' },

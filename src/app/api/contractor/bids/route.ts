@@ -4,6 +4,7 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { sendSMS } from '@/lib/sms'
 import { getBaseUrl } from '@/lib/url'
 import { sendEmail, newBidEmail } from '@/lib/email'
+import { logError, ErrorCategory, ErrorSeverity } from '@/lib/error-logger'
 
 export async function POST(req: NextRequest) {
   const supabase = await createClient()
@@ -63,8 +64,18 @@ export async function POST(req: NextRequest) {
   const bidsUrl = `${baseUrl}/dashboard/pm/projects/${project_id}/bids`
   const msg = `New bid received on "${project.title}" from ${contractorProfile.company_name}. Review: ${bidsUrl}`
 
+  // H-01: Wrap PM SMS in try/catch — bid is already written, don't let SMS crash response
   for (const pm of (pmUsers || [])) {
-    if (pm.phone) await sendSMS(pm.phone, msg)
+    if (pm.phone) {
+      try {
+        await sendSMS(pm.phone, msg)
+      } catch (e) {
+        console.error('[bid] PM SMS failed:', e)
+        void logError(ErrorCategory.SMS, 'PM new-bid notification SMS failed', {
+          err: e instanceof Error ? e.message : String(e), projectId: project_id,
+        }, { route: '/api/contractor/bids', user_id: user.id, severity: ErrorSeverity.MEDIUM })
+      }
+    }
     if (pm.email) {
       const { subject, html } = newBidEmail(project.title, contractorProfile.company_name, bidsUrl)
       await sendEmail(pm.email, subject, html)

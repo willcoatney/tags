@@ -26,7 +26,12 @@ export async function middleware(request: NextRequest) {
     }
   )
 
-  const { data: { user } } = await supabase.auth.getUser()
+  // L-04: Handle getUser() errors — if Supabase is down or JWT is malformed,
+  // treat as unauthenticated rather than crashing middleware and blocking all requests
+  const { data: { user }, error: authErr } = await supabase.auth.getUser()
+  if (authErr) {
+    console.error('[middleware] getUser error — treating as unauthenticated:', authErr.message)
+  }
 
   const { pathname } = request.nextUrl
 

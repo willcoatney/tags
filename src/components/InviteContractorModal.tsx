@@ -78,7 +78,15 @@ export default function InviteContractorModal() {
                         style={{ background: 'oklch(0.20 0.022 252)', border: '1px solid oklch(0.27 0.025 252)', color: 'oklch(0.65 0.02 252)' }}
                       />
                       <button
-                        onClick={() => { navigator.clipboard.writeText(inviteUrl); toast.success('Link copied!') }}
+                        onClick={async () => {
+                          // L-05: navigator.clipboard may be undefined in insecure contexts
+                          try {
+                            await navigator.clipboard.writeText(inviteUrl)
+                            toast.success('Link copied!')
+                          } catch {
+                            toast.error('Copy failed — please select and copy the link manually')
+                          }
+                        }}
                         className="px-3 h-8 rounded text-xs font-medium text-white"
                         style={{ background: 'oklch(0.57 0.135 183)' }}
                       >

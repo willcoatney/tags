@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendSMS } from '@/lib/sms'
+import { logError, ErrorCategory, ErrorSeverity } from '@/lib/error-logger'
 
 function twiml(message?: string): NextResponse {
   const xml = message
@@ -36,15 +37,20 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
   const normalized = normalizePhone(from)
 
-  // Look up sender by phone — try stored number in multiple formats
-  const { data: allProfiles } = await admin
+  // M-07: Query directly by phone instead of fetching all users
+  const { data: senderProfile, error: profileErr } = await admin
     .from('user_profiles')
     .select('id, full_name, role, phone')
+    .eq('phone', normalized)
+    .maybeSingle()
 
-  const senderProfile = (allProfiles || []).find(p => {
-    if (!p.phone) return false
-    return normalizePhone(p.phone) === normalized
-  }) ?? null
+  if (profileErr) {
+    console.error('[SMS inbound] Profile lookup error:', profileErr)
+    void logError(ErrorCategory.DB, 'SMS inbound: phone lookup failed', {
+      err: profileErr.message, normalizedPhone: normalized,
+    }, { route: '/api/sms/inbound', severity: ErrorSeverity.MEDIUM })
+    return twiml()
+  }
 
   if (!senderProfile) {
     console.warn('[SMS inbound] Unknown sender:', from)
@@ -106,14 +112,23 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     return twiml()
   }
 
-  // Store the inbound message in the correct thread
-  await admin.from('project_messages').insert({
+  // H-10: Check message insert — failure would silently drop the inbound SMS
+  const { error: insertErr } = await admin.from('project_messages').insert({
     project_id: projectId,
     sender_id: senderId,
     contractor_user_id: contractorUserId,
     message: body.trim(),
     channel: 'sms',
   })
+
+  if (insertErr) {
+    console.error('[SMS inbound] Failed to store message:', insertErr)
+    void logError(ErrorCategory.DB, 'SMS inbound: failed to store message — message lost', {
+      err: insertErr.message, senderId, projectId,
+    }, { route: '/api/sms/inbound', severity: ErrorSeverity.HIGH })
+    // Still return twiml() — Twilio can't retry at this point
+    return twiml()
+  }
 
   // Notify the other party via SMS
   try {
@@ -141,6 +156,9 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     }
   } catch (e) {
     console.error('[SMS inbound] Notify error:', e)
+    void logError(ErrorCategory.SMS, 'SMS inbound: failed to notify other party', {
+      err: e instanceof Error ? e.message : String(e), senderId, projectId,
+    }, { route: '/api/sms/inbound', severity: ErrorSeverity.MEDIUM })
   }
 
   return twiml()

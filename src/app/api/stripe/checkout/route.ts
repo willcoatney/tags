@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { getStripe } from '@/lib/stripe'
+import { logError, ErrorCategory, ErrorSeverity } from '@/lib/error-logger'
 
 export async function POST() {
   const cookieStore = await cookies()
@@ -64,53 +65,64 @@ export async function POST() {
     console.warn('Checkout: stripe columns not found on org — has 20260808_stripe_billing.sql been run in Supabase?')
   }
 
-  const stripe = getStripe()
+  // H-03: Wrap all Stripe API calls in try/catch
+  try {
+    const stripe = getStripe()
 
-  // Re-use existing Stripe customer or create a new one
-  let customerId = org.stripe_customer_id
+    // Re-use existing Stripe customer or create a new one
+    let customerId = org.stripe_customer_id
 
-  if (!customerId) {
-    const customer = await stripe.customers.create({
-      email: user.email,
-      name: org.name,
-      metadata: {
-        organization_id: org.id,
-        role: profile.role,
+    if (!customerId) {
+      const customer = await stripe.customers.create({
+        email: user.email,
+        name: org.name,
+        metadata: {
+          organization_id: org.id,
+          role: profile.role,
+        },
+      })
+      customerId = customer.id
+
+      // H-03: Check Stripe customer ID save — failure here creates duplicate customers
+      const { error: custErr } = await supabase
+        .from('organizations')
+        .update({ stripe_customer_id: customerId })
+        .eq('id', org.id)
+      if (custErr) {
+        console.error('Checkout: Failed to save stripe_customer_id:', custErr)
+        void logError(ErrorCategory.DB, 'Failed to save stripe_customer_id to org — duplicate customer risk', {
+          custErr: custErr.message, orgId: org.id, stripeCustomerId: customerId,
+        }, { route: '/api/stripe/checkout', user_id: user.id, severity: ErrorSeverity.HIGH })
+      }
+    }
+
+    const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://www.tagyourproject.com'
+    const isContractor = profile.role === 'contractor'
+
+    // Route to correct Stripe price based on role
+    const priceId = isContractor
+      ? process.env.STRIPE_CONTRACTOR_PRICE_ID!   // $100/year
+      : process.env.STRIPE_PM_PRICE_ID!            // $50/month
+
+    const session = await stripe.checkout.sessions.create({
+      customer: customerId,
+      mode: 'subscription',
+      line_items: [{ price: priceId, quantity: 1 }],
+      payment_method_types: ['card', 'us_bank_account'],
+      payment_method_collection: 'always',
+      subscription_data: {
+        metadata: { organization_id: org.id, role: profile.role },
       },
+      success_url: `${baseUrl}/dashboard/billing?success=1`,
+      cancel_url: `${baseUrl}/dashboard/billing?canceled=1`,
     })
-    customerId = customer.id
 
-    await supabase
-      .from('organizations')
-      .update({ stripe_customer_id: customerId })
-      .eq('id', org.id)
+    return NextResponse.json({ url: session.url })
+  } catch (err) {
+    console.error('Stripe checkout error:', err)
+    void logError(ErrorCategory.STRIPE, 'Stripe checkout session creation failed', {
+      err: err instanceof Error ? err.message : String(err), orgId: org.id,
+    }, { route: '/api/stripe/checkout', user_id: user.id, severity: ErrorSeverity.HIGH })
+    return NextResponse.json({ error: 'Checkout session creation failed. Please try again.' }, { status: 500 })
   }
-
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://www.tagyourproject.com'
-  const isContractor = profile.role === 'contractor'
-
-  // Route to correct Stripe price based on role
-  const priceId = isContractor
-    ? process.env.STRIPE_CONTRACTOR_PRICE_ID!   // $100/year
-    : process.env.STRIPE_PM_PRICE_ID!            // $50/month
-
-  const session = await stripe.checkout.sessions.create({
-    customer: customerId,
-    mode: 'subscription',
-    line_items: [{ price: priceId, quantity: 1 }],
-    // Offer both card and ACH bank account.
-    // Note: per-job contractor fees (1.5%) are always charged to the card saved at checkout
-    // regardless of which method is used here — ACH settlement delay makes it unsuitable
-    // for real-time job charges.
-    payment_method_types: ['card', 'us_bank_account'],
-    // Collect payment method so we can charge per-job fees off-session (card only)
-    payment_method_collection: 'always',
-    subscription_data: {
-      metadata: { organization_id: org.id, role: profile.role },
-    },
-    success_url: `${baseUrl}/dashboard/billing?success=1`,
-    cancel_url: `${baseUrl}/dashboard/billing?canceled=1`,
-  })
-
-  return NextResponse.json({ url: session.url })
 }

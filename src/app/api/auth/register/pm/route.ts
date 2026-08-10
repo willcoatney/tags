@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendSMS } from '@/lib/sms'
+import { logError, ErrorCategory, ErrorSeverity } from '@/lib/error-logger'
 
 export async function POST(req: NextRequest) {
   const { fullName, email, phone, password, companyName, portfolioToken } = await req.json()
@@ -57,7 +58,17 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  if (phone) await sendSMS(phone, `Welcome to TAGS! You're all set. Post your first project at https://www.tagyourproject.com`)
+  // M-03: Wrap SMS in try/catch — account already created, don't let SMS crash registration
+  if (phone) {
+    try {
+      await sendSMS(phone, `Welcome to TAGS! You're all set. Post your first project at https://www.tagyourproject.com`)
+    } catch (e) {
+      console.error('[pm/register] SMS failed:', e)
+      void logError(ErrorCategory.SMS, 'PM registration welcome SMS failed', {
+        err: e instanceof Error ? e.message : String(e),
+      }, { route: '/api/auth/register/pm', severity: ErrorSeverity.LOW })
+    }
+  }
 
   return NextResponse.json({ success: true })
 }

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendSMS } from '@/lib/sms'
+import { logError, ErrorCategory, ErrorSeverity } from '@/lib/error-logger'
 
 export async function POST(_req: NextRequest, { params }: { params: { id: string } }) {
   const supabase = await createClient()
@@ -21,7 +22,17 @@ export async function POST(_req: NextRequest, { params }: { params: { id: string
   if (!project) return NextResponse.json({ error: 'Not found' }, { status: 404 })
   if (!['awarded', 'work_complete'].includes(project.status)) return NextResponse.json({ error: 'Project must be awarded before completion' }, { status: 400 })
 
-  await admin.from('projects').update({ status: 'completed', updated_at: new Date().toISOString() }).eq('id', params.id)
+  // C-07: Check status update error
+  const { error: completeErr } = await admin.from('projects')
+    .update({ status: 'completed', updated_at: new Date().toISOString() })
+    .eq('id', params.id)
+
+  if (completeErr) {
+    void logError(ErrorCategory.DB, 'Failed to mark project completed', { completeErr: completeErr.message, projectId: params.id }, {
+      route: '/api/projects/[id]/complete', user_id: user.id, severity: ErrorSeverity.CRITICAL,
+    })
+    return NextResponse.json({ error: 'Failed to complete project: ' + completeErr.message }, { status: 500 })
+  }
 
   // Get awarded contractor for rating prompt
   const { data: awardedBid } = await admin.from('bids')
@@ -36,8 +47,16 @@ export async function POST(_req: NextRequest, { params }: { params: { id: string
       .select('phone')
       .eq('id', awardedBid.contractor_user_id)
       .maybeSingle()
+    // C-07: Wrap SMS in try/catch — completion already succeeded
     if (contractor?.phone) {
-      await sendSMS(contractor.phone, `Great news! The property manager has confirmed "${project.title || 'your project'}" as complete. Thanks for your work on TAGS.`)
+      try {
+        await sendSMS(contractor.phone, `Great news! The property manager has confirmed "${project.title || 'your project'}" as complete. Thanks for your work on TAGS.`)
+      } catch (e) {
+        console.error('[complete] Contractor SMS failed:', e)
+        void logError(ErrorCategory.SMS, 'Completion notification SMS to contractor failed', {
+          err: e instanceof Error ? e.message : String(e), projectId: params.id,
+        }, { route: '/api/projects/[id]/complete', user_id: user.id, severity: ErrorSeverity.MEDIUM })
+      }
     }
   }
 

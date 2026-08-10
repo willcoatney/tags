@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { logError, ErrorCategory, ErrorSeverity } from '@/lib/error-logger'
 
 export const dynamic = 'force-dynamic'
 export const maxDuration = 60
@@ -127,19 +128,30 @@ Rules:
           }
         }
 
-        // Save completed SOW to Supabase
+        // H-02: Save completed SOW to Supabase — check for error
         if (projectId && fullText) {
           const admin = createAdminClient()
-          await admin.from('projects').update({
+          const { error: saveErr } = await admin.from('projects').update({
             scope_of_work: fullText,
             scope_generated_at: new Date().toISOString(),
           }).eq('id', projectId)
+
+          if (saveErr) {
+            console.error('[SOW] Failed to save to DB:', saveErr)
+            void logError(ErrorCategory.DB, 'Failed to save SOW to database', {
+              saveErr: saveErr.message, projectId,
+            }, { route: '/api/projects/generate-scope', severity: ErrorSeverity.HIGH })
+            controller.enqueue(encoder.encode(`\n\n__SOW_SAVE_ERROR__: ${saveErr.message}`))
+          }
         }
 
         controller.close()
       } catch (err: unknown) {
         const message = err instanceof Error ? err.message : 'Unknown error'
         console.error('SOW generation error:', message)
+        void logError(ErrorCategory.API, 'SOW generation failed', {
+          err: message, projectId,
+        }, { route: '/api/projects/generate-scope', severity: ErrorSeverity.HIGH })
         controller.enqueue(encoder.encode(`\n\n__SOW_ERROR__: ${message}`))
         controller.close()
       }

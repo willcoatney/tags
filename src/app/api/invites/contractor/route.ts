@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { sendEmail } from '@/lib/email'
 import { sendSMS } from '@/lib/sms'
+import { logError, ErrorCategory, ErrorSeverity } from '@/lib/error-logger'
 
 export async function POST(req: NextRequest) {
   const supabase = await createClient()
@@ -34,12 +35,18 @@ export async function POST(req: NextRequest) {
   let token: string
 
   if (existing) {
-    // Update phone on existing invite if provided
+    // L-03: Check phone update error
     if (phone) {
-      await admin.from('contractor_invites')
+      const { error: phoneErr } = await admin.from('contractor_invites')
         .update({ phone })
         .eq('inviting_org_id', profile.organization_id)
         .eq('email', email.toLowerCase())
+      if (phoneErr) {
+        console.error('[invites/contractor] Phone update failed:', phoneErr)
+        void logError(ErrorCategory.DB, 'Failed to update phone on existing contractor invite', {
+          phoneErr: phoneErr.message, email,
+        }, { route: '/api/invites/contractor', user_id: user.id, severity: ErrorSeverity.LOW })
+      }
     }
     token = existing.token
   } else {

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { logError, ErrorCategory, ErrorSeverity } from '@/lib/error-logger'
 
 export async function POST(req: NextRequest) {
   const supabase = await createClient()
@@ -17,7 +18,19 @@ export async function POST(req: NextRequest) {
 
   const { propertyId, title, jobCategory, projectType, description, unitNumber, budgetMin, budgetMax } = await req.json()
 
-  const { data: property } = await admin.from('properties').select('*').eq('id', propertyId).single()
+  // H-08: Verify property belongs to PM's organization — prevent cross-org property access
+  const { data: property, error: propErr } = await admin.from('properties')
+    .select('*')
+    .eq('id', propertyId)
+    .eq('organization_id', profile.organization_id)
+    .single()
+
+  if (propErr || !property) {
+    void logError(ErrorCategory.AUTH, 'PM attempted to create project with property not owned by their org', {
+      propertyId, orgId: profile.organization_id,
+    }, { route: '/api/pm/projects', user_id: user.id, severity: ErrorSeverity.HIGH })
+    return NextResponse.json({ error: 'Property not found or not owned by your organization' }, { status: 404 })
+  }
 
   const { data: project, error } = await admin.from('projects').insert({
     organization_id: profile.organization_id,

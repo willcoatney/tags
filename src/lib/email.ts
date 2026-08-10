@@ -1,13 +1,16 @@
 const FROM = 'TAGS <notifications@tagyourproject.com>'
 
-export async function sendEmail(to: string, subject: string, html: string) {
-  if (!to || !process.env.RESEND_API_KEY) return
+// L-06: Return boolean to allow callers to detect delivery failure
+export async function sendEmail(to: string, subject: string, html: string): Promise<boolean> {
+  if (!to || !process.env.RESEND_API_KEY) return false
   try {
     const { Resend } = await import('resend')
     const resend = new Resend(process.env.RESEND_API_KEY)
     await resend.emails.send({ from: FROM, to, subject, html })
+    return true
   } catch (e) {
     console.error('Email failed:', e)
+    return false
   }
 }
 

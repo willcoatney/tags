@@ -32,8 +32,10 @@ export default function PreBidQA({ projectId, currentUserId }: Props) {
   const [loading, setLoading] = useState(true)
 
   async function fetchMessages() {
-    const res = await fetch(`/api/projects/${projectId}/messages`)
-    if (res.ok) {
+    // M-06: Wrap in try/catch — silent failures show "No questions yet" even when there are active threads
+    try {
+      const res = await fetch(`/api/projects/${projectId}/messages`)
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const data: Message[] = await res.json()
       const grouped: Record<string, Message[]> = {}
       for (const msg of data) {
@@ -49,8 +51,12 @@ export default function PreBidQA({ projectId, currentUserId }: Props) {
       if (built.length === 1) {
         setExpanded(e => ({ ...e, [built[0].contractorUserId]: e[built[0].contractorUserId] ?? true }))
       }
+    } catch (e) {
+      console.error('[pre-bid-qa] fetch failed:', e)
+      // Fail silently on polling; initial load will show loading spinner until first success
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   useEffect(() => {

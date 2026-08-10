@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { logError, ErrorCategory, ErrorSeverity } from '@/lib/error-logger'
 
 export async function POST(req: NextRequest) {
   const supabase = await createClient()
@@ -41,13 +42,23 @@ export async function POST(req: NextRequest) {
     .from('project-photos')
     .getPublicUrl(storagePath)
 
-  await admin.from('project_photos').insert({
+  // C-01: Check insert error — on failure, roll back the orphaned storage file
+  const { error: insertError } = await admin.from('project_photos').insert({
     project_id: projectId,
     storage_path: storagePath,
     public_url: publicUrl,
     uploaded_by: user.id,
     photo_type: photoType,
   })
+
+  if (insertError) {
+    // Roll back: delete the orphaned file from storage
+    await admin.storage.from('project-photos').remove([storagePath])
+    void logError(ErrorCategory.DB, 'project_photos insert failed — storage file rolled back', {
+      insertError: insertError.message, projectId, storagePath,
+    }, { route: '/api/upload/project-photo', user_id: user.id, severity: ErrorSeverity.CRITICAL })
+    return NextResponse.json({ error: 'Failed to record photo: ' + insertError.message }, { status: 500 })
+  }
 
   return NextResponse.json({ publicUrl, storagePath })
 }

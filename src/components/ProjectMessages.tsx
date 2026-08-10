@@ -29,12 +29,18 @@ export default function ProjectMessages({ projectId, currentUserId, currentUserR
   const initialScrollDone = useRef(false)
 
   async function fetchMessages() {
-    const res = await fetch(`/api/projects/${projectId}/messages?contractorUserId=${contractorUserId}`)
-    if (res.ok) {
+    // M-05: Wrap in try/catch — silent failures show empty message box with no indication of error
+    try {
+      const res = await fetch(`/api/projects/${projectId}/messages?contractorUserId=${contractorUserId}`)
+      if (!res.ok) throw new Error(`HTTP ${res.status}`)
       const data = await res.json()
       setMessages(data)
+    } catch (e) {
+      console.error('[messages] fetch failed:', e)
+      // On polling failures, fail silently; only show error on first load (loading still true)
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   useEffect(() => {

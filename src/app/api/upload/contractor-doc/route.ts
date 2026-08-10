@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { logError, ErrorCategory, ErrorSeverity } from '@/lib/error-logger'
 
 const VALID_DOC_TYPES = ['w9', 'coi', 'license', 'insurance'] as const
 type DocType = typeof VALID_DOC_TYPES[number]
@@ -59,12 +60,19 @@ export async function POST(req: NextRequest) {
 
   if (uploadError) return NextResponse.json({ error: uploadError.message }, { status: 500 })
 
-  // Get a signed URL (private bucket — 10 year expiry for compliance docs)
-  const { data: signedData } = await admin.storage
+  // M-01: Check signed URL error — failure would store empty string as compliance doc URL
+  const { data: signedData, error: signedErr } = await admin.storage
     .from('contractor-docs')
     .createSignedUrl(filename, 60 * 60 * 24 * 365 * 10)
 
-  const url = signedData?.signedUrl || ''
+  if (signedErr || !signedData?.signedUrl) {
+    void logError(ErrorCategory.DB, 'Failed to generate signed URL for contractor doc — file uploaded but URL not stored', {
+      err: signedErr?.message, filename, docType,
+    }, { route: '/api/upload/contractor-doc', user_id: user.id, severity: ErrorSeverity.HIGH })
+    return NextResponse.json({ error: 'Failed to generate document URL' }, { status: 500 })
+  }
+
+  const url = signedData.signedUrl
 
   const dbField = DOC_FIELD_MAP[docType]
   const { error: updateError } = await admin.from('contractor_profiles')

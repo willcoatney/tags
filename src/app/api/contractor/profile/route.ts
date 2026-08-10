@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
+import { logError, ErrorCategory, ErrorSeverity } from '@/lib/error-logger'
 
 export async function GET() {
   const supabase = await createClient()
@@ -8,7 +9,16 @@ export async function GET() {
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
 
   const admin = createAdminClient()
-  const { data } = await admin.from('contractor_profiles').select('*').eq('user_id', user.id).single()
+
+  // M-02: Check for missing profile instead of silently returning empty object
+  const { data, error: profileErr } = await admin.from('contractor_profiles').select('*').eq('user_id', user.id).single()
+
+  if (profileErr || !data) {
+    void logError(ErrorCategory.DB, 'Contractor profile not found on GET', {
+      err: profileErr?.message, userId: user.id,
+    }, { route: '/api/contractor/profile', user_id: user.id, severity: ErrorSeverity.MEDIUM })
+    return NextResponse.json({ error: 'Contractor profile not found' }, { status: 404 })
+  }
 
   // Fetch ratings for this contractor
   const { data: ratingsRaw } = await admin.from('ratings')
@@ -30,7 +40,7 @@ export async function GET() {
     ? Math.round((ratings.reduce((sum: number, r: { rating: number }) => sum + r.rating, 0) / ratings.length) * 10) / 10
     : null
 
-  return NextResponse.json({ ...(data || {}), ratings, avgRating, ratingCount: ratings.length })
+  return NextResponse.json({ ...data, ratings, avgRating, ratingCount: ratings.length })
 }
 
 export async function PATCH(req: NextRequest) {
