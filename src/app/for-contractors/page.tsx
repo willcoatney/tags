@@ -51,7 +51,7 @@ export default function ForContractorsPage() {
               See How It Works
             </Link>
           </div>
-          <p className="mt-4 text-sm" style={{ color: 'oklch(0.45 0.015 252)' }}>$100/year membership + 1.5% of each awarded bid.</p>
+          <p className="mt-4 text-sm" style={{ color: 'oklch(0.45 0.015 252)' }}>$10/month or $100/year + 1.5% of each awarded bid.</p>
         </div>
       </section>
 
@@ -60,7 +60,7 @@ export default function ForContractorsPage() {
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-6 sm:gap-12 text-center">
           {[
             { value: 'SOW', label: 'on every job — no vague requests' },
-            { value: '$100', label: 'flat annual membership' },
+            { value: '$10/mo', label: 'or $100/year membership' },
             { value: '1.5%', label: 'of each awarded bid' },
             { value: '2-way SMS', label: 'no app required' },
           ].map(({ value, label }) => (

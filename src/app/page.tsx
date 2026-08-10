@@ -92,7 +92,7 @@ function LandingPage() {
               style={{ background: 'oklch(0.22 0.08 75)', color: 'oklch(0.85 0.16 75)', border: '1px solid oklch(0.38 0.14 75)' }}>
               🔒 Invite-only beta
             </span>
-            <span className="text-sm" style={{ color: 'oklch(0.45 0.015 252)' }}>$50/community · temporary beta pricing</span>
+            <span className="text-sm" style={{ color: 'oklch(0.45 0.015 252)' }}>Starting at $50/mo · temporary beta pricing</span>
           </div>
         </div>
       </section>
@@ -638,7 +638,7 @@ function LandingPage() {
                 </div>
                 <div className="text-right">
                   <div className="text-4xl font-black text-white">$50</div>
-                  <div className="text-xs" style={{ color: 'oklch(0.55 0.02 252)' }}>per community / month</div>
+                  <div className="text-xs" style={{ color: 'oklch(0.55 0.02 252)' }}>per month · or $500/year</div>
                 </div>
               </div>
               <div className="flex items-center gap-2 mb-5 w-1/2">
@@ -678,11 +678,11 @@ function LandingPage() {
               <div className="flex items-center justify-between mb-4">
                 <div>
                   <p className="text-xl font-bold text-white">Contractor</p>
-                  <p className="text-sm mt-1" style={{ color: 'oklch(0.60 0.025 252)' }}>Annual membership</p>
+                  <p className="text-sm mt-1" style={{ color: 'oklch(0.60 0.025 252)' }}>Membership</p>
                 </div>
                 <div className="text-right">
-                  <div className="text-4xl font-black text-white">$100</div>
-                  <div className="text-xs" style={{ color: 'oklch(0.55 0.02 252)' }}>per year</div>
+                  <div className="text-4xl font-black text-white">$10</div>
+                  <div className="text-xs" style={{ color: 'oklch(0.55 0.02 252)' }}>per month · or $100/year</div>
                 </div>
               </div>
               <div className="rounded-xl p-4 mb-6 text-sm" style={{ background: 'oklch(0.20 0.022 252)', border: '1px solid oklch(0.27 0.022 252)' }}>
@@ -743,7 +743,7 @@ function LandingPage() {
             },
             {
               q: 'How does contractor pricing work?',
-              a: 'Contractors pay a $100 annual membership to access the platform and bid on projects. When a bid is awarded, TAGS charges 1.5% of the bid amount. That\'s it — no per-bid fees, no monthly charges. A contractor who wins a $5,000 job pays $75 to TAGS.',
+              a: 'Contractors pay $10/month or $100/year to access the platform and bid on projects. When a bid is awarded, TAGS charges 1.5% of the bid amount. That\'s it — no per-bid fees, no hidden charges. A contractor who wins a $5,000 job pays $75 to TAGS.',
             },
             {
               q: 'Can I use TAGS on my phone?',
