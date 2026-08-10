@@ -38,7 +38,7 @@ export default function TermsPage() {
           <section>
             <h2 className="text-xl font-semibold text-white mb-3">Pricing & Fees</h2>
             <ul className="space-y-3 list-disc list-inside leading-relaxed">
-              <li><strong className="text-white">Property Managers:</strong> $50 per community per month (beta pricing, subject to change with notice). Early access accounts are grandfathered at current rates.</li>
+              <li><strong className="text-white">Property Managers:</strong> $50 per month or $500 per year (beta pricing, subject to change with notice). Early access accounts are grandfathered at current rates.</li>
               <li><strong className="text-white">Contractors:</strong> $100 annual membership fee, plus 1.5% of each awarded bid amount. The 1.5% fee is charged only when a bid is awarded to you.</li>
               <li>All fees are processed through Stripe. By providing payment information, you authorize TAGS to charge applicable fees.</li>
               <li>Fees are non-refundable except as required by applicable law.</li>

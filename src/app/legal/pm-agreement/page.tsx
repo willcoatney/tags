@@ -26,7 +26,7 @@ export default function PMagreementPage() {
       <section>
         <h2 className="text-xl font-semibold text-white mb-3">3. Platform Fees</h2>
         <ul className="space-y-3 list-disc list-inside leading-relaxed">
-          <li><strong className="text-white">Property Manager:</strong> $50 per community per month (beta pricing). This fee covers unlimited project posting and SOW generation for your registered community.</li>
+          <li><strong className="text-white">Property Manager:</strong> $50 per month or $500 per year (beta pricing). This fee covers unlimited project posting and SOW generation for your registered community.</li>
           <li><strong className="text-white">Regional Manager:</strong> Pricing is based on portfolio size and will be communicated at registration. Contact <a href="mailto:hello@tagyourproject.com" className="underline" style={{ color: 'oklch(0.57 0.135 183)' }}>hello@tagyourproject.com</a> for current RM pricing.</li>
           <li>Early access accounts are grandfathered at current rates. TAGS will provide 30 days written notice before any pricing changes affect your account.</li>
           <li>Fees are processed through Stripe. By providing payment information, you authorize TAGS to charge applicable fees.</li>

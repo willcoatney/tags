@@ -47,7 +47,7 @@ export default function ContractorAgreementPage() {
       <section>
         <h2 className="text-xl font-semibold text-white mb-3">4. Platform Fees</h2>
         <ul className="space-y-3 list-disc list-inside leading-relaxed">
-          <li><strong className="text-white">Annual Membership:</strong> $100 per year, billed at registration and on each anniversary. This fee grants access to the TAGS marketplace and the ability to view and bid on posted projects.</li>
+          <li><strong className="text-white">Membership:</strong> $10 per month or $100 per year, billed at registration and on each billing cycle. This fee grants access to the TAGS marketplace and the ability to view and bid on posted projects.</li>
           <li><strong className="text-white">Bid Award Fee:</strong> 1.5% of the awarded bid amount, charged only when a bid you submitted is accepted by a property manager. This fee is invoiced at the time of award.</li>
           <li>All fees are processed through Stripe. By providing payment information, you authorize TAGS to charge applicable fees as described.</li>
           <li>Fees are non-refundable except as required by applicable law or at TAGS&apos;s sole discretion.</li>
