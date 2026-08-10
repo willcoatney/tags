@@ -168,17 +168,17 @@ export default function ForContractorsPage() {
           <div className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'oklch(0.57 0.135 183)' }}>Pricing</div>
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-5">Simple pricing. No surprises.</h2>
           <p className="text-lg leading-relaxed mb-10" style={{ color: 'oklch(0.60 0.025 252)' }}>
-            A flat annual membership gets you in the door. Then TAGS takes 1.5% of each job you win — nothing more. No per-bid fees, no monthly charges.
+            A simple membership gets you in the door. Then TAGS takes 1.5% of each job you win — nothing more. No per-bid fees, no hidden charges.
           </p>
           <div className="rounded-2xl p-8 text-left mb-6" style={{ background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.30 0.08 183)' }}>
             <div className="flex items-center justify-between mb-4">
               <div>
                 <p className="text-2xl font-bold text-white">Contractor</p>
-                <p className="text-sm mt-1" style={{ color: 'oklch(0.57 0.135 183)' }}>Annual membership</p>
+                <p className="text-sm mt-1" style={{ color: 'oklch(0.57 0.135 183)' }}>Membership</p>
               </div>
               <div className="text-right">
-                <div className="text-4xl font-black text-white">$100</div>
-                <div className="text-xs mt-1" style={{ color: 'oklch(0.55 0.02 252)' }}>per year</div>
+                <div className="text-4xl font-black text-white">$10</div>
+                <div className="text-xs mt-1" style={{ color: 'oklch(0.55 0.02 252)' }}>per month · or $100/year</div>
               </div>
             </div>
             <div className="rounded-xl p-4 mb-6" style={{ background: 'oklch(0.20 0.05 183)', border: '1px solid oklch(0.30 0.08 183)' }}>
@@ -210,7 +210,7 @@ export default function ForContractorsPage() {
               Apply to Join TAGS →
             </Link>
           </div>
-          <p className="text-sm" style={{ color: 'oklch(0.40 0.015 252)' }}>Annual membership billed via Stripe. 1.5% fee charged automatically when a bid is awarded to you.</p>
+          <p className="text-sm" style={{ color: 'oklch(0.40 0.015 252)' }}>Membership billed via Stripe. 1.5% fee charged automatically when a bid is awarded to you.</p>
         </div>
       </section>
 
