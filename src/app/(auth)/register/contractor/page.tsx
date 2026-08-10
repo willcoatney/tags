@@ -81,12 +81,12 @@ export default function RegisterContractorPage() {
         <CardContent>
           <form onSubmit={handleRegister} className="space-y-4">
             {[
-              { key: 'companyName', label: 'Company Name', type: 'text', autoComplete: 'organization' },
-              { key: 'fullName', label: 'Your Name', type: 'text', autoComplete: 'name' },
-              { key: 'email', label: 'Email', type: 'email', autoComplete: 'email' },
-              { key: 'phone', label: 'Phone', type: 'tel', autoComplete: 'tel' },
-              { key: 'password', label: 'Password', type: 'password', autoComplete: 'new-password' },
-            ].map(({ key, label, type, autoComplete }) => (
+              { key: 'companyName', label: 'Company Name', type: 'text', autoComplete: 'off', placeholder: 'Your company or business name' },
+              { key: 'fullName', label: 'Your Name', type: 'text', autoComplete: 'off', placeholder: 'First and last name' },
+              { key: 'email', label: 'Email', type: 'email', autoComplete: 'off', placeholder: 'you@example.com' },
+              { key: 'phone', label: 'Phone', type: 'tel', autoComplete: 'off', placeholder: '(555) 555-5555' },
+              { key: 'password', label: 'Password', type: 'password', autoComplete: 'new-password', placeholder: 'Create a password' },
+            ].map(({ key, label, type, autoComplete, placeholder }) => (
               <div key={key}>
                 <Label htmlFor={`contractor-${key}`} className="text-slate-300">{label}</Label>
                 <Input
@@ -96,7 +96,8 @@ export default function RegisterContractorPage() {
                   onChange={e => setForm(p => ({ ...p, [key]: e.target.value }))}
                   required
                   autoComplete={autoComplete}
-                  className="bg-slate-800 border-slate-600 text-white"
+                  placeholder={placeholder}
+                  className="bg-slate-800 border-slate-600 text-white placeholder:text-slate-500"
                 />
               </div>
             ))}

@@ -80,7 +80,7 @@ export default function RegisterRMPage() {
                 type="text"
                 value={form.portfolioName}
                 onChange={e => set('portfolioName', e.target.value)}
-                placeholder="Sunridge Residential Group"
+                placeholder="Your company or organization name"
                 required
                 className="h-11"
                 style={{ background: 'oklch(0.20 0.022 252)', border: '1px solid oklch(0.27 0.025 252)', color: 'white' }}
@@ -88,10 +88,10 @@ export default function RegisterRMPage() {
             </div>
 
             {[
-              { key: 'fullName', label: 'Your Full Name', type: 'text', placeholder: 'Jane Smith' },
-              { key: 'email', label: 'Email', type: 'email', placeholder: 'jane@example.com' },
-              { key: 'phone', label: 'Phone', type: 'tel', placeholder: '(404) 555-0100' },
-              { key: 'password', label: 'Password', type: 'password', placeholder: '••••••••' },
+              { key: 'fullName', label: 'Your Full Name', type: 'text', placeholder: 'First and last name' },
+              { key: 'email', label: 'Email', type: 'email', placeholder: 'you@example.com' },
+              { key: 'phone', label: 'Phone', type: 'tel', placeholder: '(555) 555-5555' },
+              { key: 'password', label: 'Password', type: 'password', placeholder: 'Create a password' },
             ].map(({ key, label, type, placeholder }) => (
               <div key={key}>
                 <Label className="text-sm font-medium mb-1.5 block" style={{ color: 'oklch(0.72 0.01 252)' }}>

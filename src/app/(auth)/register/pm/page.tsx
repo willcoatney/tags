@@ -129,19 +129,19 @@ function RegisterPMForm() {
                 type="text"
                 value={form.companyName}
                 onChange={e => set('companyName', e.target.value)}
-                placeholder="Apex Property Group"
+                placeholder="Your company or property name"
                 required
-                autoComplete="organization"
+                autoComplete="off"
                 className="h-11"
                 style={{ background: 'oklch(0.20 0.022 252)', border: '1px solid oklch(0.27 0.025 252)', color: 'white' }}
               />
             </div>
 
             {[
-              { key: 'fullName', label: 'Your Name', type: 'text', placeholder: 'Jane Smith', autoComplete: 'name' },
-              { key: 'email', label: 'Email', type: 'email', placeholder: 'jane@example.com', autoComplete: 'email' },
-              { key: 'phone', label: 'Phone', type: 'tel', placeholder: '(404) 555-0100', autoComplete: 'tel' },
-              { key: 'password', label: 'Password', type: 'password', placeholder: '••••••••', autoComplete: 'new-password' },
+              { key: 'fullName', label: 'Your Name', type: 'text', placeholder: 'First and last name', autoComplete: 'off' },
+              { key: 'email', label: 'Email', type: 'email', placeholder: 'you@example.com', autoComplete: 'off' },
+              { key: 'phone', label: 'Phone', type: 'tel', placeholder: '(555) 555-5555', autoComplete: 'off' },
+              { key: 'password', label: 'Password', type: 'password', placeholder: 'Create a password', autoComplete: 'new-password' },
             ].map(({ key, label, type, placeholder, autoComplete }) => (
               <div key={key}>
                 <Label htmlFor={`pm-${key}`} className="text-sm font-medium mb-1.5 block" style={{ color: 'oklch(0.72 0.01 252)' }}>
