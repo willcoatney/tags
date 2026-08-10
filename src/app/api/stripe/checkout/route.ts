@@ -4,7 +4,9 @@ import { cookies } from 'next/headers'
 import { getStripe } from '@/lib/stripe'
 import { logError, ErrorCategory, ErrorSeverity } from '@/lib/error-logger'
 
-export async function POST() {
+export async function POST(req: Request) {
+  const body = await req.json().catch(() => ({}))
+  const plan: 'monthly' | 'yearly' = body.plan === 'yearly' ? 'yearly' : 'monthly'
   const cookieStore = await cookies()
 
   const supabase = createServerClient(
@@ -99,10 +101,17 @@ export async function POST() {
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://www.tagyourproject.com'
     const isContractor = profile.role === 'contractor'
 
-    // Route to correct Stripe price based on role
-    const priceId = isContractor
-      ? process.env.STRIPE_CONTRACTOR_PRICE_ID!   // $100/year
-      : process.env.STRIPE_PM_PRICE_ID!            // $50/month
+    // Route to correct Stripe price based on role + plan interval
+    let priceId: string
+    if (isContractor) {
+      priceId = plan === 'yearly'
+        ? process.env.STRIPE_CONTRACTOR_PRICE_ID!          // $100/year
+        : process.env.STRIPE_CONTRACTOR_MONTHLY_PRICE_ID!  // $10/month
+    } else {
+      priceId = plan === 'yearly'
+        ? process.env.STRIPE_PM_ANNUAL_PRICE_ID!           // $500/year
+        : process.env.STRIPE_PM_PRICE_ID!                  // $50/month
+    }
 
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
