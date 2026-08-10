@@ -4,10 +4,8 @@ import { createAdminClient } from '@/lib/supabase/admin'
 import { sendSMS } from '@/lib/sms'
 import { getBaseUrl } from '@/lib/url'
 import { sendEmail, awardedWinnerEmail } from '@/lib/email'
-import { getStripe } from '@/lib/stripe'
 import { logError, ErrorCategory, ErrorSeverity } from '@/lib/error-logger'
-
-const PLATFORM_FEE_RATE = 0.015 // 1.5%
+import { chargePlatformFee } from '@/lib/platform-fee'
 
 export async function POST(req: NextRequest, { params }: { params: { id: string } }) {
   const supabase = await createClient()
@@ -74,67 +72,23 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     return NextResponse.json({ error: 'Failed to update project status: ' + projectErr.message }, { status: 500 })
   }
 
-  // ── Charge contractor 1.5% platform fee ─────────────────────────────────
+  // ── Charge contractor 1.5% platform fee (soft gate — award already complete) ──
+  let feeResult: Awaited<ReturnType<typeof chargePlatformFee>> | null = null
   try {
-    const { data: contractorProfile } = await admin.from('user_profiles')
-      .select('organization_id')
-      .eq('id', winningBid.contractor_user_id)
-      .single()
-
-    if (contractorProfile?.organization_id) {
-      const { data: contractorOrg } = await admin.from('organizations')
-        .select('stripe_customer_id, subscription_status')
-        .eq('id', contractorProfile.organization_id)
-        .single()
-
-      if (contractorOrg?.stripe_customer_id && contractorOrg.subscription_status === 'active') {
-        const stripe = getStripe()
-        const bidAmountCents = Math.round(winningBid.amount * 100)
-        const feeCents = Math.round(bidAmountCents * PLATFORM_FEE_RATE)
-
-        // Create invoice item then auto-advance invoice → charges immediately
-        await stripe.invoiceItems.create({
-          customer: contractorOrg.stripe_customer_id,
-          amount: feeCents,
-          currency: 'usd',
-          description: `TAGS platform fee (1.5%) — "${winningBid.projects.title}" ($${winningBid.amount.toLocaleString()})`,
-          metadata: {
-            bid_id: winningBid.id,
-            project_id: winningBid.project_id,
-            bid_amount_cents: bidAmountCents,
-          },
-        })
-
-        const customer = await stripe.customers.retrieve(contractorOrg.stripe_customer_id) as import('stripe').default.Customer
-        const defaultPm = customer.invoice_settings?.default_payment_method as string | null
-
-        const invoice = await stripe.invoices.create({
-          customer: contractorOrg.stripe_customer_id,
-          auto_advance: true,
-          collection_method: 'charge_automatically',
-          ...(defaultPm ? { default_payment_method: defaultPm } : {}),
-          payment_settings: {
-            payment_method_types: ['card'],
-          },
-          metadata: {
-            bid_id: winningBid.id,
-            project_id: winningBid.project_id,
-          },
-        })
-
-        const finalizedInvoice = await stripe.invoices.finalizeInvoice(invoice.id)
-        const paidInvoice = await stripe.invoices.pay(finalizedInvoice.id)
-
-        await admin.from('bids').update({
-          stripe_charge_id: paidInvoice.id,
-          platform_fee_cents: feeCents,
-        }).eq('id', params.id)
-      }
-    }
+    feeResult = await chargePlatformFee(
+      {
+        id: params.id,
+        amount: winningBid.amount,
+        project_id: winningBid.project_id,
+        contractor_user_id: winningBid.contractor_user_id,
+      },
+      { title: winningBid.projects.title },
+      { route: '/api/bids/[id]/award', user_id: user.id }
+    )
   } catch (err) {
-    // Log but don't fail the award — billing issues shouldn't block project flow
-    console.error('Platform fee charge failed for bid', params.id, err)
-    void logError(ErrorCategory.STRIPE, 'Platform fee charge failed', {
+    // chargePlatformFee handles its own error logging — this is belt-and-suspenders
+    console.error('[award] Platform fee helper threw unexpectedly for bid', params.id, err)
+    void logError(ErrorCategory.STRIPE, 'Platform fee helper threw unexpectedly', {
       bidId: params.id, err: err instanceof Error ? err.message : String(err),
     }, { route: '/api/bids/[id]/award', user_id: user.id, severity: ErrorSeverity.HIGH })
   }
@@ -150,10 +104,17 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     .eq('id', winningBid.contractor_user_id)
     .single()
 
+  // Build fee suffix for winner SMS if charge succeeded
+  let feeSuffix = ''
+  if (feeResult?.status === 'charged') {
+    const feeDisplay = `$${(feeResult.feeCents / 100).toFixed(2)}`
+    feeSuffix = ` A ${feeDisplay} platform fee was charged to your card ending ${feeResult.cardLast4}.`
+  }
+
   // C-03: Wrap SMS in try/catch — DB writes already complete, don't let SMS crash response
   if (winner?.phone) {
     try {
-      await sendSMS(winner.phone, `You've been awarded "${title}" in ${properties.city}. Login for details: ${projectUrl}`)
+      await sendSMS(winner.phone, `You've been awarded "${title}" in ${properties.city}. Login for details: ${projectUrl}${feeSuffix}`)
     } catch (e) {
       console.error('[award] Winner SMS failed:', e)
       void logError(ErrorCategory.SMS, 'Winner SMS failed after bid award', {
@@ -184,5 +145,5 @@ export async function POST(req: NextRequest, { params }: { params: { id: string 
     }
   }
 
-  return NextResponse.json({ success: true })
+  return NextResponse.json({ success: true, feeStatus: feeResult?.status ?? 'skipped' })
 }
