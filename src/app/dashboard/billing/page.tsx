@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation'
-import { createBrowserClient } from '@supabase/ssr'
 
 type BillingState = {
   subscription_status: string | null
@@ -20,7 +19,7 @@ const PLANS: Record<string, { name: string; monthly: string; yearly: string; yea
     yearlyNote: 'Save $100/year',
   },
   contractor: {
-    name: 'TAGS Contractor',
+    name: 'TAGS Contractor Membership',
     monthly: '$10/month',
     yearly: '$100/year',
     yearlyNote: 'Save $20/year',
@@ -40,35 +39,17 @@ export default function BillingPage() {
   const [interval, setInterval] = useState<PlanInterval>('monthly')
 
   useEffect(() => {
-    const supabase = createBrowserClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    )
-
     async function fetchBilling() {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) return
-
-      const { data: profile } = await supabase
-        .from('user_profiles')
-        .select('role, organization_id')
-        .eq('id', user.id)
-        .single()
-
-      if (!profile?.organization_id) { setLoading(false); return }
-
-      const { data: org } = await supabase
-        .from('organizations')
-        .select('subscription_status, stripe_customer_id')
-        .eq('id', profile.organization_id)
-        .single()
-
-      setBilling({
-        subscription_status: org?.subscription_status ?? null,
-        stripe_customer_id: org?.stripe_customer_id ?? null,
-        role: profile.role,
-      })
-      setLoading(false)
+      try {
+        const res = await fetch('/api/user/billing-status')
+        if (!res.ok) { setLoading(false); return }
+        const data = await res.json()
+        setBilling(data)
+      } catch {
+        console.error('Failed to fetch billing status')
+      } finally {
+        setLoading(false)
+      }
     }
 
     fetchBilling()
