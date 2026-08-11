@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { getStripe } from '@/lib/stripe'
+import { createAdminClient } from '@/lib/supabase/admin'
 import { logError, ErrorCategory, ErrorSeverity } from '@/lib/error-logger'
 
 export async function POST(req: Request) {
@@ -9,6 +10,7 @@ export async function POST(req: Request) {
   const plan: 'monthly' | 'yearly' = body.plan === 'yearly' ? 'yearly' : 'monthly'
   const cookieStore = await cookies()
 
+  // SSR client — only used for getUser() (reads auth from cookie)
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
@@ -25,8 +27,11 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
+  // Admin client — bypasses RLS for all DB queries
+  const admin = createAdminClient()
+
   // Get user profile to determine role and organization
-  const { data: profile, error: profileError } = await supabase
+  const { data: profile, error: profileError } = await admin
     .from('user_profiles')
     .select('role, organization_id')
     .eq('id', user.id)
@@ -42,10 +47,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'No organization linked to this account. Please contact support.' }, { status: 404 })
   }
 
-  // Fetch org — select only base columns first to avoid failing if stripe migration hasn't run
-  const { data: orgBase, error: orgError } = await supabase
+  // Fetch org
+  const { data: orgBase, error: orgError } = await admin
     .from('organizations')
-    .select('id, name')
+    .select('id, name, stripe_customer_id')
     .eq('id', profile.organization_id)
     .single()
 
@@ -54,18 +59,7 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: 'Organization record not found. Please contact support.' }, { status: 404 })
   }
 
-  // Fetch stripe columns separately (requires migration 20260808_stripe_billing.sql to be run)
-  const { data: orgStripe } = await supabase
-    .from('organizations')
-    .select('stripe_customer_id')
-    .eq('id', profile.organization_id)
-    .single()
-
-  const org = { ...orgBase, stripe_customer_id: orgStripe?.stripe_customer_id ?? null }
-
-  if (!orgStripe) {
-    console.warn('Checkout: stripe columns not found on org — has 20260808_stripe_billing.sql been run in Supabase?')
-  }
+  const org = orgBase
 
   // H-03: Wrap all Stripe API calls in try/catch
   try {
@@ -85,8 +79,7 @@ export async function POST(req: Request) {
       })
       customerId = customer.id
 
-      // H-03: Check Stripe customer ID save — failure here creates duplicate customers
-      const { error: custErr } = await supabase
+      const { error: custErr } = await admin
         .from('organizations')
         .update({ stripe_customer_id: customerId })
         .eq('id', org.id)
