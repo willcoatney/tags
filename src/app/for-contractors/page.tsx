@@ -104,12 +104,11 @@ export default function ForContractorsPage() {
             <div className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'oklch(0.57 0.135 183)' }}>The core advantage</div>
             <h2 className="text-3xl md:text-4xl font-bold text-white mb-5">You&apos;ll never bid blind again.</h2>
             <p className="text-lg leading-relaxed mb-6" style={{ color: 'oklch(0.60 0.025 252)' }}>
-              Most contractor leads are a phone number and a vague description. TAGS gives you a professional construction document — scope, materials, safety requirements, estimated cost — before you submit a single number. Your bids are accurate, your margins are protected, and scope disputes don&apos;t happen.
+              Most contractor leads are a phone number and a vague description. TAGS gives you a professional construction document — scope, safety requirements, and cleanup specs — before you submit a single number. Your bids are accurate, your margins are protected, and scope disputes don&apos;t happen.
             </p>
             <ul className="space-y-3">
               {[
                 'Full scope before you bid — no surprises on-site',
-                'Accurate material and labor estimates built in',
                 'Everyone bids on the same defined document',
                 'Bid with confidence, price with accuracy',
                 'TAGS handles communication and job tracking',
@@ -144,18 +143,13 @@ export default function ForContractorsPage() {
                   <li>Pressure test and verify no active leaks</li>
                 </ol>
               </div>
-              <div className="rounded-xl overflow-hidden" style={{ border: '1px solid oklch(0.30 0.08 145)' }}>
-                <div className="px-4 py-2 text-xs font-semibold uppercase tracking-wide" style={{ background: 'oklch(0.20 0.07 145)', color: 'oklch(0.75 0.15 145)' }}>Estimated Project Cost</div>
-                <table className="w-full">
-                  <tbody>
-                    {[['Materials', '$180'], ['Labor', '$320'], ['TOTAL', '$500']].map(([label, val], i) => (
-                      <tr key={label} style={{ background: i === 2 ? 'oklch(0.20 0.07 145)' : i % 2 === 0 ? 'oklch(0.15 0.04 145)' : 'oklch(0.16 0.04 145)', borderTop: i === 2 ? '1px solid oklch(0.30 0.08 145)' : undefined }}>
-                        <td className={`px-4 py-2 text-xs ${i === 2 ? 'font-bold' : ''}`} style={{ color: i === 2 ? 'oklch(0.90 0.12 145)' : 'oklch(0.75 0.02 252)' }}>{label}</td>
-                        <td className={`px-4 py-2 text-xs text-right ${i === 2 ? 'font-bold' : ''}`} style={{ color: i === 2 ? 'oklch(0.90 0.12 145)' : 'white' }}>{val}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
+              <div>
+                <p className="font-semibold text-xs uppercase tracking-wide mb-1.5" style={{ color: 'oklch(0.57 0.135 183)' }}>Site Safety Requirements</p>
+                <ul className="space-y-1 text-sm" style={{ color: 'oklch(0.65 0.015 252)' }}>
+                  <li>• Shut off main water supply before beginning work</li>
+                  <li>• Use drip pan to protect cabinet interior during removal</li>
+                  <li>• Verify no active mold before closing cabinet</li>
+                </ul>
               </div>
             </div>
           </div>
