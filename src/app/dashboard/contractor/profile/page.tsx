@@ -25,7 +25,6 @@ interface Profile {
   ratings: Review[]
   avgRating: number | null
   ratingCount: number
-  w9_url: string | null
   insurance_url: string | null
   license_url: string | null
   coi_expiration_date: string | null
@@ -48,9 +47,7 @@ export default function ContractorProfilePage() {
   const [saving, setSaving] = useState(false)
   const [coiExpDate, setCoiExpDate] = useState('')
   const [savingCoi, setSavingCoi] = useState(false)
-  const [uploadingW9, setUploadingW9] = useState(false)
   const [uploadingCoi, setUploadingCoi] = useState(false)
-  const w9InputRef = useRef<HTMLInputElement>(null)
   const coiInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -104,25 +101,21 @@ export default function ContractorProfilePage() {
     setSavingCoi(false)
   }
 
-  async function handleDocUpload(file: File, docType: 'w9' | 'coi') {
-    const setUploading = docType === 'w9' ? setUploadingW9 : setUploadingCoi
-    setUploading(true)
+  async function handleDocUpload(file: File, docType: 'coi') {
+    setUploadingCoi(true)
     const fd = new FormData()
     fd.append('file', file)
     fd.append('docType', docType)
     const res = await fetch('/api/upload/contractor-doc', { method: 'POST', body: fd })
     if (res.ok) {
       const { url } = await res.json()
-      setProfile(p => p ? {
-        ...p,
-        ...(docType === 'w9' ? { w9_url: url } : { insurance_url: url }),
-      } : p)
-      toast.success(`${docType === 'w9' ? 'W-9' : 'COI'} uploaded successfully`)
+      setProfile(p => p ? { ...p, insurance_url: url } : p)
+      toast.success('COI uploaded successfully')
     } else {
       const { error } = await res.json().catch(() => ({ error: 'Upload failed' }))
       toast.error(error || 'Upload failed')
     }
-    setUploading(false)
+    setUploadingCoi(false)
   }
 
   if (!profile) return <div className="text-slate-400 p-8">Loading...</div>
@@ -139,52 +132,6 @@ export default function ContractorProfilePage() {
           <CardTitle className="text-white">Compliance Documents</CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
-
-          {/* W-9 */}
-          <div>
-            <div className="flex items-center justify-between mb-2">
-              <Label className="text-slate-300">W-9 Form</Label>
-              {profile.w9_url ? (
-                <span className="text-xs font-medium px-2 py-0.5 rounded-full"
-                  style={{ background: 'oklch(0.18 0.08 155)', color: 'oklch(0.65 0.15 155)', border: '1px solid oklch(0.28 0.10 155)' }}>
-                  ✓ On file
-                </span>
-              ) : (
-                <span className="text-xs font-medium px-2 py-0.5 rounded-full"
-                  style={{ background: 'oklch(0.18 0.05 25)', color: 'oklch(0.65 0.15 25)', border: '1px solid oklch(0.28 0.10 25)' }}>
-                  Missing
-                </span>
-              )}
-            </div>
-            <p className="text-xs text-slate-500 mb-3">
-              Required for tax compliance. TAGS uses your W-9 to issue a 1099 when your annual earnings through the platform exceed $600.
-            </p>
-            <div className="flex items-center gap-3">
-              <input
-                ref={w9InputRef}
-                type="file"
-                accept=".pdf,image/*"
-                className="hidden"
-                onChange={e => { const f = e.target.files?.[0]; if (f) handleDocUpload(f, 'w9') }}
-              />
-              <button
-                onClick={() => w9InputRef.current?.click()}
-                disabled={uploadingW9}
-                className="px-4 py-2 rounded-lg text-sm font-medium transition-all disabled:opacity-50"
-                style={{ background: 'oklch(0.22 0.025 252)', border: '1px solid oklch(0.32 0.025 252)', color: 'oklch(0.72 0.01 252)' }}
-              >
-                {uploadingW9 ? 'Uploading…' : profile.w9_url ? '↑ Replace W-9' : '↑ Upload W-9'}
-              </button>
-              {profile.w9_url && (
-                <a href={profile.w9_url} target="_blank" rel="noopener noreferrer"
-                  className="text-xs underline" style={{ color: 'oklch(0.57 0.135 183)' }}>
-                  View current
-                </a>
-              )}
-            </div>
-          </div>
-
-          <div className="border-t border-slate-800" />
 
           {/* COI */}
           <div>

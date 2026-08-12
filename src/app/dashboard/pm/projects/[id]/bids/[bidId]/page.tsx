@@ -35,7 +35,7 @@ export default async function BidDetailPage({ params }: { params: { id: string; 
   const contractorUserId: string = bid.contractor_user_id
 
   const { data: contractorProfile } = await admin.from('contractor_profiles')
-    .select('company_name, services, service_states, license_url, insurance_url, w9_url, coi_expiration_date')
+    .select('company_name, services, service_states, license_url, insurance_url, coi_expiration_date')
     .eq('user_id', contractorUserId)
     .single()
 
@@ -169,13 +169,7 @@ export default async function BidDetailPage({ params }: { params: { id: string; 
               View COI
             </a>
           )}
-          {contractorProfile?.w9_url && (
-            <a href={contractorProfile.w9_url} target="_blank" rel="noopener noreferrer"
-              className="text-xs px-3 py-1.5 rounded-lg font-medium"
-              style={{ background: 'oklch(0.20 0.04 183)', color: 'oklch(0.65 0.10 183)', border: '1px solid oklch(0.30 0.08 183)' }}>
-              View W-9
-            </a>
-          )}
+
         </div>
       </div>
 

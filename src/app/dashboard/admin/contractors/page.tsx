@@ -41,8 +41,6 @@ export default async function AdminContractorsPage() {
         {contractors?.map(contractor => {
           const up = contractor.user_profiles as { full_name?: string; email?: string; phone?: string }
           const coi = coiStatusBadge(contractor.coi_expiration_date, !!contractor.insurance_url)
-          const hasW9 = !!contractor.w9_url
-
           return (
             <Card key={contractor.id} className="bg-slate-900 border-slate-700">
               <CardContent className="py-4">
@@ -64,14 +62,6 @@ export default async function AdminContractorsPage() {
                         style={{ background: coi.bg, color: coi.color, border: `1px solid ${coi.border}` }}>
                         {coi.label}
                       </span>
-                      <span className="text-xs font-medium px-2 py-0.5 rounded-full"
-                        style={{
-                          background: hasW9 ? 'oklch(0.16 0.06 155)' : 'oklch(0.18 0.05 25)',
-                          color: hasW9 ? 'oklch(0.65 0.15 155)' : 'oklch(0.65 0.15 25)',
-                          border: `1px solid ${hasW9 ? 'oklch(0.26 0.10 155)' : 'oklch(0.28 0.10 25)'}`,
-                        }}>
-                        {hasW9 ? 'W-9: On file' : 'W-9: Missing'}
-                      </span>
                       {contractor.insurance_url && (
                         <a href={contractor.insurance_url} target="_blank" rel="noopener noreferrer"
                           className="text-xs underline" style={{ color: 'oklch(0.57 0.135 183)' }}>
@@ -84,12 +74,7 @@ export default async function AdminContractorsPage() {
                           View License
                         </a>
                       )}
-                      {contractor.w9_url && (
-                        <a href={contractor.w9_url} target="_blank" rel="noopener noreferrer"
-                          className="text-xs underline" style={{ color: 'oklch(0.57 0.135 183)' }}>
-                          View W-9
-                        </a>
-                      )}
+
                     </div>
 
                     <p className="text-slate-500 text-xs">Applied {new Date(contractor.created_at).toLocaleDateString()}</p>
