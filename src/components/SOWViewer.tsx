@@ -1,7 +1,6 @@
 'use client'
 
 const CONTRACTOR_HIDDEN_SECTIONS = new Set([
-  'Project Overview',
   'Materials Required',
   'Labor Requirements',
   'Estimated Project Cost',
