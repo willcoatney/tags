@@ -88,7 +88,7 @@ export default function ProjectMessages({ projectId, currentUserId, currentUserR
   const roleLabel = (role: string) => role === 'pm' ? 'PM' : role === 'contractor' ? 'Contractor' : role
 
   return (
-    <div className="flex flex-col" style={{ maxHeight: '400px' }}>
+    <div className="flex flex-col max-h-[280px] sm:max-h-[400px]">
       <div ref={messageListRef} className="flex-1 overflow-y-auto space-y-3 p-4 min-h-[120px]"
         style={{ background: 'oklch(0.14 0.022 252)' }}>
         {loading ? (

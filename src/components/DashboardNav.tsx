@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
@@ -53,6 +54,7 @@ export default function DashboardNav({ role, name }: Props) {
   const pathname = usePathname()
   const router = useRouter()
   const supabase = createClient()
+  const [menuOpen, setMenuOpen] = useState(false)
 
   async function signOut() {
     await supabase.auth.signOut()
@@ -61,77 +63,167 @@ export default function DashboardNav({ role, name }: Props) {
   }
 
   const initials = name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()
+  const links = NAV_LINKS[role]
 
   return (
-    <nav
-      className="sticky top-0 z-50 flex items-center justify-between px-6 h-14"
-      style={{
-        background: 'var(--card)',
-        borderBottom: '1px solid var(--border)',
-        backdropFilter: 'blur(12px)',
-      }}
-    >
-      {/* Logo + links */}
-      <div className="flex items-center gap-6">
-        <Link href="/" className="flex items-center gap-2 mr-2 shrink-0">
-          <img src="/tags-logo.jpg" alt="TAGS" className="h-8 max-w-[110px] object-contain rounded-md shrink-0" />
-        </Link>
+    <>
+      <nav
+        className="sticky top-0 z-50 flex items-center justify-between px-4 sm:px-6 h-14"
+        style={{
+          background: 'var(--card)',
+          borderBottom: '1px solid var(--border)',
+          backdropFilter: 'blur(12px)',
+        }}
+      >
+        {/* Logo + desktop links */}
+        <div className="flex items-center gap-6">
+          <Link href="/" className="flex items-center gap-2 mr-2 shrink-0">
+            <img src="/tags-logo.jpg" alt="TAGS" className="h-8 max-w-[110px] object-contain rounded-md shrink-0" />
+          </Link>
 
-        <div className="flex items-center gap-1">
-          {NAV_LINKS[role].map(link => {
+          {/* Desktop nav — hidden on mobile */}
+          <div className="hidden md:flex items-center gap-1">
+            {links.map(link => {
+              const active = pathname === link.href
+              return (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="px-3 py-1.5 rounded-md text-sm font-medium transition-colors duration-150"
+                  style={{
+                    color: active ? 'white' : 'oklch(0.60 0.025 252)',
+                    background: active ? 'oklch(0.22 0.022 252)' : 'transparent',
+                  }}
+                  onMouseEnter={e => { if (!active) e.currentTarget.style.color = 'oklch(0.82 0.01 252)' }}
+                  onMouseLeave={e => { if (!active) e.currentTarget.style.color = 'oklch(0.60 0.025 252)' }}
+                >
+                  {link.label}
+                </Link>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* Right side */}
+        <div className="flex items-center gap-3">
+          {/* User badge — desktop only */}
+          <div className="hidden md:flex items-center gap-2">
+            <div
+              className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white"
+              style={{ background: 'oklch(0.57 0.135 183)' }}
+            >
+              {initials || role[0].toUpperCase()}
+            </div>
+            <div className="hidden lg:block">
+              <p className="text-sm font-medium text-white leading-none">{name}</p>
+              <p className="text-xs mt-0.5" style={{ color: 'oklch(0.55 0.02 252)' }}>{ROLE_LABELS[role]}</p>
+            </div>
+          </div>
+
+          <ThemeToggle />
+
+          {/* Sign out — desktop only */}
+          <button
+            onClick={signOut}
+            className="hidden md:block px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-150"
+            style={{ color: 'oklch(0.55 0.02 252)', border: '1px solid oklch(0.22 0.022 252)' }}
+            onMouseEnter={e => {
+              e.currentTarget.style.color = 'oklch(0.82 0.01 252)'
+              e.currentTarget.style.borderColor = 'oklch(0.32 0.025 252)'
+            }}
+            onMouseLeave={e => {
+              e.currentTarget.style.color = 'oklch(0.55 0.02 252)'
+              e.currentTarget.style.borderColor = 'oklch(0.22 0.022 252)'
+            }}
+          >
+            Sign Out
+          </button>
+
+          {/* Hamburger — mobile only */}
+          <button
+            className="md:hidden flex flex-col justify-center items-center w-9 h-9 rounded-md gap-[5px] transition-colors"
+            style={{ border: '1px solid oklch(0.22 0.022 252)' }}
+            onClick={() => setMenuOpen(o => !o)}
+            aria-label="Toggle menu"
+            aria-expanded={menuOpen}
+          >
+            <span
+              className="block w-5 h-0.5 rounded-full transition-all duration-200"
+              style={{
+                background: 'oklch(0.60 0.025 252)',
+                transform: menuOpen ? 'translateY(6px) rotate(45deg)' : 'none',
+              }}
+            />
+            <span
+              className="block w-5 h-0.5 rounded-full transition-all duration-200"
+              style={{
+                background: 'oklch(0.60 0.025 252)',
+                opacity: menuOpen ? 0 : 1,
+              }}
+            />
+            <span
+              className="block w-5 h-0.5 rounded-full transition-all duration-200"
+              style={{
+                background: 'oklch(0.60 0.025 252)',
+                transform: menuOpen ? 'translateY(-6px) rotate(-45deg)' : 'none',
+              }}
+            />
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile drawer */}
+      {menuOpen && (
+        <div
+          className="md:hidden sticky top-14 z-40 border-b px-4 py-3 space-y-1"
+          style={{
+            background: 'var(--card)',
+            borderColor: 'var(--border)',
+          }}
+        >
+          {/* User identity */}
+          <div className="flex items-center gap-2 px-3 py-2 mb-2">
+            <div
+              className="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white shrink-0"
+              style={{ background: 'oklch(0.57 0.135 183)' }}
+            >
+              {initials || role[0].toUpperCase()}
+            </div>
+            <div>
+              <p className="text-sm font-medium text-white leading-none">{name}</p>
+              <p className="text-xs mt-0.5" style={{ color: 'oklch(0.55 0.02 252)' }}>{ROLE_LABELS[role]}</p>
+            </div>
+          </div>
+
+          {/* Nav links */}
+          {links.map(link => {
             const active = pathname === link.href
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className="px-3 py-1.5 rounded-md text-sm font-medium transition-colors duration-150"
+                onClick={() => setMenuOpen(false)}
+                className="flex items-center w-full px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150"
                 style={{
-                  color: active ? 'white' : 'oklch(0.60 0.025 252)',
+                  color: active ? 'white' : 'oklch(0.65 0.025 252)',
                   background: active ? 'oklch(0.22 0.022 252)' : 'transparent',
                 }}
-                onMouseEnter={e => { if (!active) e.currentTarget.style.color = 'oklch(0.82 0.01 252)' }}
-                onMouseLeave={e => { if (!active) e.currentTarget.style.color = 'oklch(0.60 0.025 252)' }}
               >
                 {link.label}
               </Link>
             )
           })}
-        </div>
-      </div>
 
-      {/* Right side */}
-      <div className="flex items-center gap-3">
-        <div className="hidden md:flex items-center gap-2">
-          <div
-            className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white"
-            style={{ background: 'oklch(0.57 0.135 183)' }}
+          {/* Sign out */}
+          <button
+            onClick={() => { setMenuOpen(false); void signOut() }}
+            className="flex items-center w-full px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 mt-1"
+            style={{ color: 'oklch(0.55 0.02 252)' }}
           >
-            {initials || role[0].toUpperCase()}
-          </div>
-          <div className="hidden lg:block">
-            <p className="text-sm font-medium text-white leading-none">{name}</p>
-            <p className="text-xs mt-0.5" style={{ color: 'oklch(0.55 0.02 252)' }}>{ROLE_LABELS[role]}</p>
-          </div>
+            Sign Out
+          </button>
         </div>
-
-        <ThemeToggle />
-
-        <button
-          onClick={signOut}
-          className="px-3 py-1.5 rounded-md text-xs font-medium transition-colors duration-150"
-          style={{ color: 'oklch(0.55 0.02 252)', border: '1px solid oklch(0.22 0.022 252)' }}
-          onMouseEnter={e => {
-            e.currentTarget.style.color = 'oklch(0.82 0.01 252)'
-            e.currentTarget.style.borderColor = 'oklch(0.32 0.025 252)'
-          }}
-          onMouseLeave={e => {
-            e.currentTarget.style.color = 'oklch(0.55 0.02 252)'
-            e.currentTarget.style.borderColor = 'oklch(0.22 0.022 252)'
-          }}
-        >
-          Sign Out
-        </button>
-      </div>
-    </nav>
+      )}
+    </>
   )
 }

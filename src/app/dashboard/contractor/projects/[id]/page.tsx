@@ -73,8 +73,8 @@ export default function ContractorProjectPage({ params }: { params: { id: string
 
   return (
     <div className="max-w-3xl mx-auto space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div className="min-w-0">
           <h1 className="text-2xl font-bold text-white">{project.title}</h1>
           <p className="text-slate-400 mt-1">
             {project.job_category && (
@@ -92,7 +92,7 @@ export default function ContractorProjectPage({ params }: { params: { id: string
             </p>
           )}
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-3 shrink-0">
           <ContractorMarkDoneButton projectId={params.id} status={project.status} />
           <Button asChild variant="outline" className="border-slate-600 text-slate-300">
             <Link href="/dashboard/contractor">← Back</Link>
@@ -174,7 +174,7 @@ export default function ContractorProjectPage({ params }: { params: { id: string
             </p>
           ) : (
             <form onSubmit={handleBid} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <Label className="text-slate-300">Your Price ($)</Label>
                   <Input type="number" min="0" step="0.01" required value={form.amount}
