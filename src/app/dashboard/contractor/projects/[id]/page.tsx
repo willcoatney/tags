@@ -69,10 +69,23 @@ export default function ContractorProjectPage({ params }: { params: { id: string
     }
   }
 
-  if (!project) return <div className="text-slate-400 p-8">Loading...</div>
+  if (!project) return (
+    <div className="max-w-3xl mx-auto space-y-6 animate-pulse">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div className="flex-1 space-y-2">
+          <div className="h-8 w-2/3 rounded-lg bg-slate-800" />
+          <div className="h-4 w-1/2 rounded bg-slate-800" />
+        </div>
+        <div className="h-9 w-24 rounded-lg bg-slate-800 shrink-0" />
+      </div>
+      <div className="h-40 rounded-xl bg-slate-800" />
+      <div className="h-64 rounded-xl bg-slate-800" />
+      <div className="h-48 rounded-xl bg-slate-800" />
+    </div>
+  )
 
   return (
-    <div className="max-w-3xl mx-auto space-y-6">
+    <div className="max-w-3xl mx-auto space-y-6 pb-28 sm:pb-6">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div className="min-w-0">
           <h1 className="text-2xl font-bold text-white">{project.title}</h1>
@@ -104,10 +117,10 @@ export default function ContractorProjectPage({ params }: { params: { id: string
         <Card className="bg-slate-900 border-slate-700">
           <CardHeader><CardTitle className="text-white text-base">Photos</CardTitle></CardHeader>
           <CardContent>
-            <div className="flex gap-3 flex-wrap">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {project.project_photos.map(photo => (
                 // eslint-disable-next-line @next/next/no-img-element
-                <img key={photo.id} src={photo.public_url} alt="" className="w-32 h-32 object-cover rounded border border-slate-600" />
+                <img key={photo.id} src={photo.public_url} alt="" className="w-full aspect-square object-cover rounded-lg border border-slate-600" />
               ))}
             </div>
           </CardContent>
@@ -161,7 +174,7 @@ export default function ContractorProjectPage({ params }: { params: { id: string
         </Card>
       )}
 
-      <Card className="bg-slate-900 border-slate-700">
+      <Card id="bid-form" className="bg-slate-900 border-slate-700">
         <CardHeader>
           <CardTitle className="text-white">{alreadyBid ? 'Bid Already Submitted' : 'Submit Your Bid'}</CardTitle>
         </CardHeader>
@@ -193,13 +206,27 @@ export default function ContractorProjectPage({ params }: { params: { id: string
                 <Textarea value={form.notes} onChange={e => setForm(p => ({ ...p, notes: e.target.value }))}
                   rows={3} className="bg-slate-800 border-slate-600 text-white" />
               </div>
-              <Button type="submit" disabled={submitting} className="w-full bg-teal-600 hover:bg-teal-700">
+              <Button type="submit" disabled={submitting} className="w-full py-3 text-base bg-teal-600 hover:bg-teal-700">
                 {submitting ? 'Submitting...' : 'Submit Bid'}
               </Button>
             </form>
           )}
         </CardContent>
       </Card>
+
+      {/* Sticky mobile bid CTA — only shown when project is open and no bid yet */}
+      {!alreadyBid && project.status === 'open' && (
+        <div className="sm:hidden fixed bottom-0 left-0 right-0 z-50 px-4 py-4"
+          style={{ background: 'linear-gradient(to top, oklch(0.12 0.018 252) 70%, transparent)' }}>
+          <a
+            href="#bid-form"
+            className="block w-full text-center py-4 rounded-2xl text-base font-bold text-white active:scale-[0.98] transition-transform shadow-lg"
+            style={{ background: 'oklch(0.57 0.135 183)' }}
+          >
+            Submit a Bid ↓
+          </a>
+        </div>
+      )}
     </div>
   )
 }

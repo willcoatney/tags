@@ -118,7 +118,14 @@ export default function ContractorProfilePage() {
     setUploadingCoi(false)
   }
 
-  if (!profile) return <div className="text-slate-400 p-8">Loading...</div>
+  if (!profile) return (
+    <div className="max-w-2xl mx-auto space-y-6 animate-pulse">
+      <div className="h-8 w-40 rounded-lg bg-slate-800" />
+      <div className="rounded-xl h-48 bg-slate-800" />
+      <div className="rounded-xl h-64 bg-slate-800" />
+      <div className="rounded-xl h-40 bg-slate-800" />
+    </div>
+  )
 
   const coi = coiStatus(profile.coi_expiration_date)
 

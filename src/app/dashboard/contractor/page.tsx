@@ -131,12 +131,12 @@ export default async function ContractorDashboard() {
         ) : (
           <div className="space-y-2">
             {availableProjects.map(project => (
-              <div key={project.id} className="rounded-xl px-5 py-4 transition-all duration-150 hover:border-[oklch(0.32_0.025_252)]" style={CARD}>
-                <div className="flex items-center justify-between gap-4">
+              <div key={project.id} className="rounded-xl px-4 sm:px-5 py-4 transition-all duration-150 hover:border-[oklch(0.32_0.025_252)]" style={CARD}>
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
                   <div className="min-w-0 flex-1">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="font-semibold text-white truncate">{project.title}</h3>
-                      <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: 'oklch(0.22 0.022 252)', color: 'oklch(0.60 0.025 252)' }}>
+                    <div className="flex items-start gap-2 flex-wrap">
+                      <h3 className="font-semibold text-white">{project.title}</h3>
+                      <span className="text-xs px-2 py-0.5 rounded-full shrink-0" style={{ background: 'oklch(0.22 0.022 252)', color: 'oklch(0.60 0.025 252)' }}>
                         {PROJECT_TYPE_LABELS[project.project_type as ProjectType]}
                       </span>
                     </div>
@@ -148,10 +148,10 @@ export default async function ContractorDashboard() {
                   </div>
                   <Link
                     href={`/dashboard/contractor/projects/${project.id}`}
-                    className="shrink-0 px-3 py-1.5 rounded-md text-xs font-semibold text-white transition-all duration-150 active:scale-[0.98]"
+                    className="w-full sm:w-auto text-center px-4 py-3 sm:py-1.5 rounded-xl sm:rounded-md text-sm sm:text-xs font-semibold text-white transition-all duration-150 active:scale-[0.98]"
                     style={{ background: 'oklch(0.57 0.135 183)' }}
                   >
-                    View & Bid
+                    View & Bid →
                   </Link>
                 </div>
               </div>
@@ -166,19 +166,19 @@ export default async function ContractorDashboard() {
           <h2 className="text-base font-semibold text-white mb-3">My Bids</h2>
           <div className="space-y-2">
             {myBids!.map(bid => (
-              <div key={bid.id} className="rounded-xl px-5 py-4" style={CARD}>
-                <div className="flex items-center justify-between gap-4">
-                  <div>
+              <div key={bid.id} className="rounded-xl px-4 sm:px-5 py-4" style={CARD}>
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+                  <div className="min-w-0 flex-1">
                     <p className="font-medium text-white">{bid.projects?.title}</p>
                     <p className="text-sm mt-0.5" style={{ color: 'oklch(0.55 0.02 252)' }}>
                       ${bid.amount.toLocaleString()} · {bid.timeline_days} days · {new Date(bid.submitted_at).toLocaleDateString()}
                     </p>
                   </div>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 shrink-0">
                     {bid.status === 'awarded' && (
                       <Link
                         href={`/dashboard/contractor/projects/${bid.project_id}`}
-                        className="shrink-0 px-3 py-1.5 rounded-md text-xs font-semibold text-white transition-all duration-150 active:scale-[0.98]"
+                        className="px-4 py-2 sm:py-1.5 rounded-xl sm:rounded-md text-sm sm:text-xs font-semibold text-white transition-all duration-150 active:scale-[0.98]"
                         style={{ background: 'oklch(0.57 0.135 183)' }}
                       >
                         View Job
