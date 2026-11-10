@@ -59,14 +59,14 @@ export async function middleware(request: NextRequest) {
     pathname.startsWith(BILLING_GATED_PREFIX) &&
     !BILLING_EXEMPT.some(exempt => pathname.startsWith(exempt))
   ) {
-    // Only gate PM role — contractors and admins are not subscription-gated
+    // Only gate PM role — homeowners and admins are not subscription-gated
     const { data: profile } = await supabase
       .from('user_profiles')
       .select('role, organization_id')
       .eq('id', user.id)
       .single()
 
-    if (profile?.role === 'pm' || profile?.role === 'contractor') {
+    if (profile?.role === 'pm') {
       const { data: org } = await supabase
         .from('organizations')
         .select('subscription_status')

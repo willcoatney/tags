@@ -4,12 +4,8 @@ import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import StatusBadge from '@/components/StatusBadge'
-import PublishProjectButton from '@/components/PublishProjectButton'
 import SOWViewer from '@/components/SOWViewer'
-import CompleteProjectButton from '@/components/CompleteProjectButton'
-import LeaveReviewButton from '@/components/LeaveReviewButton'
 import { PROJECT_TYPE_LABELS, JOB_CATEGORY_LABELS, type JobCategory } from '@/lib/types'
-import PreBidQA from '@/components/PreBidQA'
 
 export default async function PMProjectPage({ params }: { params: { id: string } }) {
   const supabase = await createClient()
@@ -21,26 +17,12 @@ export default async function PMProjectPage({ params }: { params: { id: string }
   if (!profile || profile.role !== 'pm') redirect('/login')
 
   const { data: project } = await admin.from('projects')
-    .select('*, properties(*), project_photos(*), bids(id, status, contractor_user_id)')
+    .select('*, properties(*), project_photos(*)')
     .eq('id', params.id)
     .eq('organization_id', profile.organization_id)
     .single()
 
   if (!project) notFound()
-
-  // For completed projects, fetch awarded contractor name + check for existing rating
-  const awardedBid = project.bids?.find((b: { status: string; contractor_user_id: string }) => b.status === 'awarded')
-  let contractorName = 'the contractor'
-  let existingRating = null
-
-  if (project.status === 'completed' && awardedBid) {
-    const [{ data: cp }, { data: rating }] = await Promise.all([
-      admin.from('contractor_profiles').select('company_name').eq('user_id', awardedBid.contractor_user_id).maybeSingle(),
-      admin.from('ratings').select('id').eq('project_id', project.id).eq('rated_by', user.id).maybeSingle(),
-    ])
-    if (cp?.company_name) contractorName = cp.company_name
-    existingRating = rating
-  }
 
   return (
     <div className="max-w-4xl mx-auto space-y-6">
@@ -68,9 +50,6 @@ export default async function PMProjectPage({ params }: { params: { id: string }
           </p>
         </div>
         <div className="flex gap-2 items-center flex-wrap">
-          {project.status === 'draft' && project.scope_of_work && (
-            <PublishProjectButton projectId={project.id} />
-          )}
           {(project.status === 'draft' || project.status === 'open') && (
             <Link
               href={`/dashboard/pm/projects/${project.id}/edit`}
@@ -80,29 +59,14 @@ export default async function PMProjectPage({ params }: { params: { id: string }
               ✏️ Edit
             </Link>
           )}
-          {project.status === 'draft' && !project.scope_of_work && (
-            <span className="text-xs px-3 py-1.5 rounded-lg" style={{ background: 'oklch(0.22 0.06 75)', color: 'oklch(0.75 0.12 75)' }}>
-              Generate a SOW before posting
-            </span>
-          )}
-          {project.status === 'open' && (
-            <Link
-              href={`/dashboard/pm/projects/${project.id}/bids`}
-              className="px-4 py-2 rounded-lg text-sm font-semibold text-white"
-              style={{ background: 'oklch(0.57 0.135 183)' }}
+          {project.scope_of_work && (
+            <button
+              onClick={() => window.print()}
+              className="px-4 py-2 rounded-lg text-sm font-semibold transition-all"
+              style={{ border: '1px solid oklch(0.27 0.025 252)', color: 'oklch(0.82 0.01 252)', background: 'oklch(0.20 0.022 252)' }}
             >
-              Review Bids ({project.bids?.length || 0})
-            </Link>
-          )}
-          {project.status === 'awarded' && (
-            <CompleteProjectButton projectId={project.id} />
-          )}
-          {project.status === 'completed' && awardedBid && !existingRating && (
-            <LeaveReviewButton
-              projectId={project.id}
-              contractorUserId={awardedBid.contractor_user_id}
-              contractorName={contractorName}
-            />
+              🖨️ Print SOW
+            </button>
           )}
           <Link
             href="/dashboard/pm"
@@ -133,7 +97,7 @@ export default async function PMProjectPage({ params }: { params: { id: string }
         )}
       </div>
 
-      {/* Pre-work photos */}
+      {/* Project photos */}
       {project.project_photos?.filter((p: { photo_type?: string }) => !p.photo_type || p.photo_type === 'pre_work').length > 0 && (
         <Card className="bg-slate-900 border-slate-700">
           <CardHeader><CardTitle className="text-white text-base">📷 Project Photos</CardTitle></CardHeader>
@@ -141,26 +105,6 @@ export default async function PMProjectPage({ params }: { params: { id: string }
             <div className="flex gap-3 flex-wrap">
               {project.project_photos
                 .filter((p: { photo_type?: string }) => !p.photo_type || p.photo_type === 'pre_work')
-                .map((photo: { id: string; public_url: string }) => (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img key={photo.id} src={photo.public_url} alt="" className="w-32 h-32 object-cover rounded border border-slate-600" />
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Completion photos — shown when contractor has uploaded them */}
-      {project.project_photos?.filter((p: { photo_type?: string }) => p.photo_type === 'completion').length > 0 && (
-        <Card className="bg-slate-900 border-slate-700" style={{ borderColor: 'oklch(0.35 0.10 160)' }}>
-          <CardHeader>
-            <CardTitle className="text-white text-base">✅ Completion Photos</CardTitle>
-            <p className="text-xs mt-0.5 text-slate-400">Uploaded by the contractor upon job completion.</p>
-          </CardHeader>
-          <CardContent>
-            <div className="flex gap-3 flex-wrap">
-              {project.project_photos
-                .filter((p: { photo_type?: string }) => p.photo_type === 'completion')
                 .map((photo: { id: string; public_url: string }) => (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img key={photo.id} src={photo.public_url} alt="" className="w-32 h-32 object-cover rounded border border-slate-600" />
@@ -178,16 +122,16 @@ export default async function PMProjectPage({ params }: { params: { id: string }
         </Card>
       )}
 
-      {/* Pre-bid Q&A — visible for open projects */}
-      {project.status === 'open' && (
-        <div className="rounded-xl overflow-hidden" style={{ background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
-          <div className="px-5 py-3.5" style={{ borderBottom: '1px solid oklch(0.22 0.022 252)' }}>
-            <p className="text-sm font-semibold text-white">💬 Pre-Bid Questions</p>
-            <p className="text-xs mt-0.5" style={{ color: 'oklch(0.50 0.02 252)' }}>
-              Questions from contractors before they submit a bid.
-            </p>
-          </div>
-          <PreBidQA projectId={project.id} currentUserId={user.id} />
+      {!project.scope_of_work && (
+        <div className="rounded-xl p-6 text-center" style={{ background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
+          <p className="text-sm mb-3" style={{ color: 'oklch(0.55 0.02 252)' }}>No Scope of Work generated yet.</p>
+          <Link
+            href={`/dashboard/pm/projects/${project.id}/edit`}
+            className="px-4 py-2 rounded-lg text-sm font-semibold text-white"
+            style={{ background: 'oklch(0.57 0.135 183)' }}
+          >
+            Generate SOW
+          </Link>
         </div>
       )}
     </div>

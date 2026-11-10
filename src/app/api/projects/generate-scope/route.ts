@@ -16,7 +16,31 @@ export async function POST(req: NextRequest) {
     return new Response(JSON.stringify({ error: 'ANTHROPIC_API_KEY not configured' }), { status: 500 })
   }
 
+  const admin = createAdminClient()
+
+  // Look up user role
+  const { data: profile } = await admin
+    .from('user_profiles')
+    .select('role')
+    .eq('id', user.id)
+    .single()
+
+  const isHomeowner = profile?.role === 'homeowner'
+
   const { projectId, jobCategory, projectType, description, propertyAddress, unitNumber, photoUrls } = await req.json()
+
+  // Homeowner payment gate — SOW requires prior payment
+  if (isHomeowner && projectId) {
+    const { data: project } = await admin
+      .from('projects')
+      .select('sow_payment_intent_id')
+      .eq('id', projectId)
+      .single()
+
+    if (!project?.sow_payment_intent_id) {
+      return new Response(JSON.stringify({ error: 'Payment required to generate SOW' }), { status: 402 })
+    }
+  }
 
   const Anthropic = (await import('@anthropic-ai/sdk')).default
   const anthropic = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY })
@@ -34,20 +58,8 @@ export async function POST(req: NextRequest) {
 
   const encoder = new TextEncoder()
 
-  const stream = new ReadableStream({
-    async start(controller) {
-      try {
-        const messageStream = anthropic.messages.stream({
-          model: 'claude-sonnet-4-6',
-          max_tokens: 4000,
-          temperature: 0,
-          messages: [{
-            role: 'user',
-            content: [
-              ...photoBlocks,
-              {
-                type: 'text',
-                text: `You are a professional construction estimator writing a Scope of Work for a multifamily property repair job.
+  // Build the prompt based on role
+  const pmPrompt = `You are a professional construction estimator writing a Scope of Work for a multifamily property repair job.
 
 Job Category: ${jobCategory ? jobCategory.replace(/_/g, ' ').replace(/\b\w/g, (c: string) => c.toUpperCase()) : 'Work Order'}
 Trade Type: ${projectType}
@@ -110,7 +122,76 @@ Rules:
   Estimate hours from the scope steps, then add 25% to the labor subtotal for mobilization, supervision, and scheduling overhead. Round to nearest $5.
 - Present a single ballpark figure — never a range. These are estimates for scoping purposes, not binding quotes. Contractors set their own prices.
 - In the Estimated Project Cost: the TOTAL is Materials + Labor. Do not include any profit margin line.
-- The Estimated Project Cost table MUST always appear — never omit it`,
+- The Estimated Project Cost table MUST always appear — never omit it`
+
+  const homeownerPrompt = `You are a professional construction estimator writing a Scope of Work for a home repair job.
+
+Trade Type: ${projectType}
+Issue Description (from homeowner): ${description}
+Date Prepared: ${datePrepared}
+
+Generate a professional Scope of Work a licensed contractor can act on immediately. Use this exact structure:
+
+**Date Prepared:** ${datePrepared}
+
+## Project Overview
+[2-3 sentences summarizing the job professionally]
+
+## Scope of Work
+[Numbered list of specific tasks in order]
+
+## Materials Required
+[Bullet list with estimated quantity and unit cost for each item, e.g. "- 12x 4'x8' drywall sheets — ~$15/sheet (~$180)"]
+
+## Labor Requirements
+[Trade skills needed, crew size, and estimated hours only — do NOT include cost figures here, those go in Estimated Project Cost]
+
+---
+
+## Estimated Project Cost
+| | Ballpark Estimate |
+|---|---|
+| Materials | $X |
+| Labor | $X |
+| **TOTAL** | **$X** |
+
+> ⚠️ These figures are ballpark estimates for scoping purposes only — not a quote. Actual costs will vary by market, contractor overhead, and site conditions. Final pricing is set by the contractor you hire.
+
+## Site Safety Requirements
+[Relevant safety considerations]
+
+## Cleanup & Disposal
+[Debris removal, haul-away, site restoration]
+
+## Warranty Expectations
+[Standard warranty language for this type of work]
+
+Rules:
+- Write for a licensed contractor, not a layperson
+- Be specific and technical where photos allow
+- If photos are unclear, note what contractor should inspect on-site
+- Use contractor/trade pricing for materials (not retail), then add 12% to the materials subtotal for waste, overages, and price fluctuation. Round to nearest $5.
+- Use these base labor rates by trade ($/hr, US national average, 2025):
+  • Plumber: $95/hr | Electrician: $105/hr | HVAC Tech: $100/hr | Drywall/Painter: $65/hr | Flooring: $70/hr | Roofer: $80/hr | General Labor: $55/hr | Carpenter: $75/hr | Landscaper: $50/hr
+  Estimate hours from the scope steps, then add 25% to the labor subtotal for mobilization, supervision, and scheduling overhead. Round to nearest $5.
+- Present a single ballpark figure — never a range. These are estimates for scoping purposes, not binding quotes. Contractors set their own prices.
+- In the Estimated Project Cost: the TOTAL is Materials + Labor. Do not include any profit margin line.
+- The Estimated Project Cost table MUST always appear — never omit it`
+
+  const stream = new ReadableStream({
+    async start(controller) {
+      try {
+        const messageStream = anthropic.messages.stream({
+          model: 'claude-sonnet-4-6',
+          max_tokens: 4000,
+          temperature: 0,
+          messages: [{
+            role: 'user',
+            content: [
+              ...photoBlocks,
+              {
+                type: 'text',
+                text: isHomeowner ? homeownerPrompt : pmPrompt,
               },
             ],
           }],
@@ -130,7 +211,6 @@ Rules:
 
         // H-02: Save completed SOW to Supabase — check for error
         if (projectId && fullText) {
-          const admin = createAdminClient()
           const { error: saveErr } = await admin.from('projects').update({
             scope_of_work: fullText,
             scope_generated_at: new Date().toISOString(),

@@ -38,8 +38,11 @@ export default function RegisterPage() {
         >
           <div className="text-5xl mb-4">🏢</div>
           <h2 className="text-xl font-bold text-white mb-2">Property Manager</h2>
-          <p className="text-sm mb-6" style={{ color: 'oklch(0.60 0.025 252)' }}>
+          <p className="text-sm mb-2" style={{ color: 'oklch(0.60 0.025 252)' }}>
             I manage day-to-day repairs at one or more properties
+          </p>
+          <p className="text-xs mb-6" style={{ color: 'oklch(0.57 0.135 183)' }}>
+            $50/month — unlimited SOWs
           </p>
           <div
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-all duration-150"
@@ -49,9 +52,9 @@ export default function RegisterPage() {
           </div>
         </Link>
 
-        {/* Regional Manager */}
+        {/* Homeowner */}
         <Link
-          href="/register/rm"
+          href="/register/homeowner"
           className="flex-1 rounded-2xl p-8 text-center group transition-all duration-200"
           style={{
             background: 'oklch(0.17 0.022 252)',
@@ -66,10 +69,13 @@ export default function RegisterPage() {
             e.currentTarget.style.background = 'oklch(0.17 0.022 252)'
           }}
         >
-          <div className="text-5xl mb-4">📊</div>
-          <h2 className="text-xl font-bold text-white mb-2">Regional Manager</h2>
-          <p className="text-sm mb-6" style={{ color: 'oklch(0.60 0.025 252)' }}>
-            I oversee a portfolio of properties and multiple property managers
+          <div className="text-5xl mb-4">🏠</div>
+          <h2 className="text-xl font-bold text-white mb-2">Homeowner</h2>
+          <p className="text-sm mb-2" style={{ color: 'oklch(0.60 0.025 252)' }}>
+            I need a professional Scope of Work for my home repair
+          </p>
+          <p className="text-xs mb-6" style={{ color: 'oklch(0.57 0.135 183)' }}>
+            $20 per SOW — no subscription
           </p>
           <div
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white transition-all duration-150"

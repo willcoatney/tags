@@ -12,6 +12,7 @@ const relevantEvents = new Set([
   'customer.subscription.updated',
   'customer.subscription.deleted',
   'invoice.payment_failed',
+  'checkout.session.completed',
 ])
 
 function mapStatus(sub: Stripe.Subscription): string {
@@ -96,6 +97,30 @@ export async function POST(req: NextRequest) {
         // H-05: Return 500 so Stripe retries this event
         return NextResponse.json({ error: 'DB update failed' }, { status: 500 })
       }
+    }
+  }
+
+  if (event.type === 'checkout.session.completed') {
+    const session = event.data.object as Stripe.Checkout.Session
+
+    if (session.metadata?.type === 'homeowner_sow' && session.metadata?.project_id) {
+      const projectId = session.metadata.project_id
+      const paymentIntent = session.payment_intent as string | null
+
+      const { error } = await supabase
+        .from('projects')
+        .update({ sow_payment_intent_id: paymentIntent })
+        .eq('id', projectId)
+
+      if (error) {
+        console.error('Webhook: failed to update sow_payment_intent_id', error)
+        void logError(ErrorCategory.DB, 'Webhook: failed to save homeowner SOW payment intent', {
+          err: error.message, projectId, paymentIntent,
+        }, { route: '/api/stripe/webhook', severity: ErrorSeverity.HIGH })
+        return NextResponse.json({ error: 'DB update failed' }, { status: 500 })
+      }
+
+      console.log(`Webhook: homeowner SOW payment recorded for project ${projectId}`)
     }
   }
 

@@ -1,7 +1,5 @@
-export type UserRole = 'pm' | 'contractor' | 'admin' | 'homeowner' | 'asset_manager'
+export type UserRole = 'pm' | 'admin' | 'homeowner'
 export type ProjectStatus = 'draft' | 'open' | 'awarded' | 'work_complete' | 'completed' | 'cancelled'
-export type BidStatus = 'submitted' | 'awarded' | 'rejected'
-export type ApprovalStatus = 'pending' | 'approved' | 'rejected'
 
 export type ProjectType =
   | 'concrete' | 'roofing' | 'plumbing' | 'electrical' | 'hvac'
@@ -61,7 +59,7 @@ export const JOB_CATEGORY_DESCRIPTIONS: Record<JobCategory, string> = {
 export interface Organization {
   id: string
   name: string
-  type: 'pm' | 'contractor' | 'homeowner'
+  type: 'pm' | 'homeowner'
   created_at: string
 }
 
@@ -102,11 +100,11 @@ export interface Project {
   scope_of_work: string | null
   scope_generated_at: string | null
   scope_edited_by: string | null
+  sow_payment_intent_id: string | null
   created_at: string
   updated_at: string
   properties?: Property
   project_photos?: ProjectPhoto[]
-  bids?: Bid[]
 }
 
 export interface ProjectPhoto {
@@ -137,59 +135,3 @@ export const US_STATES: { abbr: string; name: string }[] = [
   { abbr: 'VA', name: 'Virginia' }, { abbr: 'WA', name: 'Washington' }, { abbr: 'WV', name: 'West Virginia' },
   { abbr: 'WI', name: 'Wisconsin' }, { abbr: 'WY', name: 'Wyoming' },
 ]
-
-export interface ContractorProfile {
-  id: string
-  user_id: string
-  organization_id: string
-  company_name: string
-  services: ProjectType[]
-  service_states: string[]
-  service_zip_codes: string[]
-  license_url: string | null
-  insurance_url: string | null
-  approval_status: ApprovalStatus
-  approved_by: string | null
-  approved_at: string | null
-  created_at: string
-  user_profiles?: UserProfile
-}
-
-export interface Bid {
-  id: string
-  project_id: string
-  contractor_user_id: string
-  contractor_organization_id: string
-  amount: number
-  timeline_days: number
-  notes: string | null
-  status: BidStatus
-  submitted_at: string
-  updated_at: string
-  contractor_profiles?: ContractorProfile
-  user_profiles?: UserProfile
-}
-
-export interface Portfolio {
-  id: string
-  name: string
-  owner_id: string
-  created_at: string
-}
-
-export interface PortfolioOrganization {
-  id: string
-  portfolio_id: string
-  organization_id: string
-  joined_at: string
-}
-
-export interface PortfolioInvite {
-  id: string
-  portfolio_id: string
-  token: string
-  created_by: string
-  used_by_org_id: string | null
-  expires_at: string
-  created_at: string
-}

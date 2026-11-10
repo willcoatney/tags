@@ -7,7 +7,6 @@ import { logError, ErrorCategory, ErrorSeverity } from '@/lib/error-logger'
 
 export async function POST(req: Request) {
   const body = await req.json().catch(() => ({}))
-  const plan: 'monthly' | 'yearly' = body.plan === 'yearly' ? 'yearly' : 'monthly'
   const cookieStore = await cookies()
 
   // SSR client — only used for getUser() (reads auth from cookie)
@@ -92,19 +91,37 @@ export async function POST(req: Request) {
     }
 
     const baseUrl = process.env.NEXT_PUBLIC_BASE_URL ?? 'https://www.tagyourproject.com'
-    const isContractor = profile.role === 'contractor'
 
-    // Route to correct Stripe price based on role + plan interval
-    let priceId: string
-    if (isContractor) {
-      priceId = plan === 'yearly'
-        ? process.env.STRIPE_CONTRACTOR_PRICE_ID!          // $100/year
-        : process.env.STRIPE_CONTRACTOR_MONTHLY_PRICE_ID!  // $10/month
-    } else {
-      priceId = plan === 'yearly'
-        ? process.env.STRIPE_PM_ANNUAL_PRICE_ID!           // $500/year
-        : process.env.STRIPE_PM_PRICE_ID!                  // $50/month
+    // Homeowner per-SOW payment ($20 one-time)
+    if (body.type === 'homeowner_sow' && body.projectId) {
+      const session = await stripe.checkout.sessions.create({
+        customer: customerId,
+        mode: 'payment',
+        line_items: [{
+          price_data: {
+            currency: 'usd',
+            product_data: { name: 'Scope of Work — TAGS' },
+            unit_amount: 2000, // $20
+          },
+          quantity: 1,
+        }],
+        payment_method_types: ['card'],
+        metadata: {
+          type: 'homeowner_sow',
+          project_id: body.projectId,
+          organization_id: org.id,
+        },
+        success_url: `${baseUrl}/dashboard/homeowner/projects/${body.projectId}?sow_paid=1`,
+        cancel_url: `${baseUrl}/dashboard/homeowner/projects/${body.projectId}?canceled=1`,
+      })
+      return NextResponse.json({ url: session.url })
     }
+
+    // PM subscription flow
+    const plan: 'monthly' | 'yearly' = body.plan === 'yearly' ? 'yearly' : 'monthly'
+    const priceId = plan === 'yearly'
+      ? process.env.STRIPE_PM_ANNUAL_PRICE_ID!   // $500/year
+      : process.env.STRIPE_PM_PRICE_ID!           // $50/month
 
     const session = await stripe.checkout.sessions.create({
       customer: customerId,

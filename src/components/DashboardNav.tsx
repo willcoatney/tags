@@ -12,42 +12,25 @@ interface Props { role: UserRole; name: string }
 const NAV_LINKS: Record<UserRole, { href: string; label: string }[]> = {
   pm: [
     { href: '/dashboard/pm', label: 'Dashboard' },
-    { href: '/dashboard/pm/projects/new', label: 'New Project' },
-    { href: '/dashboard/pm/contractors', label: 'Contractors' },
-    { href: '/dashboard/billing', label: 'Billing' },
-    { href: '/dashboard/settings', label: 'Settings' },
-  ],
-  contractor: [
-    { href: '/dashboard/contractor', label: 'Dashboard' },
-    { href: '/dashboard/contractor/profile', label: 'Profile' },
+    { href: '/dashboard/pm/projects/new', label: 'New SOW' },
     { href: '/dashboard/billing', label: 'Billing' },
     { href: '/dashboard/settings', label: 'Settings' },
   ],
   admin: [
     { href: '/dashboard/admin', label: 'Overview' },
-    { href: '/dashboard/admin/contractors', label: 'Contractors' },
-    { href: '/dashboard/admin/platform-fees', label: 'Platform Fees' },
     { href: '/dashboard/admin/error-logs', label: 'Error Logs' },
   ],
   homeowner: [
     { href: '/dashboard/homeowner', label: 'Dashboard' },
-    { href: '/dashboard/pm/projects/new', label: 'New Project' },
-    { href: '/dashboard/settings', label: 'Settings' },
-  ],
-  asset_manager: [
-    { href: '/dashboard/asset-manager', label: 'Portfolio' },
-    { href: '/dashboard/asset-manager/projects', label: 'All Projects' },
-    { href: '/dashboard/asset-manager/properties', label: 'Properties' },
+    { href: '/dashboard/homeowner/projects/new', label: 'New SOW' },
     { href: '/dashboard/settings', label: 'Settings' },
   ],
 }
 
 const ROLE_LABELS: Record<UserRole, string> = {
   pm: 'Property Manager',
-  contractor: 'Contractor',
   admin: 'Admin',
   homeowner: 'Homeowner',
-  asset_manager: 'Regional Manager',
 }
 
 export default function DashboardNav({ role, name }: Props) {
@@ -63,7 +46,7 @@ export default function DashboardNav({ role, name }: Props) {
   }
 
   const initials = name.split(' ').map(n => n[0]).join('').slice(0, 2).toUpperCase()
-  const links = NAV_LINKS[role]
+  const links = NAV_LINKS[role] ?? []
 
   return (
     <>
