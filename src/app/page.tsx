@@ -1,5 +1,6 @@
 import { redirect } from 'next/navigation'
 import Link from 'next/link'
+import ShowcaseTabs from '@/components/ShowcaseTabs'
 import { createClient } from '@/lib/supabase/server'
 import { createAdminClient } from '@/lib/supabase/admin'
 
@@ -183,7 +184,7 @@ function LandingPage() {
               step: '03',
               icon: '📤',
               title: 'Forward to your contractors',
-              body: 'Download or print the SOW. Send it to any contractor you choose. Everyone quotes on the same defined scope — no surprises, no scope creep.',
+              body: 'Download or print the SOW. Send it to any contractor you choose. Everyone quotes on the same clearly defined scope — reducing back-and-forth and scope disputes.',
               accent: 'oklch(0.60 0.16 160)',
               bg: 'oklch(0.18 0.06 160)',
             },
@@ -218,7 +219,7 @@ function LandingPage() {
             </p>
             <ul className="space-y-3">
               {[
-                'Every contractor quotes on the same defined scope — no surprises',
+                'Every contractor quotes on the same defined scope — clearer bids, less back-and-forth',
                 'Apples-to-apples comparison across every quote you receive',
                 'Built-in cost estimate so you know if a bid is reasonable',
                 'Reduce unexpected changes by defining the work upfront.',
@@ -232,70 +233,8 @@ function LandingPage() {
             </ul>
           </div>
 
-          {/* SOW preview card */}
-          <div className="rounded-2xl overflow-hidden" style={{ background: 'oklch(0.13 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
-            <div className="px-5 py-3 flex items-center justify-between" style={{ borderBottom: '1px solid oklch(0.20 0.022 252)', background: 'oklch(0.16 0.022 252)' }}>
-              <div className="flex items-center gap-2">
-                <div className="w-2.5 h-2.5 rounded-full" style={{ background: 'oklch(0.57 0.135 183)' }} />
-                <span className="text-xs font-semibold text-white">Generated Scope of Work</span>
-              </div>
-              <span className="text-xs px-2 py-0.5 rounded-full" style={{ background: 'oklch(0.18 0.06 160)', color: 'oklch(0.70 0.13 160)' }}>● Ready</span>
-            </div>
-
-            <div className="px-5 pt-4 pb-3" style={{ borderBottom: '1px solid oklch(0.20 0.022 252)' }}>
-              <div className="mb-3">
-                <p className="text-sm font-bold text-white leading-tight">Bathtub Replacement</p>
-                <p className="text-xs mt-0.5" style={{ color: 'oklch(0.55 0.02 252)' }}>Plumbing · 2 photos attached</p>
-              </div>
-              <div className="grid grid-cols-2 gap-2 mb-3">
-                <div className="rounded-xl overflow-hidden aspect-[4/3]" style={{ border: '1px solid oklch(0.27 0.022 252)' }}>
-                  <img src="/demo-bathtub-1.jpg" alt="Bathtub — overhead view showing rusted drain" className="w-full h-full object-cover" />
-                </div>
-                <div className="rounded-xl overflow-hidden aspect-[4/3]" style={{ border: '1px solid oklch(0.27 0.022 252)' }}>
-                  <img src="/demo-bathtub-2.jpg" alt="Bathtub — side view showing rust and deterioration" className="w-full h-full object-cover" />
-                </div>
-              </div>
-              <div className="rounded-lg px-3 py-2 text-xs italic" style={{ background: 'oklch(0.17 0.022 252)', color: 'oklch(0.62 0.02 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
-                &ldquo;I need to remove and replace this bathtub. The bottom is completely rusted out around the drain.&rdquo;
-              </div>
-            </div>
-
-            <div className="p-5 space-y-4 text-sm" style={{ color: 'oklch(0.72 0.015 252)' }}>
-              <div>
-                <p className="font-semibold text-xs uppercase tracking-wide mb-1.5" style={{ color: 'oklch(0.57 0.135 183)' }}>Project Overview</p>
-                <p className="leading-relaxed text-sm" style={{ color: 'oklch(0.65 0.015 252)' }}>Remove and replace existing 60&quot; alcove bathtub. Existing tub has aging finish and failing drain assembly. Replacement tub to be installed in same location with new drain, overflow, and supply connections.</p>
-              </div>
-              <div>
-                <p className="font-semibold text-xs uppercase tracking-wide mb-1.5" style={{ color: 'oklch(0.57 0.135 183)' }}>Scope of Work</p>
-                <ol className="space-y-1.5 list-decimal list-inside text-sm" style={{ color: 'oklch(0.65 0.015 252)' }}>
-                  <li>Shut off water supply; confirm no active flow</li>
-                  <li>Remove tub surround panels to expose wall flanges</li>
-                  <li>Disconnect drain assembly, overflow, and supply lines</li>
-                  <li>Remove existing tub; inspect subfloor for moisture damage</li>
-                  <li>Set and secure new 60&quot; alcove tub per manufacturer specs</li>
-                  <li>Reconnect drain assembly and supply connections</li>
-                  <li>Reinstall surround; caulk all seams</li>
-                </ol>
-              </div>
-              <div className="rounded-xl overflow-hidden" style={{ border: '1px solid oklch(0.30 0.08 145)' }}>
-                <div className="px-4 py-2 text-xs font-semibold uppercase tracking-wide" style={{ background: 'oklch(0.20 0.07 145)', color: 'oklch(0.75 0.15 145)' }}>Estimated Project Cost</div>
-                <table className="w-full text-sm">
-                  <tbody>
-                    {[['Materials', '$850'], ['Labor', '$1,200'], ['TOTAL', '$2,050']].map(([label, val], i) => (
-                      <tr key={label} style={{ background: i === 2 ? 'oklch(0.20 0.07 145)' : i % 2 === 0 ? 'oklch(0.15 0.04 145)' : 'oklch(0.16 0.04 145)', borderTop: i === 2 ? '1px solid oklch(0.30 0.08 145)' : undefined }}>
-                        <td className={`px-4 py-2 text-xs ${i === 2 ? 'font-bold' : ''}`} style={{ color: i === 2 ? 'oklch(0.90 0.12 145)' : 'oklch(0.75 0.02 252)' }}>{label}</td>
-                        <td className={`px-4 py-2 text-xs ${i === 2 ? 'font-bold' : ''} text-right`} style={{ color: i === 2 ? 'oklch(0.90 0.12 145)' : 'white' }}>{val}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-              <div className="flex items-center gap-2 text-xs" style={{ color: 'oklch(0.45 0.015 252)' }}>
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><path d="m9 12 2 2 4-4"/></svg>
-                Generated in 3.8s · Ready to forward to contractors
-              </div>
-            </div>
-          </div>
+          {/* SOW preview — tabbed showcase */}
+          <ShowcaseTabs />
         </div>
       </section>
 
@@ -373,7 +312,7 @@ function LandingPage() {
               role: 'Property Manager',
               price: '$50/month · 3 free SOWs to start',
               href: '/register/pm',
-              body: 'Managing repairs across multiple units means constant scope creep and surprise invoices. TAGS gives every job a professional document before the first contractor sets foot on-site — so quotes come back apples-to-apples and nothing gets added mid-project.',
+              body: 'Managing repairs across multiple units means constant scope disputes and surprise invoices. TAGS gives every job a professional document before the first contractor sets foot on-site — so quotes come back apples-to-apples and scope changes are easier to manage.',
               cta: 'Start Free →',
               accent: 'oklch(0.57 0.135 183)',
               bg: 'oklch(0.18 0.06 183)',
@@ -404,9 +343,9 @@ function LandingPage() {
             {
               icon: '📊',
               role: 'Property Investor',
-              price: '$50/month · same PM account',
+              price: '$50/month · one account, all your properties',
               href: '/register/pm',
-              body: 'Budget repairs accurately before you close. Get a professional scope and cost estimate on any acquisition target in minutes — from your phone, before you\'ve even made an offer. Know your renovation costs before you commit.',
+              body: 'Budget repairs accurately before you close. Get a professional scope and cost estimate on any acquisition target in minutes — from your phone, before you\'ve even made an offer. One $50/month account covers your full portfolio, not per property.',
               cta: 'Get Started →',
               accent: 'oklch(0.57 0.135 183)',
               bg: 'oklch(0.18 0.06 183)',
