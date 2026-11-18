@@ -86,7 +86,7 @@ export default function TermsPage() {
 
           <section>
             <h2 className="text-xl font-semibold text-white mb-3">TAGS&apos;s Role</h2>
-            <p className="leading-relaxed">TAGS is a technology platform that connects property managers and contractors. TAGS is not a party to any contract between a property manager and a contractor, and is not responsible for the quality, safety, legality, or completion of any work performed. Disputes between property managers and contractors are the responsibility of those parties to resolve.</p>
+            <p className="leading-relaxed">TAGS is a Scope of Work generation platform. TAGS is not a party to any contract between a user and a contractor, and is not responsible for the quality, safety, legality, or completion of any work performed. Users are solely responsible for selecting, vetting, and contracting with any contractors they choose to engage. Disputes between users and contractors are the responsibility of those parties to resolve.</p>
           </section>
 
           <section>

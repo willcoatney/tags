@@ -21,7 +21,7 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="text-xl font-semibold text-white mb-3">Who We Are</h2>
-            <p className="leading-relaxed">TAGS (The Apartment Guys System) is a two-sided marketplace for multifamily property repair, operated at tagyourproject.com. We connect property managers and regional managers with vetted contractors using TAGS-generated Scopes of Work.</p>
+            <p className="leading-relaxed">TAGS (The Apartment Guys System) is a Scope of Work generation platform for property managers, homeowners, and real estate investors, operated at tagyourproject.com. We help users define repair and renovation projects with professional documentation before engaging contractors of their own choosing.</p>
           </section>
 
           <section>

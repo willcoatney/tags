@@ -52,7 +52,7 @@ export default function RegisterHomeownerPage() {
       <Card className="w-full max-w-md bg-slate-900 border-slate-700">
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-white">Homeowner Sign Up</CardTitle>
-          <CardDescription className="text-slate-400">Post home repair projects and get bids from vetted contractors</CardDescription>
+          <CardDescription className="text-slate-400">Get a professional Scope of Work — then share it with any contractor you choose</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleRegister} className="space-y-4">
