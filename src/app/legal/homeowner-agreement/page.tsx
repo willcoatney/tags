@@ -36,7 +36,7 @@ export default function HomeownerAgreementPage() {
         <ul className="space-y-2 list-disc list-inside leading-relaxed mt-3">
           <li>A TAGS SOW is <strong className="text-white">not professional engineering, architectural, structural, or legal advice.</strong></li>
           <li>A TAGS SOW is <strong className="text-white">not a building permit or code compliance review.</strong> It does not account for local building codes, permit requirements, HOA restrictions, or zoning regulations in your area.</li>
-          <li>The <strong className="text-white">cost estimate</strong> included in your SOW is a ballpark figure based on national average trade pricing. It is intended to help you evaluate contractor quotes — not as a binding or guaranteed price.</li>
+          <li>The <strong className="text-white">cost estimate</strong> included in your SOW is a ballpark figure based on current national average trade pricing, adjusted for project type and scope. Actual costs vary by region, labor market, and site conditions. It is intended to help you evaluate contractor quotes — not as a binding or guaranteed price.</li>
           <li>TAGS cannot physically inspect your property. The SOW is based solely on the description and photos you provide. Accuracy depends on the completeness and accuracy of your submission.</li>
           <li>For complex, structural, or safety-sensitive projects, you should consult a licensed professional before proceeding.</li>
         </ul>

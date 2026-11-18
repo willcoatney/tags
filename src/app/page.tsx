@@ -81,6 +81,9 @@ function LandingPage() {
               style={{ background: 'oklch(0.57 0.135 183)' }}>
               Start Free — Property Manager →
             </Link>
+            <p className="text-xs -mt-1" style={{ color: 'oklch(0.57 0.135 183)' }}>
+              3 free Scopes of Work · No credit card required
+            </p>
             <div className="flex flex-col items-center gap-1.5 mt-2">
               <p className="text-xs font-medium uppercase tracking-widest" style={{ color: 'oklch(0.55 0.02 252)' }}>Homeowner?</p>
               <Link href="/register/homeowner"
@@ -218,7 +221,7 @@ function LandingPage() {
                 'Every contractor quotes on the same defined scope — no surprises',
                 'Apples-to-apples comparison across every quote you receive',
                 'Built-in cost estimate so you know if a bid is reasonable',
-                'No change orders. No mid-project scope creep.',
+                'Fewer surprises. A clearly defined scope before anyone lifts a tool.',
                 'Every repair documented from day one',
               ].map(item => (
                 <li key={item} className="flex items-start gap-3 text-sm" style={{ color: 'oklch(0.75 0.015 252)' }}>
@@ -539,7 +542,7 @@ function LandingPage() {
             },
             {
               q: 'How accurate is the cost estimate?',
-              a: 'The estimate is a ballpark based on 2025 US national average trade rates and contractor-grade material pricing. It\'s designed for sanity-checking contractor quotes — not as a binding number. Final pricing is always set by the contractor you hire.',
+              a: 'The estimate is a ballpark built from current US national average trade rates and contractor-grade material pricing, adjusted for project type and scope. It\'s designed for sanity-checking quotes — not as a binding number. Actual costs vary by region, labor market, and site conditions. Final pricing is always set by the contractor you hire.',
             },
             {
               q: 'Is my project data secure?',
