@@ -135,7 +135,7 @@ function LandingPage() {
               { label: 'Property Manager', href: '/register/pm', icon: '🏢', desc: 'Unlimited SOWs · $50/mo after 3 free' },
               { label: 'Homeowner', href: '/register/homeowner', icon: '🏠', desc: 'Pay per scope · $20/SOW' },
               { label: 'Maintenance Pro', href: '/register/pm', icon: '🔧', desc: 'Generate scopes for approval' },
-              { label: 'Property Investor', href: '/register/pm', icon: '📊', desc: 'Budget repairs before you bid' },
+              { label: 'Property Investor', href: '/register/pm', icon: '📊', desc: 'Build a renovation budget before you close' },
             ].map(card => (
               <Link
                 key={card.label}
@@ -243,7 +243,7 @@ function LandingPage() {
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Everything in one document</h2>
           <p className="text-lg" style={{ color: 'oklch(0.60 0.025 252)' }}>
-            Every TAGS SOW covers all seven sections a licensed contractor needs.
+            Every TAGS SOW covers all seven sections a licensed contractor needs — project overview, scope, materials, labor, site safety, cleanup, and cost estimate.
           </p>
         </div>
 
@@ -269,6 +269,11 @@ function LandingPage() {
               icon: '👷',
               title: 'Labor Requirements',
               body: 'Trade skills required, estimated crew size, and hours. So you know if the bid is reasonable before accepting.',
+            },
+            {
+              icon: '⚠️',
+              title: 'Site Safety Requirements',
+              body: 'Trade-specific safety requirements for the job — PPE, hazard controls, ventilation, and access conditions. Protects you and the contractor.',
             },
             {
               icon: '💰',
@@ -345,7 +350,7 @@ function LandingPage() {
               role: 'Property Investor',
               price: '$50/month · one account, all your properties',
               href: '/register/pm',
-              body: 'Budget repairs accurately before you close. Get a professional scope and cost estimate on any acquisition target in minutes — from your phone, before you\'ve even made an offer. One $50/month account covers your full portfolio, not per property.',
+              body: 'Build a preliminary renovation budget before committing to a property. Get a professional scope and cost estimate on any acquisition target in minutes — from your phone, before you\'ve even made an offer. One $50/month account covers your full portfolio, not per property.',
               cta: 'Get Started →',
               accent: 'oklch(0.57 0.135 183)',
               bg: 'oklch(0.18 0.06 183)',
@@ -393,7 +398,7 @@ function LandingPage() {
                 <div>
                   <p className="text-xl font-bold text-white">Property Manager</p>
                   <p className="text-sm font-semibold mt-1" style={{ color: 'oklch(0.78 0.16 75)' }}>✦ Try Your First 3 Scopes Free</p>
-                  <p className="text-xs mt-0.5" style={{ color: 'oklch(0.55 0.02 252)' }}>No credit card required · Per community</p>
+                  <p className="text-xs mt-0.5" style={{ color: 'oklch(0.55 0.02 252)' }}>No credit card required · One account, all your projects</p>
                 </div>
                 <div className="text-right">
                   <div className="text-4xl font-black text-white">$50</div>
@@ -478,7 +483,7 @@ function LandingPage() {
             },
             {
               q: 'Is there a free trial for property managers?',
-              a: 'Yes. Property managers get 3 free Scope of Work generations — no credit card required. After your 3rd SOW, the plan is $50/month per community for unlimited SOWs.',
+              a: 'Yes. Property managers get 3 free Scope of Work generations — no credit card required. After your 3rd SOW, the plan is $50/month per account for unlimited SOWs. One account covers all your properties.',
             },
             {
               q: 'How accurate is the cost estimate?',
