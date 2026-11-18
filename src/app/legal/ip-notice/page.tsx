@@ -21,8 +21,8 @@ export default function IPNoticePage() {
         </p>
         <p className="leading-relaxed mt-3">You may use SOWs generated on the TAGS platform for the following purposes:</p>
         <ul className="space-y-2 list-disc list-inside leading-relaxed mt-3">
-          <li>Soliciting and evaluating bids from contractors within the TAGS platform.</li>
-          <li>Sharing with a contractor you have engaged through TAGS for the purpose of completing the described work.</li>
+          <li>Soliciting and evaluating quotes from contractors of your choosing.</li>
+          <li>Sharing with any contractor you have selected to complete the described work.</li>
           <li>Internal recordkeeping and communication within your organization.</li>
         </ul>
         <p className="leading-relaxed mt-3">

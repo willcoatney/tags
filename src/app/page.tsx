@@ -177,7 +177,7 @@ function LandingPage() {
               step: '03',
               icon: '📤',
               title: 'Forward to your contractors',
-              body: 'Download or print the SOW. Send it to any contractor you choose. Everyone bids on the same defined scope — no surprises, no scope creep.',
+              body: 'Download or print the SOW. Send it to any contractor you choose. Everyone quotes on the same defined scope — no surprises, no scope creep.',
               accent: 'oklch(0.60 0.16 160)',
               bg: 'oklch(0.18 0.06 160)',
             },
