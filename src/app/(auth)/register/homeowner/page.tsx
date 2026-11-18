@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { FileText } from 'lucide-react'
 import { createClient } from '@/lib/supabase/client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -54,6 +55,14 @@ export default function RegisterHomeownerPage() {
         <CardHeader>
           <CardTitle className="text-2xl font-bold text-white">Homeowner Sign Up</CardTitle>
           <CardDescription className="text-slate-400">Get a professional Scope of Work — then share it with any contractor you choose</CardDescription>
+          <Link
+            href="/samples"
+            className="inline-flex items-center gap-1.5 text-xs mt-2 transition-colors hover:underline"
+            style={{ color: 'oklch(0.55 0.14 250)' }}
+          >
+            <FileText size={12} />
+            Not sure yet? Browse sample SOWs first →
+          </Link>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleRegister} className="space-y-4">

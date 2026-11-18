@@ -86,7 +86,7 @@ function RegisterPMForm() {
           <img src="/tags-logo.jpg" alt="TAGS" className="h-12 max-w-[160px] object-contain rounded-md mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-white">Property Manager Sign Up</h1>
           <p className="text-sm mt-1" style={{ color: 'oklch(0.60 0.025 252)' }}>
-            Create your TAGS account to post repair projects
+            Generate professional Scopes of Work — for any role, any project type
           </p>
         </div>
 

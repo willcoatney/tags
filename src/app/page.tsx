@@ -89,6 +89,9 @@ function LandingPage() {
                 Get a SOW — $20 →
               </Link>
               <p className="text-xs" style={{ color: 'oklch(0.52 0.02 252)' }}>Forward to any contractor you choose</p>
+              <Link href="/samples" className="text-xs mt-1 transition-colors hover:underline" style={{ color: 'oklch(0.48 0.12 250)' }}>
+                See a sample SOW first →
+              </Link>
             </div>
           </div>
         </div>
@@ -346,6 +349,85 @@ function LandingPage() {
               <div className="text-2xl mb-4">{feat.icon}</div>
               <h3 className="text-base font-semibold text-white mb-2">{feat.title}</h3>
               <p className="text-sm leading-relaxed" style={{ color: 'oklch(0.60 0.025 252)' }}>{feat.body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* WHO IT'S FOR */}
+      <section className="px-6 md:px-12 py-24 max-w-6xl mx-auto">
+        <div className="text-center mb-14">
+          <div className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'oklch(0.57 0.135 183)' }}>Who TAGS is for</div>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">Built for anyone who manages repair work</h2>
+          <p className="text-lg max-w-2xl mx-auto" style={{ color: 'oklch(0.60 0.025 252)' }}>
+            One tool. Four audiences. Every one of them goes into contractor conversations with a professional document instead of a vague description.
+          </p>
+        </div>
+        <div className="grid md:grid-cols-2 gap-5">
+          {[
+            {
+              icon: '🏢',
+              role: 'Property Manager',
+              price: '$50/month · 3 free SOWs to start',
+              href: '/register/pm',
+              body: 'Managing repairs across multiple units means constant scope creep and surprise invoices. TAGS gives every job a professional document before the first contractor sets foot on-site — so quotes come back apples-to-apples and nothing gets added mid-project.',
+              cta: 'Start Free →',
+              accent: 'oklch(0.57 0.135 183)',
+              bg: 'oklch(0.18 0.06 183)',
+              border: 'oklch(0.30 0.08 183)',
+            },
+            {
+              icon: '🏠',
+              role: 'Homeowner',
+              price: '$20 per SOW · no subscription',
+              href: '/register/homeowner',
+              body: 'You shouldn\'t need to know contractor terminology to get a fair quote. Describe the problem in plain English, upload a photo, and get a document any contractor can bid on accurately — then share it with whichever contractor you choose.',
+              cta: 'Get a SOW — $20 →',
+              accent: 'oklch(0.45 0.18 250)',
+              bg: 'oklch(0.18 0.06 250)',
+              border: 'oklch(0.30 0.10 250)',
+            },
+            {
+              icon: '🔧',
+              role: 'Maintenance Professional',
+              price: '$50/month · same PM account',
+              href: '/register/pm',
+              body: 'Generate Scopes of Work for internal approval before engaging contractors. Arrive at every vendor conversation with a defined, documented scope already in hand — no more back-and-forth on what the job actually covers.',
+              cta: 'Get Started →',
+              accent: 'oklch(0.57 0.135 183)',
+              bg: 'oklch(0.18 0.06 183)',
+              border: 'oklch(0.22 0.022 252)',
+            },
+            {
+              icon: '📊',
+              role: 'Property Investor',
+              price: '$50/month · same PM account',
+              href: '/register/pm',
+              body: 'Budget repairs accurately before you close. Get a professional scope and cost estimate on any acquisition target in minutes — from your phone, before you\'ve even made an offer. Know your renovation costs before you commit.',
+              cta: 'Get Started →',
+              accent: 'oklch(0.57 0.135 183)',
+              bg: 'oklch(0.18 0.06 183)',
+              border: 'oklch(0.22 0.022 252)',
+            },
+          ].map(card => (
+            <div key={card.role} className="rounded-2xl p-7 flex flex-col"
+              style={{ background: 'oklch(0.17 0.022 252)', border: `1px solid ${card.border}` }}>
+              <div className="flex items-start gap-4 mb-4">
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center text-2xl shrink-0"
+                  style={{ background: card.bg }}>
+                  {card.icon}
+                </div>
+                <div>
+                  <h3 className="text-lg font-bold text-white">{card.role}</h3>
+                  <p className="text-xs mt-0.5" style={{ color: card.accent }}>{card.price}</p>
+                </div>
+              </div>
+              <p className="text-sm leading-relaxed flex-1 mb-5" style={{ color: 'oklch(0.62 0.025 252)' }}>{card.body}</p>
+              <Link href={card.href}
+                className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold text-white self-start transition-all duration-150 active:scale-[0.98]"
+                style={{ background: card.accent }}>
+                {card.cta}
+              </Link>
             </div>
           ))}
         </div>

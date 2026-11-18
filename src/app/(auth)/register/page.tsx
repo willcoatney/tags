@@ -86,8 +86,16 @@ export default function RegisterPage() {
         </Link>
       </div>
 
+      {/* Maintenance pro / investor note */}
+      <p className="mt-6 text-xs text-center" style={{ color: 'oklch(0.45 0.015 252)' }}>
+        Maintenance professional or property investor?{' '}
+        <Link href="/register/pm" className="underline" style={{ color: 'oklch(0.57 0.135 183)' }}>
+          Use the Property Manager account →
+        </Link>
+      </p>
+
       {/* Sign in link */}
-      <p className="mt-8 text-sm" style={{ color: 'oklch(0.55 0.02 252)' }}>
+      <p className="mt-4 text-sm" style={{ color: 'oklch(0.55 0.02 252)' }}>
         Already have an account?{' '}
         <Link href="/login" className="font-medium" style={{ color: 'oklch(0.57 0.135 183)' }}>
           Sign in
