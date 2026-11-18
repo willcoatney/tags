@@ -64,7 +64,7 @@ function LandingPage() {
           </h1>
 
           <p className="text-2xl font-medium mb-6" style={{ color: 'oklch(0.57 0.135 183)' }}>
-            You define the job. They compete for it.
+            You own the scope. Forward it to any contractor you choose.
           </p>
 
           <p className="text-lg leading-relaxed mb-4 max-w-2xl mx-auto" style={{ color: 'oklch(0.65 0.02 252)' }}>
@@ -75,17 +75,21 @@ function LandingPage() {
             Powered by AI trained on contractor-grade trade pricing and construction best practices.
           </p>
 
-          <div className="flex flex-col sm:flex-row gap-3 justify-center">
+          <div className="flex flex-col gap-3 items-center justify-center">
             <Link href="/register/pm"
               className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-base font-semibold text-white transition-all duration-150 active:scale-[0.98]"
               style={{ background: 'oklch(0.57 0.135 183)' }}>
               Start Free — Property Manager →
             </Link>
-            <Link href="/register/homeowner"
-              className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-base font-medium transition-colors duration-150"
-              style={{ color: 'oklch(0.78 0.01 252)', border: '1px solid oklch(0.27 0.025 252)' }}>
-              Homeowner SOW — $20 →
-            </Link>
+            <div className="flex flex-col items-center gap-1.5 mt-2">
+              <p className="text-xs font-medium uppercase tracking-widest" style={{ color: 'oklch(0.55 0.02 252)' }}>Homeowner?</p>
+              <Link href="/register/homeowner"
+                className="inline-flex items-center justify-center gap-2 px-7 py-3 rounded-xl text-sm font-semibold text-white transition-all duration-150 active:scale-[0.98]"
+                style={{ background: 'oklch(0.45 0.18 250)' }}>
+                Get a SOW — $20 →
+              </Link>
+              <p className="text-xs" style={{ color: 'oklch(0.52 0.02 252)' }}>Forward to any contractor you choose</p>
+            </div>
           </div>
         </div>
       </section>
@@ -420,11 +424,12 @@ function LandingPage() {
                 ))}
               </ul>
               <Link href="/register/homeowner"
-                className="inline-flex items-center justify-center w-full py-3 rounded-xl text-sm font-semibold transition-all"
-                style={{ border: '1px solid oklch(0.35 0.025 252)', color: 'oklch(0.75 0.015 252)' }}>
-                Get a SOW for $20 →
+                className="inline-flex items-center justify-center w-full py-3 rounded-xl text-sm font-semibold text-white transition-all"
+                style={{ background: 'oklch(0.45 0.18 250)' }}>
+                Get a SOW — $20 →
               </Link>
-              <p className="text-xs text-center mt-3" style={{ color: 'oklch(0.45 0.015 252)' }}>No free trial — pay per scope.</p>
+              <p className="text-xs text-center mt-2" style={{ color: 'oklch(0.52 0.02 252)' }}>Forward to any contractor you choose</p>
+              <p className="text-xs text-center mt-1" style={{ color: 'oklch(0.45 0.015 252)' }}>No free trial — pay per scope.</p>
             </div>
           </div>
         </div>
