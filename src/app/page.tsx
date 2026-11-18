@@ -56,23 +56,23 @@ function LandingPage() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-6"
             style={{ background: 'oklch(0.20 0.05 183)', color: 'oklch(0.72 0.12 183)', border: '1px solid oklch(0.30 0.08 183)' }}>
             <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: 'oklch(0.57 0.135 183)' }} />
-            Professional Scope of Work · Ready in 60 seconds
+            Before You Hire a Contractor…
           </div>
 
           <h1 className="text-5xl md:text-6xl font-bold text-white leading-[1.08] tracking-tight mb-5">
-            Stop letting contractors<br />write your scope.
+            Tag Your Project.
           </h1>
 
-          <p className="text-2xl font-medium mb-6" style={{ color: 'oklch(0.57 0.135 183)' }}>
-            Describe the problem. Upload a photo. Get a contractor-ready Scope of Work in 60 seconds — share it with any contractor you choose.
+          <p className="text-2xl font-medium mb-5" style={{ color: 'oklch(0.57 0.135 183)' }}>
+            Three contractors. Three different opinions. Three different prices.<br />How do you know what your project really needs?
           </p>
 
-          <p className="text-lg leading-relaxed mb-4 max-w-2xl mx-auto" style={{ color: 'oklch(0.65 0.02 252)' }}>
-            Snap up to 5 photos. Describe the problem in plain English. Get a contractor-ready Scope of Work — materials, labor breakdown, and cost estimate — in under 60 seconds.
+          <p className="text-lg leading-relaxed mb-3 max-w-2xl mx-auto" style={{ color: 'oklch(0.65 0.02 252)' }}>
+            TAGS gives you a professional starting Scope of Work — materials, labor, and pricing estimates — before you talk to a single contractor.
           </p>
 
-          <p className="text-sm mb-10 max-w-xl mx-auto" style={{ color: 'oklch(0.48 0.02 252)' }}>
-            Powered by AI trained on contractor-grade trade pricing and construction best practices.
+          <p className="text-base font-semibold mb-10" style={{ color: 'oklch(0.78 0.015 252)' }}>
+            You define the work. Contractors price the work.
           </p>
 
           <div className="flex flex-col gap-3 items-center justify-center">
@@ -81,8 +81,8 @@ function LandingPage() {
               style={{ background: 'oklch(0.57 0.135 183)' }}>
               Start Free — Property Manager →
             </Link>
-            <p className="text-xs -mt-1" style={{ color: 'oklch(0.57 0.135 183)' }}>
-              3 free Scopes of Work · No credit card required
+            <p className="text-xs font-bold -mt-1" style={{ color: 'oklch(0.78 0.16 75)' }}>
+              ✦ Try Your First 3 Scopes Free · No Credit Card Required
             </p>
             <div className="flex flex-col items-center gap-1.5 mt-2">
               <p className="text-xs font-medium uppercase tracking-widest" style={{ color: 'oklch(0.55 0.02 252)' }}>Homeowner?</p>
@@ -175,7 +175,7 @@ function LandingPage() {
               step: '02',
               icon: '📋',
               title: 'SOW in 60 seconds',
-              body: 'AI generates a professional Scope of Work — materials, labor requirements, safety notes, cleanup, and a cost estimate. Contractor-ready instantly.',
+              body: 'TAGS generates a professional starting Scope of Work — materials, labor requirements, safety notes, cleanup, and a cost estimate. Ready for your review before any contractor sees it.',
               accent: 'oklch(0.57 0.135 183)',
               bg: 'oklch(0.18 0.06 183)',
             },
@@ -221,7 +221,7 @@ function LandingPage() {
                 'Every contractor quotes on the same defined scope — no surprises',
                 'Apples-to-apples comparison across every quote you receive',
                 'Built-in cost estimate so you know if a bid is reasonable',
-                'Fewer surprises. A clearly defined scope before anyone lifts a tool.',
+                'Reduce unexpected changes by defining the work upfront.',
                 'Every repair documented from day one',
               ].map(item => (
                 <li key={item} className="flex items-start gap-3 text-sm" style={{ color: 'oklch(0.75 0.015 252)' }}>
@@ -453,7 +453,8 @@ function LandingPage() {
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <p className="text-xl font-bold text-white">Property Manager</p>
-                  <p className="text-sm mt-1" style={{ color: 'oklch(0.57 0.135 183)' }}>Per community · 3 free projects included</p>
+                  <p className="text-sm font-semibold mt-1" style={{ color: 'oklch(0.78 0.16 75)' }}>✦ Try Your First 3 Scopes Free</p>
+                  <p className="text-xs mt-0.5" style={{ color: 'oklch(0.55 0.02 252)' }}>No credit card required · Per community</p>
                 </div>
                 <div className="text-right">
                   <div className="text-4xl font-black text-white">$50</div>
@@ -563,12 +564,15 @@ function LandingPage() {
 
       {/* FINAL CTA */}
       <section className="px-6 md:px-12 py-24 max-w-4xl mx-auto text-center">
+        <p className="text-sm font-medium uppercase tracking-widest mb-4" style={{ color: 'oklch(0.57 0.135 183)' }}>Before You Hire a Contractor…</p>
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-5 leading-tight">
-          A professional Scope of Work<br />
-          <span style={{ color: 'oklch(0.57 0.135 183)' }}>in 60 seconds.</span>
+          Tag Your Project.
         </h2>
-        <p className="text-lg mb-10" style={{ color: 'oklch(0.60 0.025 252)' }}>
-          Stop guessing what a repair should cost. Stop arguing scope with contractors. Get a professional document and go in informed.
+        <p className="text-lg mb-3" style={{ color: 'oklch(0.60 0.025 252)' }}>
+          Define the work upfront. Approach every contractor with a professional scope in hand. Know what the job should cost before anyone gives you a number.
+        </p>
+        <p className="text-base font-semibold mb-10" style={{ color: 'oklch(0.78 0.015 252)' }}>
+          You define the work. Contractors price the work.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <Link href="/register/pm"
