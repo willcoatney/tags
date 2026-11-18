@@ -17,7 +17,7 @@ export default function ESignPage() {
       <section>
         <h2 className="text-xl font-semibold text-white mb-3">2. Your Consent to Electronic Transactions</h2>
         <p className="leading-relaxed">
-          By creating an account or taking any action on tagyourproject.com (including clicking &ldquo;I Agree,&rdquo; &ldquo;Register,&rdquo; &ldquo;Submit Bid,&rdquo; or &ldquo;Award Bid&rdquo;), you consent to:
+          By creating an account or taking any action on tagyourproject.com (including clicking &ldquo;I Agree,&rdquo; &ldquo;Register,&rdquo; or &ldquo;Generate SOW&rdquo;), you consent to:
         </p>
         <ul className="space-y-2 list-disc list-inside leading-relaxed mt-3">
           <li>Conducting business with TAGS and other platform users electronically.</li>
@@ -31,10 +31,9 @@ export default function ESignPage() {
         <h2 className="text-xl font-semibold text-white mb-3">3. How Electronic Signatures Work on TAGS</h2>
         <p className="leading-relaxed">On the TAGS platform, electronic signatures are created when you:</p>
         <ul className="space-y-2 list-disc list-inside leading-relaxed mt-3">
-          <li><strong className="text-white">Register an account</strong> — Clicking &ldquo;Create Account&rdquo; or completing the registration flow constitutes your electronic signature on the Terms of Service, this E-Sign Agreement, and the role-specific agreement applicable to your account type (PM Agreement or Contractor Agreement).</li>
-          <li><strong className="text-white">Award a bid</strong> — Clicking &ldquo;Award Bid&rdquo; constitutes an electronic signature creating a binding work agreement between you (as a property manager) and the selected contractor.</li>
-          <li><strong className="text-white">Submit a bid</strong> — Clicking &ldquo;Submit Bid&rdquo; constitutes an electronic signature on your bid proposal, including the stated price, timeline, and scope commitment.</li>
-          <li><strong className="text-white">Confirm project completion</strong> — Clicking &ldquo;Mark Complete&rdquo; or confirming completion constitutes an electronic acknowledgment that the described work has been performed.</li>
+          <li><strong className="text-white">Register an account</strong> — Clicking &ldquo;Create Account&rdquo; or completing the registration flow constitutes your electronic signature on the Terms of Service, this E-Sign Agreement, and the role-specific agreement applicable to your account type.</li>
+          <li><strong className="text-white">Generate a Scope of Work</strong> — Submitting a project for SOW generation (Property Managers on subscription, Homeowners via one-time payment) constitutes your electronic agreement to the applicable fee and your acknowledgment that you have reviewed and accepted the generated document for your use.</li>
+          <li><strong className="text-white">Authorize payment</strong> — Providing payment information and confirming a subscription or per-SOW purchase constitutes your electronic authorization for TAGS to charge applicable fees via Stripe.</li>
         </ul>
       </section>
 
@@ -44,8 +43,8 @@ export default function ESignPage() {
           By creating a TAGS account, you consent to receive the following categories of electronic communication:
         </p>
         <ul className="space-y-2 list-disc list-inside leading-relaxed mt-3">
-          <li><strong className="text-white">Transactional emails</strong> — Account confirmation, password reset, project notifications, bid alerts, and award notifications. Sent via Resend from hello@tagyourproject.com.</li>
-          <li><strong className="text-white">SMS notifications</strong> — Bid alerts, job updates, and completion confirmations. Sent via Twilio from the TAGS messaging service. Message and data rates may apply.</li>
+          <li><strong className="text-white">Transactional emails</strong> — Account confirmation, password reset, SOW generation confirmations, and billing notifications. Sent via Resend from hello@tagyourproject.com.</li>
+          <li><strong className="text-white">SMS notifications</strong> — SOW ready alerts and account updates. Sent via Twilio from the TAGS messaging service. Message and data rates may apply.</li>
           <li><strong className="text-white">Platform notifications</strong> — In-app alerts and status updates.</li>
         </ul>
         <p className="leading-relaxed mt-3">
@@ -66,7 +65,7 @@ export default function ESignPage() {
           <li>For help, reply <strong className="text-white">HELP</strong> or email <a href="mailto:hello@tagyourproject.com" className="underline" style={{ color: 'oklch(0.57 0.135 183)' }}>hello@tagyourproject.com</a>.</li>
         </ul>
         <p className="leading-relaxed mt-3">
-          Note: Opting out of SMS may affect your ability to receive timely bid and project notifications. You can manage notification preferences in your account settings.
+          Note: Opting out of SMS may affect your ability to receive timely SOW and account notifications. You can manage notification preferences in your account settings.
         </p>
       </section>
 
@@ -105,7 +104,7 @@ export default function ESignPage() {
       <section>
         <h2 className="text-xl font-semibold text-white mb-3">9. Retention of Records</h2>
         <p className="leading-relaxed">
-          TAGS retains electronic records of all agreements, bid awards, and transactions for a minimum of 3 years from the date of the record. You may download your project and bid history from your account dashboard at any time while your account is active.
+          TAGS retains electronic records of all agreements, SOW generations, and transactions for a minimum of 3 years from the date of the record. You may download your project history from your account dashboard at any time while your account is active.
         </p>
       </section>
 

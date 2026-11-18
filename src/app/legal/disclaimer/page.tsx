@@ -26,23 +26,23 @@ export default function DisclaimerPage() {
           <li>TAGS does not guarantee that any TAGS-generated SOW is complete, compliant with local building codes, or sufficient for all contractual or insurance purposes.</li>
         </ul>
         <p className="leading-relaxed mt-3">
-          Property managers are solely responsible for reviewing TAGS-generated SOWs before publishing them for bid. If you are uncertain about the adequacy of a scope for a complex or high-stakes project, consult a licensed professional.
+          Users are solely responsible for reviewing TAGS-generated SOWs before sharing them with contractors. If you are uncertain about the adequacy of a scope for a complex or high-stakes project, consult a licensed professional.
         </p>
       </section>
 
       <section>
-        <h2 className="text-xl font-semibold text-white mb-3">3. Contractor Quality</h2>
+        <h2 className="text-xl font-semibold text-white mb-3">3. Contractor Relationships</h2>
         <p className="leading-relaxed">
-          TAGS reviews contractor applications and verifies that applicants represent holding current licenses and insurance. However, TAGS is not a contractor licensing board, bonding agency, or insurance underwriter. TAGS:
+          TAGS is a Scope of Work generation tool. TAGS does not introduce, refer, vet, approve, or manage contractors. Users bring their own contractors and are solely responsible for selecting, vetting, licensing verification, bonding, and contracting with any contractors they choose to engage. TAGS:
         </p>
         <ul className="space-y-2 list-disc list-inside leading-relaxed mt-3">
-          <li>Does not guarantee the quality, safety, legality, or timely completion of any work performed by a contractor.</li>
-          <li>Does not independently verify that contractor licenses and insurance are currently active at the time of each project.</li>
-          <li>Is not a party to any contract between a property manager and a contractor.</li>
+          <li>Does not guarantee the quality, safety, legality, or timely completion of any work performed by any contractor.</li>
+          <li>Does not verify contractor licenses, insurance, or credentials of any kind.</li>
+          <li>Is not a party to any contract between a user and a contractor.</li>
           <li>Is not responsible for disputes, damages, injuries, or losses arising from contractor work.</li>
         </ul>
         <p className="leading-relaxed mt-3">
-          Property managers are encouraged to independently verify contractor credentials before awarding bids, particularly for high-value or safety-sensitive projects.
+          Users are solely responsible for independently verifying contractor credentials before engaging them for any project.
         </p>
       </section>
 
@@ -52,7 +52,7 @@ export default function DisclaimerPage() {
           TAGS makes reasonable efforts to keep the platform online and performant. However, we do not guarantee uninterrupted, error-free access to tagyourproject.com. The platform may be temporarily unavailable due to maintenance, technical issues, third-party service disruptions (Supabase, Netlify, Anthropic, Twilio, Stripe), or circumstances beyond our control.
         </p>
         <p className="leading-relaxed mt-3">
-          TAGS is not liable for any loss or damage caused by temporary unavailability of the platform, including missed bids, delayed project starts, or communication failures.
+          TAGS is not liable for any loss or damage caused by temporary unavailability of the platform, including delayed project starts, missed communications, or other consequential losses.
         </p>
       </section>
 
@@ -73,7 +73,7 @@ export default function DisclaimerPage() {
       <section>
         <h2 className="text-xl font-semibold text-white mb-3">7. No Professional Advice</h2>
         <p className="leading-relaxed">
-          Nothing on tagyourproject.com constitutes legal, financial, engineering, architectural, or professional advice. TAGS is a technology marketplace. If you require professional guidance on a construction project, contract dispute, or regulatory compliance matter, consult a qualified professional licensed in your jurisdiction.
+          Nothing on tagyourproject.com constitutes legal, financial, engineering, architectural, or professional advice. TAGS is a technology platform. If you require professional guidance on a construction project, contract dispute, or regulatory compliance matter, consult a qualified professional licensed in your jurisdiction.
         </p>
       </section>
 

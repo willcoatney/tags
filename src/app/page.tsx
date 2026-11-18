@@ -212,7 +212,7 @@ function LandingPage() {
             </p>
             <ul className="space-y-3">
               {[
-                'Every contractor bids on the same locked scope — no surprises',
+                'Every contractor quotes on the same defined scope — no surprises',
                 'Apples-to-apples comparison across every quote you receive',
                 'Built-in cost estimate so you know if a bid is reasonable',
                 'No change orders. No mid-project scope creep.',
@@ -492,9 +492,9 @@ function LandingPage() {
             Start Free — Property Manager →
           </Link>
           <Link href="/register/homeowner"
-            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-medium transition-colors duration-150"
-            style={{ color: 'oklch(0.65 0.02 252)', border: '1px solid oklch(0.27 0.025 252)' }}>
-            Get Your First SOW — $20 →
+            className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-semibold text-white transition-all duration-150 active:scale-[0.98]"
+            style={{ background: 'oklch(0.45 0.18 250)' }}>
+            Homeowner? Get a SOW — $20 →
           </Link>
         </div>
       </section>
