@@ -11,19 +11,18 @@ type BillingState = {
 
 type PlanInterval = 'monthly' | 'yearly'
 
-const PLANS: Record<string, { name: string; monthly: string; yearly: string; yearlyNote: string; note?: string }> = {
+const PLANS: Record<string, { name: string; monthly: string; yearly: string; yearlyNote: string }> = {
   pm: {
     name: 'TAGS Property Manager',
     monthly: '$50/month',
     yearly: '$500/year',
     yearlyNote: 'Save $100/year',
   },
-  contractor: {
-    name: 'TAGS Contractor Membership',
-    monthly: '$10/month',
-    yearly: '$100/year',
-    yearlyNote: 'Save $20/year',
-    note: '+ 1.5% platform fee per awarded job',
+  homeowner: {
+    name: 'TAGS Homeowner',
+    monthly: '$20/SOW',
+    yearly: '$20/SOW',
+    yearlyNote: 'Pay per scope',
   },
 }
 
@@ -109,9 +108,7 @@ export default function BillingPage() {
             <div>
               <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Plan</p>
               <p className="font-semibold text-gray-900 dark:text-white">{plan?.name ?? 'TAGS'}</p>
-              {plan?.note && (
-                <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">{plan.note}</p>
-              )}
+  
             </div>
             <span className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium ${
               isActive
@@ -158,10 +155,7 @@ export default function BillingPage() {
               {/* Price display */}
               <div className="text-center mb-5 py-4 rounded-lg bg-gray-50 dark:bg-gray-800/50">
                 <p className="text-3xl font-bold text-gray-900 dark:text-white">
-                  {interval === 'monthly'
-                    ? (billing?.role === 'contractor' ? '$10' : '$50')
-                    : (billing?.role === 'contractor' ? '$100' : '$500')
-                  }
+                  {interval === 'monthly' ? '$50' : '$500'}
                   <span className="text-base font-normal text-gray-500 dark:text-gray-400">
                     /{interval === 'monthly' ? 'mo' : 'yr'}
                   </span>
