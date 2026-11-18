@@ -59,17 +59,20 @@ function LandingPage() {
             Professional Scope of Work · Ready in 60 seconds
           </div>
 
-          <h1 className="text-5xl md:text-6xl font-bold text-white leading-[1.08] tracking-tight mb-6">
-            Before You Hire a Contractor…<br />
-            <span style={{ color: 'oklch(0.57 0.135 183)' }}>TAG IT.</span>
+          <h1 className="text-5xl md:text-6xl font-bold text-white leading-[1.08] tracking-tight mb-5">
+            Stop letting contractors<br />write your scope.
           </h1>
 
-          <p className="text-xl leading-relaxed mb-4 max-w-2xl mx-auto" style={{ color: 'oklch(0.65 0.02 252)' }}>
+          <p className="text-2xl font-medium mb-6" style={{ color: 'oklch(0.57 0.135 183)' }}>
+            You define the job. They compete for it.
+          </p>
+
+          <p className="text-lg leading-relaxed mb-4 max-w-2xl mx-auto" style={{ color: 'oklch(0.65 0.02 252)' }}>
             Snap up to 5 photos. Describe the problem in plain English. Get a contractor-ready Scope of Work — materials, labor breakdown, and cost estimate — in under 60 seconds.
           </p>
 
           <p className="text-sm mb-10 max-w-xl mx-auto" style={{ color: 'oklch(0.48 0.02 252)' }}>
-            Powered by AI trained on contractor-grade trade pricing and construction best practices. You define the scope — contractors bid on your terms.
+            Powered by AI trained on contractor-grade trade pricing and construction best practices.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
