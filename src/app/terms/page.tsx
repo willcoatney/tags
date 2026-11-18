@@ -26,59 +26,47 @@ export default function TermsPage() {
 
           <section>
             <h2 className="text-xl font-semibold text-white mb-3">Who Can Use TAGS</h2>
-            <p className="leading-relaxed mb-3">TAGS is a business-to-business platform designed for:</p>
+            <p className="leading-relaxed mb-3">TAGS is designed for anyone who needs to define and document a repair or renovation project:</p>
             <ul className="space-y-2 list-disc list-inside leading-relaxed">
-              <li><strong className="text-white">Property Managers (PMs)</strong> — professionals managing multifamily residential properties.</li>
-              <li><strong className="text-white">Regional Managers (RMs)</strong> — professionals overseeing portfolios of multiple properties.</li>
-              <li><strong className="text-white">Contractors</strong> — licensed, insured trade professionals who have been approved by TAGS.</li>
+              <li><strong className="text-white">Property Managers</strong> — professionals managing multifamily or commercial properties.</li>
+              <li><strong className="text-white">Homeowners</strong> — individuals managing repairs or renovations on their own property.</li>
+              <li><strong className="text-white">Maintenance Professionals</strong> — staff generating scopes for internal approval or contractor engagement.</li>
+              <li><strong className="text-white">Property Investors</strong> — owners planning and budgeting improvements across a portfolio.</li>
             </ul>
-            <p className="leading-relaxed mt-3">You must be at least 18 years old and have the authority to enter into contracts on behalf of your organization.</p>
+            <p className="leading-relaxed mt-3">You must be at least 18 years old to use TAGS.</p>
           </section>
 
           <section>
             <h2 className="text-xl font-semibold text-white mb-3">Pricing & Fees</h2>
             <ul className="space-y-3 list-disc list-inside leading-relaxed">
-              <li><strong className="text-white">Property Managers:</strong> $50 per month or $500 per year (beta pricing, subject to change with notice). Early access accounts are grandfathered at current rates.</li>
-              <li><strong className="text-white">Contractors:</strong> $100 annual membership fee, plus 1.5% of each awarded bid amount. The 1.5% fee is charged only when a bid is awarded to you.</li>
+              <li><strong className="text-white">Property Managers:</strong> $50 per month per community. Includes 3 free Scope of Work generations to start — no credit card required for the trial. Early access accounts are grandfathered at current rates.</li>
+              <li><strong className="text-white">Homeowners:</strong> $20 per Scope of Work generated. No subscription required.</li>
               <li>All fees are processed through Stripe. By providing payment information, you authorize TAGS to charge applicable fees.</li>
               <li>Fees are non-refundable except as required by applicable law.</li>
             </ul>
           </section>
 
           <section>
-            <h2 className="text-xl font-semibold text-white mb-3">Property Manager Responsibilities</h2>
+            <h2 className="text-xl font-semibold text-white mb-3">User Responsibilities</h2>
             <ul className="space-y-2 list-disc list-inside leading-relaxed">
               <li>Provide accurate and complete project descriptions and photos.</li>
-              <li>Review Scopes of Work before publishing projects for bid.</li>
-              <li>Respond to contractor questions and bids in a reasonable timeframe.</li>
-              <li>Honor bid awards — once a bid is awarded, you are committed to working with that contractor on the defined scope.</li>
-              <li>Confirm project completion honestly and provide accurate ratings.</li>
-            </ul>
-          </section>
-
-          <section>
-            <h2 className="text-xl font-semibold text-white mb-3">Contractor Responsibilities</h2>
-            <ul className="space-y-2 list-disc list-inside leading-relaxed">
-              <li>Maintain valid licensing and insurance as required by your jurisdiction and trade.</li>
-              <li>Submit accurate bids based on the published Scope of Work.</li>
-              <li>Complete awarded jobs according to the defined scope, timeline, and agreed price.</li>
-              <li>Communicate promptly and professionally through the TAGS platform.</li>
-              <li>TAGS reserves the right to remove contractors for poor performance, dishonest bids, or failure to complete awarded work.</li>
+              <li>Review all generated Scopes of Work before sharing with contractors.</li>
+              <li>Use the SOW as a starting point — final scope and pricing are always set by the contractor you engage.</li>
+              <li>You are solely responsible for selecting, vetting, licensing verification, and contracting with any contractors you choose.</li>
             </ul>
           </section>
 
           <section>
             <h2 className="text-xl font-semibold text-white mb-3">TAGS-Generated Scopes of Work</h2>
-            <p className="leading-relaxed">TAGS uses its proprietary document engine to generate Scopes of Work from project descriptions and photos. These documents are provided as a professional starting point and should be reviewed by the property manager before publication. TAGS does not guarantee that TAGS-generated SOWs are complete, accurate, or sufficient for all regulatory or contractual purposes. By publishing a project, you confirm you have reviewed the SOW and find it acceptable.</p>
-            <p className="leading-relaxed mt-3">All TAGS-generated Scopes of Work are the intellectual property of TAGS — The Apartment Guys System. Reproduction or distribution outside the platform is prohibited without written permission.</p>
+            <p className="leading-relaxed">TAGS uses AI to generate Scopes of Work from project descriptions and photos. These documents are provided as a professional starting point and should be reviewed before sharing with contractors. TAGS does not guarantee that generated SOWs are complete, accurate, or sufficient for all regulatory or contractual purposes. Cost estimates are ballpark figures for scoping purposes only — not binding quotes.</p>
+            <p className="leading-relaxed mt-3">You may print, download, and share your TAGS-generated Scope of Work with any contractors of your choosing. The SOW is provided for your use in connection with your project.</p>
           </section>
 
           <section>
             <h2 className="text-xl font-semibold text-white mb-3">Prohibited Conduct</h2>
             <ul className="space-y-2 list-disc list-inside leading-relaxed">
               <li>Submitting false, misleading, or fraudulent information.</li>
-              <li>Bidding on jobs you have no intent or ability to complete.</li>
-              <li>Circumventing the platform to transact directly with parties you met through TAGS in order to avoid fees.</li>
+              <li>Using TAGS-generated documents for fraudulent or misrepresentative purposes.</li>
               <li>Harassing, threatening, or discriminating against any other user.</li>
               <li>Attempting to access, modify, or disrupt the platform&apos;s systems or data.</li>
             </ul>

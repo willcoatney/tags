@@ -33,7 +33,6 @@ export default function HomeownerProjectPage() {
       if (!profileRes.ok) { router.push('/login'); return }
       const profile = await profileRes.json()
 
-      const { createClient: createAdmin } = await import('@supabase/supabase-js')
       // Use anon client — RLS handles access
       const { data } = await supabase
         .from('projects')
