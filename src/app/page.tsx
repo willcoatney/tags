@@ -65,7 +65,7 @@ function LandingPage() {
           </h1>
 
           <p className="text-xl leading-relaxed mb-10 max-w-2xl mx-auto" style={{ color: 'oklch(0.65 0.02 252)' }}>
-            Describe your repair. Upload a photo. Get a contractor-ready Scope of Work with materials, labor, and a cost estimate — before the first contractor walks through the door.
+            Describe your repair. Upload up to 5 photos. Get a contractor-ready Scope of Work with materials, labor, and a cost estimate — before the first contractor walks through the door.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
