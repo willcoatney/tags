@@ -173,9 +173,11 @@ function RegisterPMForm() {
               <span className="text-xs leading-relaxed" style={{ color: 'oklch(0.60 0.025 252)' }}>
                 I agree to the{' '}
                 <Link href="/terms" target="_blank" className="underline" style={{ color: 'oklch(0.57 0.135 183)' }}>Terms of Service</Link>
-                {' '}and{' '}
+                {', '}
+                <Link href="/legal/pm-agreement" target="_blank" className="underline" style={{ color: 'oklch(0.57 0.135 183)' }}>Property Manager Agreement</Link>
+                {', and '}
                 <Link href="/privacy" target="_blank" className="underline" style={{ color: 'oklch(0.57 0.135 183)' }}>Privacy Policy</Link>
-                , and I consent to receive text message notifications from TAGS regarding my account, projects, and bids.
+                . I consent to receive SMS notifications from TAGS regarding my account and projects.
                 Message &amp; data rates may apply. Reply STOP to opt out.
               </span>
             </label>

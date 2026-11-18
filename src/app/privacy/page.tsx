@@ -27,10 +27,8 @@ export default function PrivacyPage() {
           <section>
             <h2 className="text-xl font-semibold text-white mb-3">What We Collect</h2>
             <ul className="space-y-2 list-disc list-inside leading-relaxed">
-              <li><strong className="text-white">Account information:</strong> Name, email address, phone number, company name, and role (Property Manager, Regional Manager, or Contractor).</li>
-              <li><strong className="text-white">Project information:</strong> Project descriptions, photos, unit numbers, property addresses, and Scopes of Work you create or receive through the platform.</li>
-              <li><strong className="text-white">Bid information:</strong> Bid amounts, timelines, and notes submitted by contractors.</li>
-              <li><strong className="text-white">Communication records:</strong> Messages sent between property managers and contractors through the TAGS platform, including SMS messages routed through our system.</li>
+              <li><strong className="text-white">Account information:</strong> Name, email address, phone number, company name or home address, and role (Property Manager or Homeowner).</li>
+              <li><strong className="text-white">Project information:</strong> Project descriptions, photos, unit numbers, property addresses, and Scopes of Work you generate through the platform.</li>
               <li><strong className="text-white">Usage data:</strong> How you interact with the platform — pages visited, actions taken, timestamps.</li>
               <li><strong className="text-white">Payment information:</strong> Billing is processed through Stripe. TAGS does not store your full payment card details.</li>
             </ul>
@@ -40,10 +38,10 @@ export default function PrivacyPage() {
             <h2 className="text-xl font-semibold text-white mb-3">How We Use Your Information</h2>
             <ul className="space-y-2 list-disc list-inside leading-relaxed">
               <li>To operate the TAGS platform and provide its core services.</li>
-              <li>To send SMS notifications via Twilio (bid alerts, job updates, completion confirmations).</li>
-              <li>To send transactional emails via Resend (account confirmations, project notifications).</li>
+              <li>To send SMS notifications via Twilio (SOW ready alerts, account updates).</li>
+              <li>To send transactional emails via Resend (account confirmations, SOW generation confirmations, billing notifications).</li>
               <li>To generate TAGS-proprietary Scopes of Work — your project description and photos are processed through TAGS&apos;s document engine, which uses Anthropic&apos;s API as a component of that system.</li>
-              <li>To process payments through Stripe for contractor membership fees and per-bid charges.</li>
+              <li>To process payments through Stripe for PM subscriptions and homeowner per-SOW purchases.</li>
               <li>To improve the platform and diagnose technical issues.</li>
             </ul>
           </section>
@@ -64,7 +62,7 @@ export default function PrivacyPage() {
 
           <section>
             <h2 className="text-xl font-semibold text-white mb-3">SMS Communications</h2>
-            <p className="leading-relaxed">By creating an account and providing your phone number, you consent to receive SMS notifications from TAGS related to your account activity (bids, project updates, alerts). Message and data rates may apply. You may opt out at any time by replying STOP to any TAGS message or by contacting us at <a href="mailto:hello@tagyourproject.com" className="underline" style={{ color: 'oklch(0.57 0.135 183)' }}>hello@tagyourproject.com</a>.</p>
+            <p className="leading-relaxed">By creating an account and providing your phone number, you consent to receive SMS notifications from TAGS related to your account activity (SOW generation, project updates, account alerts). Message and data rates may apply. You may opt out at any time by replying STOP to any TAGS message or by contacting us at <a href="mailto:hello@tagyourproject.com" className="underline" style={{ color: 'oklch(0.57 0.135 183)' }}>hello@tagyourproject.com</a>.</p>
           </section>
 
           <section>

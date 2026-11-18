@@ -485,7 +485,7 @@ export default function NewProjectPage() {
                 )}
 
                 <div className="flex items-center justify-between">
-                  <p className="text-xs" style={{ color: 'oklch(0.45 0.015 252)' }}>Review and edit before posting.</p>
+                  <p className="text-xs" style={{ color: 'oklch(0.45 0.015 252)' }}>Review and edit before saving.</p>
                 </div>
                 <button
                   onClick={handlePublish}
@@ -493,7 +493,7 @@ export default function NewProjectPage() {
                   className="w-full h-12 rounded-lg text-base font-semibold text-white transition-all duration-150 active:scale-[0.98] disabled:opacity-50"
                   style={{ background: 'oklch(0.57 0.135 183)' }}
                 >
-                  {publishing ? 'Posting…' : 'Post for Bids'}
+                  {publishing ? 'Saving…' : 'Save SOW'}
                 </button>
               </>
             )}

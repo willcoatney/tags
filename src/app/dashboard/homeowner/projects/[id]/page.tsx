@@ -123,7 +123,7 @@ export default function HomeownerProjectPage() {
           <div className="px-5 py-4 flex flex-col sm:flex-row items-start sm:items-center gap-3"
             style={{ background: 'oklch(0.16 0.022 252)', borderTop: '1px solid oklch(0.20 0.022 252)' }}>
             <p className="text-xs" style={{ color: 'oklch(0.48 0.015 252)' }}>
-              Print this SOW and share it with any contractors you choose. All contractors should bid on the same defined scope.
+              Print this SOW and share it with any contractors you choose. All contractors should quote on the same defined scope.
             </p>
             <button
               onClick={() => window.print()}

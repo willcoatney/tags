@@ -69,9 +69,9 @@ export default function SamplesPage() {
               Start Free — Property Manager →
             </Link>
             <Link href="/register/homeowner"
-              className="inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-medium"
-              style={{ border: '1px solid oklch(0.27 0.025 252)', color: 'oklch(0.75 0.015 252)' }}>
-              Homeowner SOW — $20 →
+              className="inline-flex items-center justify-center px-6 py-3 rounded-xl text-sm font-semibold text-white"
+              style={{ background: 'oklch(0.45 0.18 250)' }}>
+              Homeowner? Get a SOW — $20 →
             </Link>
           </div>
         </div>

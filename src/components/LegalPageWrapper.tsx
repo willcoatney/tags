@@ -3,8 +3,8 @@ import Link from 'next/link'
 const legalLinks = [
   { href: '/terms', label: 'Terms of Service' },
   { href: '/privacy', label: 'Privacy Policy' },
-  { href: '/legal/contractor-agreement', label: 'Contractor Agreement' },
   { href: '/legal/pm-agreement', label: 'Property Manager Agreement' },
+  { href: '/legal/homeowner-agreement', label: 'Homeowner Agreement' },
   { href: '/legal/ip-notice', label: 'IP & Copyright' },
   { href: '/legal/disclaimer', label: 'Website Disclaimer' },
   { href: '/legal/cookies', label: 'Cookie Policy' },
