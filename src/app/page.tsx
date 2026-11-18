@@ -101,6 +101,26 @@ function LandingPage() {
         </div>
       </section>
 
+      {/* COMPETITIVE GUESSING */}
+      <section className="px-6 md:px-12 py-16" style={{ background: 'oklch(0.11 0.025 252)', borderTop: '1px solid oklch(0.18 0.022 252)', borderBottom: '1px solid oklch(0.18 0.022 252)' }}>
+        <div className="max-w-4xl mx-auto text-center">
+          <p className="text-lg md:text-xl leading-relaxed mb-5" style={{ color: 'oklch(0.62 0.02 252)' }}>
+            You contact three contractors. Each one recommends something different. Each one prices something different.
+          </p>
+          <div className="mb-6">
+            <p className="text-3xl md:text-4xl font-black text-white tracking-tight leading-tight">
+              That&apos;s not competitive bidding.
+            </p>
+            <p className="text-3xl md:text-4xl font-black tracking-tight leading-tight" style={{ color: 'oklch(0.78 0.18 55)' }}>
+              That&apos;s competitive guessing.
+            </p>
+          </div>
+          <p className="text-lg leading-relaxed max-w-2xl mx-auto" style={{ color: 'oklch(0.65 0.02 252)' }}>
+            We believe the person paying for the project should have a clear understanding of the work <strong className="text-white">before</strong> requesting contractor pricing. That&apos;s why we developed TAGS.
+          </p>
+        </div>
+      </section>
+
       {/* TRUST BAR */}
       <section className="px-6 md:px-12 pb-6 max-w-5xl mx-auto">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
@@ -159,46 +179,62 @@ function LandingPage() {
       <section id="how-it-works" className="px-6 md:px-12 py-24 max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">How it works</h2>
-          <p className="text-lg" style={{ color: 'oklch(0.60 0.025 252)' }}>Three steps from photo to professional document.</p>
+          <p className="text-lg" style={{ color: 'oklch(0.60 0.025 252)' }}>Five steps from photo to informed decision.</p>
         </div>
 
-        <div className="grid md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4">
           {[
             {
               step: '01',
               icon: '📸',
-              title: 'Snap & describe',
-              body: 'Upload a photo and describe the problem in plain English. "The bathroom faucet is leaking and rusting at the base." That\'s all you need.',
+              title: 'Tag your project',
+              body: 'Describe the problem in plain English. Upload photos. That\'s it — no contractor jargon required.',
               accent: 'oklch(0.62 0.14 230)',
               bg: 'oklch(0.20 0.05 230)',
             },
             {
               step: '02',
               icon: '📋',
-              title: 'SOW in 60 seconds',
-              body: 'TAGS generates a professional starting Scope of Work — materials, labor requirements, safety notes, cleanup, and a cost estimate. Ready for your review before any contractor sees it.',
+              title: 'Receive your SOW',
+              body: 'TAGS generates a professional Scope of Work in under 60 seconds — materials, labor, safety, and cost estimate included.',
               accent: 'oklch(0.57 0.135 183)',
               bg: 'oklch(0.18 0.06 183)',
             },
             {
               step: '03',
+              icon: '🔍',
+              title: 'Review before you share',
+              body: 'Read the scope, estimated costs, and project details. Identify questions or adjustments before any contractor sees it.',
+              accent: 'oklch(0.65 0.14 200)',
+              bg: 'oklch(0.18 0.06 200)',
+            },
+            {
+              step: '04',
               icon: '📤',
-              title: 'Forward to your contractors',
-              body: 'Download or print the SOW. Send it to any contractor you choose. Everyone quotes on the same clearly defined scope — reducing back-and-forth and scope disputes.',
+              title: 'Share with contractors',
+              body: 'Send the same scope to every contractor you contact. Each one starts from an identical, clearly defined project.',
               accent: 'oklch(0.60 0.16 160)',
               bg: 'oklch(0.18 0.06 160)',
             },
+            {
+              step: '05',
+              icon: '✅',
+              title: 'Compare with confidence',
+              body: 'Review proposals against the same scope. Identify differences. Make a more informed decision.',
+              accent: 'oklch(0.72 0.18 140)',
+              bg: 'oklch(0.18 0.07 140)',
+            },
           ].map(card => (
-            <div key={card.step} className="rounded-2xl p-6 relative overflow-hidden"
+            <div key={card.step} className="rounded-2xl p-5 relative overflow-hidden"
               style={{ background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
-              <div className="absolute top-0 right-0 text-7xl font-black leading-none select-none opacity-[0.06] translate-x-2 -translate-y-2"
+              <div className="absolute top-0 right-0 text-6xl font-black leading-none select-none opacity-[0.07] translate-x-1 -translate-y-1"
                 style={{ color: card.accent }}>{card.step}</div>
-              <div className="w-11 h-11 rounded-xl flex items-center justify-center text-2xl mb-5"
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl mb-4"
                 style={{ background: card.bg }}>
                 {card.icon}
               </div>
-              <h3 className="text-base font-semibold text-white mb-2">{card.title}</h3>
-              <p className="text-sm leading-relaxed" style={{ color: 'oklch(0.60 0.025 252)' }}>{card.body}</p>
+              <h3 className="text-sm font-semibold text-white mb-1.5">{card.title}</h3>
+              <p className="text-xs leading-relaxed" style={{ color: 'oklch(0.60 0.025 252)' }}>{card.body}</p>
             </div>
           ))}
         </div>
@@ -303,36 +339,50 @@ function LandingPage() {
 
       {/* ORIGIN / CREDIBILITY */}
       <section className="px-6 md:px-12 py-20" style={{ background: 'oklch(0.15 0.025 252)' }}>
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-5xl mx-auto">
           <div className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'oklch(0.57 0.135 183)' }}>
-            Built around the problems property managers face every day
+            Built from experience. Tested on real projects. Available nationwide.
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 leading-tight">
-            Real construction experience behind the technology.
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-3 leading-tight">
+            Developed in the field.<br />Refined through real projects.
           </h2>
-          <div className="grid md:grid-cols-2 gap-10 items-start">
+          <p className="text-sm mb-10" style={{ color: 'oklch(0.55 0.02 252)' }}>
+            Over 25 years of professional experience in construction, property maintenance, and project management.
+          </p>
+
+          <div className="grid md:grid-cols-2 gap-12 items-start mb-12">
             <div className="space-y-5" style={{ color: 'oklch(0.70 0.02 252)' }}>
               <p className="text-lg leading-relaxed">
-                TAGS wasn&apos;t created just to generate documents. It was developed around a common problem in construction and property maintenance: <strong className="text-white">projects moving forward before the work is clearly defined.</strong>
+                TAGS wasn&apos;t created in a boardroom. It was developed from firsthand experience in construction, property maintenance, and project management.
               </p>
               <p className="leading-relaxed">
-                From roof leaks and plumbing repairs to concrete replacement and major renovations — we&apos;ve seen how unclear scopes create confusion, inconsistent estimates, and unnecessary delays. Contractors price jobs differently when the scope isn&apos;t locked. Property owners end up comparing bids that don&apos;t describe the same work.
+                Since April 2026, we&apos;ve been using and refining the TAGS approach on real construction and maintenance projects — helping establish clear scopes of work, estimated project costs, and organized starting points <strong className="text-white">before work begins.</strong>
               </p>
               <p className="leading-relaxed">
-                That&apos;s why TAGS starts with the Scope of Work. Not the contractor. Not the price. The document that defines the job before anyone shows up with a truck.
+                From roofing repairs and plumbing to concrete, window leaks, renovations, and general property maintenance, our experience has reinforced one principle:
+              </p>
+              <div className="rounded-xl p-5" style={{ background: 'oklch(0.18 0.06 183)', border: '1px solid oklch(0.30 0.08 183)' }}>
+                <p className="text-lg font-bold text-white leading-snug">
+                  A better project starts with a better Scope of Work.
+                </p>
+              </div>
+              <p className="leading-relaxed">
+                We&apos;re not asking you to change which contractors you trust. We&apos;re helping you give those contractors a clearer project to price.
               </p>
             </div>
             <div className="space-y-3">
-              <p className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: 'oklch(0.55 0.02 252)' }}>Problems TAGS was built to solve</p>
+              <p className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: 'oklch(0.55 0.02 252)' }}>Real project experience across all trade types</p>
               {[
-                { icon: '🏠', label: 'Roof leaks and exterior repairs', note: 'Emergency work with unclear scope leads to change orders' },
-                { icon: '🔧', label: 'Plumbing and mechanical repairs', note: 'Concealed conditions require clear exclusion language upfront' },
-                { icon: '🧱', label: 'Concrete and flatwork replacement', note: 'Site conditions vary — scope must address unknowns' },
-                { icon: '🏗', label: 'Major renovations and unit turns', note: 'Multi-trade projects fall apart without a defined document' },
-                { icon: '🌧', label: 'Gutters and drainage', note: 'Often reactive — scope protects against undefined add-ons' },
+                { icon: '🏠', label: 'Roofing repairs and replacements', note: 'Active leaks, flashing, and underlayment failures' },
+                { icon: '🔧', label: 'Plumbing repairs and water intrusion', note: 'Supply lines, drains, and concealed moisture' },
+                { icon: '🪟', label: 'Window leaks and exterior repairs', note: 'Failed seals, frame damage, and weather penetration' },
+                { icon: '🧱', label: 'Concrete repairs and replacements', note: 'Driveways, walkways, flatwork, and aprons' },
+                { icon: '🏗', label: 'Decks, stairs, and structural repairs', note: 'Structural integrity and safety documentation' },
+                { icon: '🛋', label: 'Interior renovations and property improvements', note: 'Unit turns, remodels, and multi-trade projects' },
+                { icon: '🌧', label: 'Gutters and drainage', note: 'Leaks, sagging, downspout routing, and fascia' },
               ].map(item => (
                 <div key={item.label} className="flex items-start gap-3 p-3 rounded-xl" style={{ background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
-                  <span className="text-lg shrink-0 mt-0.5">{item.icon}</span>
+                  <span className="text-base shrink-0 mt-0.5">{item.icon}</span>
                   <div>
                     <p className="text-sm font-semibold text-white">{item.label}</p>
                     <p className="text-xs mt-0.5" style={{ color: 'oklch(0.55 0.02 252)' }}>{item.note}</p>
@@ -360,7 +410,7 @@ function LandingPage() {
               role: 'Property Manager',
               price: '$50/month · 3 free SOWs to start',
               href: '/register/pm',
-              body: 'Managing repairs across multiple units means constant scope disputes and surprise invoices. TAGS gives every job a professional document before the first contractor sets foot on-site — so quotes come back apples-to-apples and scope changes are easier to manage.',
+              body: 'Managing repairs across multiple units means constant scope disputes and surprise invoices. TAGS gives every job a professional document before the first contractor sets foot on-site — so quotes come back apples-to-apples and scope changes are easier to manage. We\'re not asking you to change the contractors you trust. We\'re helping you give them a clearer project to price.',
               cta: 'Start Free →',
               accent: 'oklch(0.57 0.135 183)',
               bg: 'oklch(0.18 0.06 183)',
@@ -555,10 +605,25 @@ function LandingPage() {
         <h2 className="text-4xl md:text-5xl font-bold text-white mb-5 leading-tight">
           Tag Your Project.
         </h2>
-        <p className="text-lg mb-3" style={{ color: 'oklch(0.60 0.025 252)' }}>
-          Define the work upfront. Approach every contractor with a professional scope in hand. Know what the job should cost before anyone gives you a number.
+        <p className="text-lg mb-8" style={{ color: 'oklch(0.60 0.025 252)' }}>
+          TAGS isn&apos;t here to replace contractors. We&apos;re here to improve the process before contractors get involved.
         </p>
-        <p className="text-base font-semibold mb-10" style={{ color: 'oklch(0.78 0.015 252)' }}>
+
+        {/* Our Promise */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-10 max-w-3xl mx-auto">
+          {[
+            'Better scopes.',
+            'Clearer expectations.',
+            'More consistent estimates.',
+            'More informed decisions.',
+          ].map(promise => (
+            <div key={promise} className="rounded-xl px-4 py-4 text-center" style={{ background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
+              <p className="text-sm font-semibold text-white leading-snug">{promise}</p>
+            </div>
+          ))}
+        </div>
+
+        <p className="text-base font-semibold mb-8" style={{ color: 'oklch(0.78 0.015 252)' }}>
           You define the work. Contractors price the work.
         </p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
