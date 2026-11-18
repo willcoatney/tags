@@ -84,7 +84,7 @@ function LandingPage() {
             <Link href="/register/homeowner"
               className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-base font-medium transition-colors duration-150"
               style={{ color: 'oklch(0.78 0.01 252)', border: '1px solid oklch(0.27 0.025 252)' }}>
-              Get a SOW — $20 →
+              Homeowner SOW — $20 →
             </Link>
           </div>
         </div>
