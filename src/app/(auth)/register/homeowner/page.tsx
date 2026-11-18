@@ -12,6 +12,7 @@ import { toast } from 'sonner'
 
 export default function RegisterHomeownerPage() {
   const [form, setForm] = useState({ fullName: '', email: '', phone: '', password: '', address: '' })
+  const [agreed, setAgreed] = useState(false)
   const [loading, setLoading] = useState(false)
   const router = useRouter()
   const supabase = createClient()
@@ -74,7 +75,25 @@ export default function RegisterHomeownerPage() {
                 />
               </div>
             ))}
-            <Button type="submit" disabled={loading} className="w-full bg-teal-600 hover:bg-teal-700">
+            <div className="flex items-start gap-3 pt-1">
+              <input
+                id="agree"
+                type="checkbox"
+                checked={agreed}
+                onChange={e => setAgreed(e.target.checked)}
+                className="mt-0.5 h-4 w-4 rounded border-slate-600 bg-slate-800 accent-teal-500 cursor-pointer"
+              />
+              <label htmlFor="agree" className="text-xs text-slate-400 leading-relaxed cursor-pointer">
+                I agree to the{' '}
+                <Link href="/terms" target="_blank" className="text-teal-400 hover:underline">Terms of Service</Link>
+                {', '}
+                <Link href="/legal/homeowner-agreement" target="_blank" className="text-teal-400 hover:underline">Homeowner Agreement</Link>
+                {', and '}
+                <Link href="/legal/esign" target="_blank" className="text-teal-400 hover:underline">E-Sign Consent</Link>
+                . I understand that each SOW costs $20, charged at generation, and is non-refundable.
+              </label>
+            </div>
+            <Button type="submit" disabled={loading || !agreed} className="w-full bg-teal-600 hover:bg-teal-700 disabled:opacity-50">
               {loading ? 'Creating account...' : 'Create Account'}
             </Button>
           </form>

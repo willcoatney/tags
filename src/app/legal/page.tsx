@@ -14,16 +14,16 @@ const documents = [
     badge: 'All Users',
   },
   {
-    href: '/legal/contractor-agreement',
-    title: 'Contractor Agreement',
-    desc: 'Supplemental agreement for approved contractors. Covers independent contractor status, licensing requirements, bid commitments, and fee obligations.',
-    badge: 'Contractors',
-  },
-  {
     href: '/legal/pm-agreement',
     title: 'Property Manager Agreement',
-    desc: 'Supplemental agreement for property managers and regional managers. Covers posting responsibilities, SOW review obligations, and bid award commitments.',
+    desc: 'Supplemental agreement for property managers. Covers what TAGS provides, subscription fees, SOW review responsibilities, and contractor relationship terms.',
     badge: 'PMs & RMs',
+  },
+  {
+    href: '/legal/homeowner-agreement',
+    title: 'Homeowner Agreement',
+    desc: 'Supplemental agreement for homeowners using TAGS on a pay-per-SOW basis. Covers what you are purchasing, what the SOW is and is not, and your contractor responsibilities.',
+    badge: 'Homeowners',
   },
   {
     href: '/legal/ip-notice',
@@ -34,7 +34,7 @@ const documents = [
   {
     href: '/legal/disclaimer',
     title: 'Website Disclaimer',
-    desc: 'Important limitations on TAGS-generated content, contractor quality assurance, platform availability, and TAGS\'s role as a marketplace intermediary.',
+    desc: 'Important limitations on TAGS-generated content, platform availability, and TAGS\'s role as a Scope of Work generation tool — not a contractor referral service.',
     badge: 'All Users',
   },
   {
@@ -53,14 +53,14 @@ const documents = [
 
 const badgeColor: Record<string, string> = {
   'All Users': 'oklch(0.25 0.025 252)',
-  'Contractors': 'oklch(0.22 0.04 160)',
   'PMs & RMs': 'oklch(0.22 0.04 250)',
+  'Homeowners': 'oklch(0.20 0.06 230)',
 }
 
 const badgeText: Record<string, string> = {
   'All Users': 'oklch(0.60 0.02 252)',
-  'Contractors': 'oklch(0.65 0.12 160)',
   'PMs & RMs': 'oklch(0.65 0.12 250)',
+  'Homeowners': 'oklch(0.65 0.14 230)',
 }
 
 export default function LegalHubPage() {

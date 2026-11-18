@@ -31,7 +31,7 @@ export default function ESignPage() {
         <h2 className="text-xl font-semibold text-white mb-3">3. How Electronic Signatures Work on TAGS</h2>
         <p className="leading-relaxed">On the TAGS platform, electronic signatures are created when you:</p>
         <ul className="space-y-2 list-disc list-inside leading-relaxed mt-3">
-          <li><strong className="text-white">Register an account</strong> — Clicking &ldquo;Create Account&rdquo; or completing the registration flow constitutes your electronic signature on the Terms of Service, this E-Sign Agreement, and the role-specific agreement applicable to your account type.</li>
+          <li><strong className="text-white">Register an account</strong> — Clicking &ldquo;Create Account&rdquo; or completing the registration flow constitutes your electronic signature on the Terms of Service, this E-Sign Agreement, and the role-specific agreement applicable to your account type (Property Manager Agreement or Homeowner Agreement).</li>
           <li><strong className="text-white">Generate a Scope of Work</strong> — Submitting a project for SOW generation (Property Managers on subscription, Homeowners via one-time payment) constitutes your electronic agreement to the applicable fee and your acknowledgment that you have reviewed and accepted the generated document for your use.</li>
           <li><strong className="text-white">Authorize payment</strong> — Providing payment information and confirming a subscription or per-SOW purchase constitutes your electronic authorization for TAGS to charge applicable fees via Stripe.</li>
         </ul>
