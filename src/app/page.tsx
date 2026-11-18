@@ -64,7 +64,7 @@ function LandingPage() {
           </h1>
 
           <p className="text-2xl font-medium mb-6" style={{ color: 'oklch(0.57 0.135 183)' }}>
-            You own the scope. Forward it to any contractor you choose.
+            Describe the problem. Upload a photo. Get a contractor-ready Scope of Work in 60 seconds — share it with any contractor you choose.
           </p>
 
           <p className="text-lg leading-relaxed mb-4 max-w-2xl mx-auto" style={{ color: 'oklch(0.65 0.02 252)' }}>
