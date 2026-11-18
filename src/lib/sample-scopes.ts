@@ -587,65 +587,69 @@ Fascia board repair or replacement; soffit repair; roof or shingle work; paintin
   {
     slug: 'concrete-repair',
     title: 'Concrete Repair & Replacement',
-    metaDescription: 'Sample Scope of Work for concrete repair and replacement — cracked driveways, spalled walkways, and deteriorated flatwork with subgrade and site condition disclosures.',
+    metaDescription: 'Sample Scope of Work for concrete driveway repair — 10×10 ft driveway section with 10 ft lazy curb replacement, including subgrade prep, saw-cut, pour, and cost estimate.',
     projectType: 'Flatwork / Site',
-    exampleDescription: 'The driveway has several large cracks and the concrete near the garage apron is heaving. There\'s also a section of the sidewalk out front that\'s cracked and uneven. The concrete is probably 20 years old.',
+    exampleDescription: 'I need to replace a section of my driveway near the street entrance. The area is approximately 10 feet wide by 10 feet deep. The concrete is cracked and heaving. I also need the lazy curb along the street edge replaced — it\'s about 10 feet long and broken in two places.',
     sow: `**Date Prepared:** Example Only
 
 ## Project Overview
-Remove and replace deteriorated concrete at driveway apron, identified cracked driveway sections, and uneven sidewalk panels. Visible heaving, cracking, and surface spalling indicate subgrade settlement and end-of-life concrete condition. Full extent of replacement to be confirmed by on-site assessment and saw-cut evaluation. *Note: If subgrade erosion, tree root intrusion, or utility conflicts are discovered during excavation, additional work will be required before concrete can be poured — see Exclusions.*
+Remove and replace one deteriorated driveway section measuring approximately **10 ft × 10 ft (100 SF)** at the street entrance, including replacement of the adjacent **10 LF lazy curb** (rolled mountable curb) along the street edge. Existing concrete shows heaving, transverse cracking, and surface spalling consistent with subgrade settlement and freeze-thaw deterioration. Lazy curb shows two fracture points with displacement. *Note: If subgrade erosion, utility conflicts, or root intrusion are found during excavation, additional remediation will be required before concrete can be poured — see Exclusions.*
 
 ## Scope of Work
-1. Saw-cut boundaries of all removal areas — minimum 4 inches beyond visible damage on all sides; straight cuts only
-2. Demolish and remove deteriorated concrete sections; haul all debris off-site
-3. Excavate subgrade to minimum 4-inch depth; inspect for erosion, root intrusion, or soft spots
-4. Compact subgrade; add and compact 4-inch crushed aggregate base where existing subgrade is compromised
-5. Install form boards at correct grade and pitch — minimum 1/8-inch per foot slope away from structure for drainage
-6. Pour new concrete, minimum 4,000 PSI mix with fiber reinforcement; finish to broom texture matching adjacent surfaces where applicable
-7. Install saw-cut control joints at appropriate intervals (maximum 10-foot spacing on driveway; matching existing pattern on sidewalk)
-8. Protect fresh concrete from foot traffic for minimum 48 hours; vehicle traffic for minimum 7 days
-9. Apply penetrating concrete sealer upon full cure (28 days) if specified
+1. Mark work area boundaries; call 811 utility locate minimum 48 hours before excavation
+2. Saw-cut existing driveway section at clean, straight lines to isolate the 10 ft × 10 ft removal area; saw-cut lazy curb at both ends to create clean tie-in joints
+3. Demolish and remove approximately 100 SF of driveway slab and 10 LF of lazy curb; haul all concrete debris off-site
+4. Excavate subgrade to 4-inch depth across driveway section and 6-inch depth under lazy curb profile; inspect for soft spots, erosion, or root intrusion — document findings before proceeding
+5. Compact subgrade; install and compact minimum 4-inch crushed aggregate base (3/4-inch stone) across full driveway area; compact lazy curb subgrade to match existing curb profile
+6. Install form boards for driveway section at correct grade and pitch — minimum 1/8-inch per foot slope away from garage for drainage; form lazy curb to match existing street profile and radius
+7. Install expansion joint material at tie-in with existing driveway and at garage apron interface
+8. Pour 4,000 PSI concrete with synthetic fiber reinforcement across both areas in a single pour where feasible; finish driveway section to broom texture; finish lazy curb to smooth rolled profile matching existing
+9. Saw-cut one transverse control joint at the 5-foot mark in the driveway section to manage future cracking
+10. Protect fresh concrete: foot traffic — 48 hours minimum; vehicle traffic — 7 days minimum; heavy loads — 28 days
 
 ## Materials Required
-- Ready-mix concrete, 4,000 PSI minimum with synthetic fiber reinforcement
-- Crushed aggregate base material (3/4-inch crushed stone or equivalent)
-- Form boards and stakes
-- Expansion joint material at all structure interfaces
-- Penetrating concrete sealer (if specified)
+| Item | Quantity | Notes |
+|---|---|---|
+| Ready-mix concrete, 4,000 PSI + fiber | ~1.75 CY | Covers 100 SF slab @ 4" + 10 LF lazy curb profile |
+| Crushed aggregate base, 3/4" | ~1.5 CY | 4" depth under slab, 6" under curb |
+| Form boards and stakes | 50 LF est. | Slab perimeter + curb forms |
+| Expansion joint material | 20 LF est. | Tie-ins and apron interface |
+| Concrete sealer (optional) | 1 gal | Coverage ~200 SF; apply after 28-day cure |
 
 ## Labor Requirements
-- 3–5 crew members; 1–2 days depending on square footage
-- Ready-mix truck access to work area required — confirm access clearance before scheduling
-- Saw-cut equipment and operator required for demolition and control joints
+- 2–3 crew members; 1 full day for demo, prep, and pour
+- Ready-mix truck access from street required — confirm clearance before scheduling
+- Saw-cut operator and equipment required for demolition cuts and control joint
 
 ## Site Safety Requirements
-- Concrete PPE required for all crew: rubber boots, chemical-resistant gloves, eye protection
-- Fresh concrete area barricaded with high-visibility tape; signage posted
-- Saw-cut operations require dust suppression, eye protection, and respiratory protection
-- Utility locate (811 call) required minimum 48 hours before any excavation
+- Concrete PPE required: rubber boots, chemical-resistant gloves, eye protection for all crew
+- Fresh concrete area barricaded with high-visibility tape and signage — pedestrian and vehicle access blocked until cured
+- Saw-cut operations require dust suppression (wet method preferred), eye protection, and respiratory protection
+- Street-side work requires traffic control or cones if curb work affects vehicle approach
 
 ## Cleanup & Disposal
-- All demolished concrete removed and disposed of off-site (concrete recycling where available)
-- Subgrade debris and excess aggregate removed
-- Site grade restored to match surrounding area; construction debris removed
-- Surrounding surface areas broom-clean upon completion
+- All demolished concrete (~1.5 CY) removed and disposed of off-site; concrete recycling preferred where available
+- Excess aggregate and form materials removed
+- Driveway approach and street edge broom-clean upon completion
 
 ## Warranty Expectations
-- Workmanship warranty on new concrete flatwork: 1 year
-- Contractor not responsible for cracking caused by tree root growth, freeze-thaw cycles, vehicle loads exceeding design specification, or subgrade movement not identified during excavation
-- Sealer reapplication every 3–5 years recommended to maintain surface protection
+- Workmanship warranty on new concrete flatwork and lazy curb: 1 year
+- Control joints are designed to manage cracking — hairline cracks at joint locations are normal and expected
+- Contractor not responsible for cracking caused by tree root intrusion, freeze-thaw cycles beyond normal, or vehicle loads exceeding residential design specification (typically 4,000 lbs per axle)
+- Sealer reapplication every 3–5 years recommended
 
 ## Exclusions
-Root removal or tree work; utility relocation; structural repair to garage foundation or curb; decorative finishing, staining, or stamping unless specified; interior garage floor. Any concealed subgrade conditions discovered during excavation will be documented and quoted separately before proceeding.
+Repair to existing driveway sections outside the 10 ft × 10 ft marked area; street curb repair beyond the 10 LF lazy curb; utility relocation; decorative finishing, staining, or stamping unless separately specified; landscaping or sod restoration adjacent to work area. Any concealed subgrade conditions discovered during excavation will be documented and quoted separately before proceeding.
 
 ## Estimated Project Cost
 | | |
 |---|---|
-| Materials | $900–$2,000 |
-| Labor | $1,500–$3,500 |
-| **TOTAL** | **$2,400–$5,500** |
+| Materials (concrete, base, forms) | $420 |
+| Labor (demo, prep, pour, finish) | $980 |
+| Disposal | $120 |
+| **TOTAL** | **$1,520** |
 
-*Range reflects scope variation by square footage, subgrade conditions, and site access. Driveway apron replacement alone is typically $1,500–$2,500. Final cost confirmed after on-site assessment. Actual costs vary by region and labor market.*`,
+*Based on 100 SF driveway section + 10 LF lazy curb at current national average trade rates. Does not include optional sealer ($80–$120) or subgrade remediation if concealed conditions are found. Actual costs vary by region and labor market.*`,
   },
 ]
 
