@@ -16,11 +16,11 @@ export const metadata: Metadata = {
   icons: {
     apple: '/apple-touch-icon.png',
   },
-  description: 'Snap a photo. Describe the problem. Get a professional Scope of Work in seconds — then qualified contractors bid for the job. Free for property managers.',
+  description: 'Describe the problem. Upload a photo. Get a professional Scope of Work in 60 seconds — then share it with any contractor you choose.',
   metadataBase: new URL('https://www.tagyourproject.com'),
   openGraph: {
-    title: 'TAGS — Stop chasing contractors. Start managing repairs.',
-    description: 'Snap a photo. Describe the problem. Get a professional Scope of Work in seconds — then qualified contractors bid for the job. Free for property managers.',
+    title: 'TAGS — Stop letting contractors write your scope.',
+    description: 'Describe the problem. Upload a photo. Get a professional Scope of Work in 60 seconds — then share it with any contractor you choose.',
     url: 'https://www.tagyourproject.com',
     siteName: 'TAGS',
     images: [
@@ -36,7 +36,7 @@ export const metadata: Metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'TAGS — Stop chasing contractors. Start managing repairs.',
-    description: 'Snap a photo. Describe the problem. Get a professional Scope of Work in seconds. Free for property managers.',
+    description: 'Describe the problem. Upload a photo. Get a professional Scope of Work in 60 seconds — share it with any contractor you choose.',
     images: ['/og-image.jpg'],
   },
 }

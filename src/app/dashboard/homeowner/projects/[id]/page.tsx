@@ -118,7 +118,7 @@ export default function HomeownerProjectPage() {
             </span>
           </div>
           <div className="p-5" style={{ background: 'oklch(0.14 0.022 252)' }}>
-            <SOWViewer content={project.scope_of_work!} />
+            <SOWViewer text={project.scope_of_work!} />
           </div>
           <div className="px-5 py-4 flex flex-col sm:flex-row items-start sm:items-center gap-3"
             style={{ background: 'oklch(0.16 0.022 252)', borderTop: '1px solid oklch(0.20 0.022 252)' }}>
