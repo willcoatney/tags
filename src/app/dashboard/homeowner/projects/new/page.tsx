@@ -156,9 +156,13 @@ export default function HomeownerNewProjectPage() {
                 onChange={e => setDescription(e.target.value)}
                 rows={4}
                 required
+                maxLength={2000}
                 placeholder="e.g. The bathroom faucet has been dripping non-stop for a week. The handle is loose and water pools under the sink."
                 className="bg-slate-800 border-slate-600 text-white"
               />
+              <p className="text-xs text-right mt-1" style={{ color: description.length > 1800 ? 'oklch(0.75 0.15 25)' : 'oklch(0.42 0.015 252)' }}>
+                {description.length} / 2000
+              </p>
             </div>
 
             <div>

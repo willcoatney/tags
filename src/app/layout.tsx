@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google'
 import './globals.css'
 import { Toaster } from '@/components/ui/sonner'
 import { ThemeProvider } from 'next-themes'
+import GoogleAnalytics from '@/components/GoogleAnalytics'
 
 const inter = Inter({
   subsets: ['latin'],
@@ -56,6 +57,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             {children}
           </main>
           <Toaster richColors position="top-right" />
+          <GoogleAnalytics />
         </ThemeProvider>
       </body>
     </html>

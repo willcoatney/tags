@@ -352,7 +352,10 @@ export default function NewProjectPage() {
               <div>
                 <Label className="text-slate-300">Describe the issue in plain language. What do you see? What&apos;s broken? What needs fixing?</Label>
                 <Textarea value={projectForm.description} onChange={e => setProjectForm(p => ({ ...p, description: e.target.value }))}
-                  rows={4} required placeholder="e.g. The toilet in unit 4B is leaking at the base and water is pooling on the floor. Needs to be repaired or replaced." className="bg-slate-800 border-slate-600 text-white" />
+                  rows={4} required maxLength={2000} placeholder="e.g. The toilet in unit 4B is leaking at the base and water is pooling on the floor. Needs to be repaired or replaced." className="bg-slate-800 border-slate-600 text-white" />
+                <p className="text-xs text-right mt-1" style={{ color: projectForm.description.length > 1800 ? 'oklch(0.75 0.15 25)' : 'oklch(0.42 0.015 252)' }}>
+                  {projectForm.description.length} / 2000
+                </p>
               </div>
               <div className="grid grid-cols-2 gap-3">
                 <div>

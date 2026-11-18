@@ -109,3 +109,48 @@
   ::-webkit-scrollbar-thumb { background: oklch(0.30 0.025 252); border-radius: 3px; }
   ::-webkit-scrollbar-thumb:hover { background: oklch(0.38 0.025 252); }
 }
+
+@media print {
+  /* Hide everything except the SOW content */
+  nav, header, footer, .no-print,
+  button, a[href]:not(.print-show) {
+    display: none !important;
+  }
+
+  body {
+    background: white !important;
+    color: black !important;
+    font-size: 12pt;
+    line-height: 1.6;
+  }
+
+  .sow-print-content, .prose {
+    color: black !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+
+  h1, h2, h3, strong {
+    color: black !important;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+
+  td, th {
+    border: 1px solid #ccc;
+    padding: 6px 10px;
+    color: black !important;
+    background: white !important;
+  }
+
+  pre, code {
+    white-space: pre-wrap;
+  }
+
+  @page {
+    margin: 1in;
+  }
+}
