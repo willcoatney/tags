@@ -526,63 +526,76 @@ Diagnose and repair three non-functional kitchen outlets and one sparking bathro
   {
     slug: 'gutter-repair',
     title: 'Gutter Repair & Replacement',
-    metaDescription: 'Sample Scope of Work for gutter repair and replacement — leaking joints, sagging sections, downspout work, and concealed fascia conditions. See what a TAGS-generated SOW looks like.',
+    metaDescription: 'Sample Scope of Work for full gutter replacement — 235 LF of 5-inch K-style seamless aluminum gutters with downspouts, 4 elbows, and complete hardware. Itemized materials and cost breakdown.',
     projectType: 'Exterior',
-    exampleDescription: 'Gutters are pulling away from the fascia on the back of the house and leaking at the corners. The downspouts look okay but I haven\'t checked them. The house is about 15 years old.',
+    exampleDescription: 'I need to replace all the gutters on the house. It\'s about 235 linear feet total. I want 5-inch gutters. The job includes downspouts and there are 4 elbows. The existing gutters are original to the house — over 20 years old — and they\'re pulling away from the fascia in multiple places.',
     sow: `**Date Prepared:** Example Only
 
 ## Project Overview
-Inspect, repair, and/or replace residential gutter system along affected elevations. Reported issues — gutters separating from fascia and leaking at corner joints — indicate failed fasteners, deteriorated sealant, and possible fascia rot at attachment points. Full scope to be confirmed by on-site assessment. *Note: If fascia board rot, soffit damage, or structural deterioration is found during inspection, additional remediation will be required before gutters can be properly secured — see Exclusions.*
+Remove and replace full perimeter gutter system — **235 LF of 5-inch K-style seamless aluminum gutter** — including all downspouts, **4 offset elbows**, end caps, miters, hidden hangers, and outlet drops. Existing gutters are original construction (20+ years), showing fascia separation at multiple points, failed sealant at joints and miters, and rust-through at outlet connections. *Note: If fascia board rot or soffit damage is found during removal, additional remediation will be required before new gutters can be installed — see Exclusions.*
 
 ## Scope of Work
-1. Inspect full perimeter gutter system for separation, sagging, joint failure, and fascia condition at all attachment points
-2. Clean all gutters and downspouts of debris; flush downspouts to confirm clear drainage
-3. Remove and re-secure any gutter sections pulling away from fascia using new gutter screws (replace spikes where present)
-4. Reseal all leaking miters, end caps, and outlet connections with compatible gutter sealant
-5. Adjust pitch on sagging sections to maintain minimum 1/16-inch drop per foot toward downspout outlets
-6. Replace damaged or failed gutter sections as identified during inspection (est. linear footage TBD)
-7. Inspect, secure, and replace any failed downspout elbows, connectors, or hangers
-8. Confirm downspout discharge diverts water minimum 4 feet from foundation — add extensions where needed
-9. Final flush and flow test after all work is complete
+1. Remove all existing gutters, downspouts, spikes, and ferrules from full perimeter (235 LF); haul all material off-site
+2. Inspect all fascia boards for rot, soft spots, or damage at attachment points — document findings before proceeding
+3. Fabricate 235 LF of 5-inch K-style seamless aluminum gutter on-site using portable seamless gutter machine; cut to run lengths per elevation
+4. Install inside and outside miters at all corners; seal all joints with gutter sealant rated for aluminum
+5. Set pitch on all gutter runs — minimum 1/16-inch drop per foot toward outlet drops for positive drainage
+6. Secure gutters to fascia with hidden hanger brackets at 24-inch on-center spacing; use gutter screws (no spikes)
+7. Install outlet drops at all 6 downspout locations; seal outlet flanges to gutter interior
+8. Install 4 offset elbows (A-style + B-style pairs as needed) to bring downspouts flush with wall surface at each transition point
+9. Run 3×4-inch rectangular aluminum downspout from each outlet drop to 6 inches above grade; secure to wall with downspout straps at 6-foot intervals
+10. Install downspout extensions at each termination point — minimum 4-foot discharge from foundation
+11. Final flush test on each gutter run with water; confirm full drainage to downspout outlets with no standing water
 
 ## Materials Required
-- Seamless aluminum gutter sections (gauge and color to match existing or as specified)
-- Gutter screws and hidden hangers
-- Corner miters and end caps as needed
-- Gutter sealant (compatible with aluminum)
-- Downspout elbows, connectors, and extensions as needed
+| Item | Quantity | Notes |
+|---|---|---|
+| 5" K-style seamless aluminum gutter | 235 LF | Fabricated on-site; .027 gauge; color TBD |
+| 3×4" rectangular aluminum downspout | 60 LF est. | 6 downspouts × 10 LF avg |
+| Inside/outside miters | 8–10 ea | Quantity depends on house layout |
+| End caps (left + right) | 10 ea | 2 per gutter run end |
+| Outlet drops | 6 ea | One per downspout location |
+| Offset elbows (A + B style) | 4 sets | Per scope; additional if layout requires |
+| Hidden hanger brackets + gutter screws | 120 ea | At 24" OC for 235 LF |
+| Downspout straps | 12 ea | 2 per downspout |
+| Downspout extensions | 6 ea | 4-foot minimum discharge |
+| Gutter sealant, aluminum-compatible | 6 tubes | Miters, end caps, outlets |
 
 ## Labor Requirements
-- 1–2 technicians; 4–8 hours depending on scope and elevation access
-- Ladder access to all roof perimeter areas required
-- Scaffolding may be required for two-story elevations
+- 2–3 technicians; 1 full day (8–10 hours)
+- Seamless gutter machine truck on-site for fabrication
+- Ladder access to full roof perimeter required
+- Scaffolding or ladder jacks may be required for two-story elevations or long uninterrupted runs
 
 ## Site Safety Requirements
-- Roof edge fall protection or spotter required during inspection of upper elevations
-- Ladder stabilizers required on all ladder placements; no lean against gutter
-- Notify occupants before beginning work; keep ground-level work area clear
+- Ladder stabilizers required on all placements; no lean against existing fascia or gutter
+- Spotter required at base of all ladders on two-story elevations
+- Notify occupants before beginning; vehicles moved from driveway to allow machine truck access
+- Landscaping protected where ladders are placed at ground level
 
 ## Cleanup & Disposal
-- All gutter debris bagged and removed from site
-- Old fasteners, failed sections, and packaging removed
-- Job site broom-clean upon completion; landscaping cleared of debris
+- All 235 LF of old gutters, downspouts, spikes, and ferrules removed and hauled off-site; aluminum recycling where available
+- All packaging and cutoff material removed
+- Fascia and surrounding surfaces wiped down; landscaping cleared of gutter debris
 
 ## Warranty Expectations
-- Workmanship warranty on new sections, fasteners, and sealed joints: 1 year minimum
-- Manufacturer material warranty applies to new gutter sections and hardware
-- Warranty void if fascia rot is not addressed prior to gutter re-attachment
+- Workmanship warranty on installation, sealant joints, and pitch: 2 years (seamless gutter standard)
+- Manufacturer material warranty on aluminum gutter and downspout material: 20 years typical
+- Warranty void if fascia rot is not fully remediated prior to installation
+- Gutters should be cleaned of leaf and debris buildup annually to maintain drainage performance
 
 ## Exclusions
-Fascia board repair or replacement; soffit repair; roof or shingle work; painting or finishing of new gutter sections unless specified; landscaping damage from ladder access. Any concealed fascia rot or structural damage discovered during installation will be documented and quoted separately before proceeding.
+Fascia board repair or replacement; soffit repair; roof or shingle work; gutter guard or leaf protection unless separately specified; painting or color-matching to trim unless specified; landscaping restoration. Any concealed fascia rot or structural damage found during removal will be documented and quoted separately before proceeding.
 
 ## Estimated Project Cost
 | | |
 |---|---|
-| Materials | $400–$900 |
-| Labor | $600–$1,400 |
-| **TOTAL** | **$1,000–$2,300** |
+| Materials (gutter, downspouts, hardware) | $1,220 |
+| Labor (removal, fabrication, installation) | $1,100 |
+| Disposal | $80 |
+| **TOTAL** | **$2,400** |
 
-*Range reflects scope variation — full replacement costs more than repair. Final cost confirmed after on-site inspection. Actual costs vary by region, labor market, and material availability.*`,
+*Based on 235 LF of 5" seamless K-style aluminum with 6 downspouts and 4 elbows at current national average trade rates. Does not include fascia repair if concealed rot is found. Actual costs vary by region, labor market, and site access.*`,
   },
   {
     slug: 'concrete-repair',

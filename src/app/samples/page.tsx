@@ -2,7 +2,7 @@ import Link from 'next/link'
 
 const SAMPLES = [
   { slug: 'roof-leak-repair', title: 'Roof Leak Repair', icon: '🏠', desc: 'Identify and repair active roof leaks, flashing, and underlayment.' },
-  { slug: 'gutter-repair', title: 'Gutter Repair & Replacement', icon: '🌧', desc: 'Leaking joints, sagging sections, and downspout repair — with concealed fascia conditions addressed.' },
+  { slug: 'gutter-repair', title: 'Gutter Repair & Replacement', icon: '🌧', desc: '235 LF of 5" K-style seamless aluminum gutters, 6 downspouts, 4 elbows — full itemized scope and cost breakdown.' },
   { slug: 'concrete-repair', title: 'Concrete Repair & Replacement', icon: '🧱', desc: '10×10 ft driveway section with 10 ft lazy curb — includes saw-cut, subgrade prep, pour, and cost breakdown.' },
   { slug: 'bathroom-remodel', title: 'Bathroom Remodel', icon: '🚿', desc: 'Full bathroom renovation including tile, fixtures, and plumbing.' },
   { slug: 'window-repair', title: 'Window Repair & Replacement', icon: '🪟', desc: 'Failed seals, damaged frames, and full window replacement scopes.' },
