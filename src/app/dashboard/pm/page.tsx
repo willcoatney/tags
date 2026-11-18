@@ -41,6 +41,23 @@ export default async function PMDashboard() {
 
   if (!profile || profile.role !== 'pm') redirect('/login')
 
+  const { data: org } = await admin
+    .from('organizations')
+    .select('subscription_status')
+    .eq('id', profile.organization_id)
+    .single()
+
+  const { count: freeSowsUsed } = await admin
+    .from('projects')
+    .select('id', { count: 'exact', head: true })
+    .eq('organization_id', profile.organization_id)
+    .not('scope_generated_at', 'is', null)
+
+  const isSubscribed = org?.subscription_status === 'active'
+  const trialUsed = freeSowsUsed ?? 0
+  const trialRemaining = Math.max(0, 3 - trialUsed)
+  const trialExhausted = !isSubscribed && trialUsed >= 3
+
   const [{ data: projects }, { data: properties }] = await Promise.all([
     admin.from('projects')
       .select('*, properties(name, city, state)')
@@ -77,6 +94,38 @@ export default async function PMDashboard() {
           New SOW
         </Link>
       </div>
+
+      {/* Trial Banner */}
+      {!isSubscribed && (
+        <div className="rounded-xl px-5 py-4 flex items-center justify-between gap-4 flex-wrap"
+          style={{
+            background: trialExhausted ? 'oklch(0.18 0.06 25)' : 'oklch(0.18 0.06 183)',
+            border: `1px solid ${trialExhausted ? 'oklch(0.35 0.10 25)' : 'oklch(0.35 0.10 183)'}`,
+          }}>
+          <div className="flex items-center gap-3">
+            <span className="text-xl">{trialExhausted ? '🔒' : '🎁'}</span>
+            <div>
+              <p className="text-sm font-semibold text-white">
+                {trialExhausted
+                  ? 'Free trial complete — subscribe to generate more SOWs'
+                  : `Free trial: ${trialRemaining} of 3 SOW${trialRemaining !== 1 ? 's' : ''} remaining`}
+              </p>
+              <p className="text-xs mt-0.5" style={{ color: trialExhausted ? 'oklch(0.72 0.12 25)' : 'oklch(0.72 0.12 183)' }}>
+                {trialExhausted
+                  ? 'Subscribe for $50/month — unlimited SOWs, no per-use fees.'
+                  : 'No credit card required. Subscribe anytime for unlimited SOWs.'}
+              </p>
+            </div>
+          </div>
+          <Link
+            href="/dashboard/billing"
+            className="px-4 py-2 rounded-lg text-sm font-semibold text-white whitespace-nowrap"
+            style={{ background: trialExhausted ? 'oklch(0.55 0.15 25)' : 'oklch(0.57 0.135 183)' }}
+          >
+            {trialExhausted ? 'Subscribe Now →' : 'View Plans →'}
+          </Link>
+        </div>
+      )}
 
       {/* Stats */}
       <div className="grid grid-cols-3 gap-4">

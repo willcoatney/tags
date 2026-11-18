@@ -21,13 +21,37 @@ export async function POST(req: NextRequest) {
   // Look up user role
   const { data: profile } = await admin
     .from('user_profiles')
-    .select('role')
+    .select('role, organization_id')
     .eq('id', user.id)
     .single()
 
   const isHomeowner = profile?.role === 'homeowner'
 
   const { projectId, jobCategory, projectType, description, propertyAddress, unitNumber, photoUrls } = await req.json()
+
+  // PM free trial gate — 3 free SOWs per organization
+  if (!isHomeowner && profile?.role === 'pm') {
+    const { data: org } = await admin
+      .from('organizations')
+      .select('subscription_status')
+      .eq('id', profile.organization_id)
+      .single()
+
+    if (org?.subscription_status !== 'active') {
+      const { count } = await admin
+        .from('projects')
+        .select('id', { count: 'exact', head: true })
+        .eq('organization_id', profile.organization_id)
+        .not('scope_generated_at', 'is', null)
+
+      if ((count ?? 0) >= 3) {
+        return new Response(JSON.stringify({
+          error: 'Free trial exhausted. Subscribe to continue generating Scopes of Work.',
+          code: 'TRIAL_EXHAUSTED',
+        }), { status: 402 })
+      }
+    }
+  }
 
   // Homeowner payment gate — SOW requires prior payment
   if (isHomeowner && projectId) {

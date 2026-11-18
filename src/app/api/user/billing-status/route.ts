@@ -40,9 +40,21 @@ export async function GET() {
     .eq('id', profile.organization_id)
     .single()
 
+  let freeSowsUsed: number | null = null
+  if (profile.role === 'pm') {
+    const { count } = await admin
+      .from('projects')
+      .select('id', { count: 'exact', head: true })
+      .eq('organization_id', profile.organization_id)
+      .not('scope_generated_at', 'is', null)
+    freeSowsUsed = count ?? 0
+  }
+
   return NextResponse.json({
     subscription_status: org?.subscription_status ?? null,
     stripe_customer_id: org?.stripe_customer_id ?? null,
     role: profile.role,
+    free_sows_used: freeSowsUsed,
+    free_sow_limit: profile.role === 'pm' ? 3 : null,
   })
 }

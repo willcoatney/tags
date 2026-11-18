@@ -56,30 +56,66 @@ function LandingPage() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-6"
             style={{ background: 'oklch(0.20 0.05 183)', color: 'oklch(0.72 0.12 183)', border: '1px solid oklch(0.30 0.08 183)' }}>
             <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: 'oklch(0.57 0.135 183)' }} />
-            AI-generated Scope of Work in 60 seconds
+            Before You Hire a Contractor… TAG IT!
           </div>
 
           <h1 className="text-5xl md:text-6xl font-bold text-white leading-[1.08] tracking-tight mb-6">
-            Professional Scope of Work —<br />
-            <span style={{ color: 'oklch(0.57 0.135 183)' }}>in 60 seconds.</span>
+            Define the work. Know the cost.<br />
+            <span style={{ color: 'oklch(0.57 0.135 183)' }}>Then hire your contractor.</span>
           </h1>
 
           <p className="text-xl leading-relaxed mb-10 max-w-2xl mx-auto" style={{ color: 'oklch(0.65 0.02 252)' }}>
-            Describe your repair. Upload a photo. Get a contractor-ready Scope of Work with materials, labor, and a cost estimate. For property managers and homeowners.
+            Describe your repair. Upload a photo. Get a contractor-ready Scope of Work with materials, labor, and a cost estimate — before the first contractor walks through the door.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
             <Link href="/register/pm"
               className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-base font-semibold text-white transition-all duration-150 active:scale-[0.98]"
               style={{ background: 'oklch(0.57 0.135 183)' }}>
-              I&apos;m a Property Manager →
+              Start Free — Property Manager →
             </Link>
             <Link href="/register/homeowner"
               className="inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-xl text-base font-medium transition-colors duration-150"
               style={{ color: 'oklch(0.78 0.01 252)', border: '1px solid oklch(0.27 0.025 252)' }}>
-              I&apos;m a Homeowner →
+              Get a SOW — $20 →
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* QUICK START */}
+      <section className="px-6 md:px-12 pb-16 max-w-6xl mx-auto">
+        <div className="rounded-2xl p-6 md:p-8 max-w-2xl mx-auto text-center"
+          style={{ background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.30 0.08 183)' }}>
+          <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'oklch(0.57 0.135 183)' }}>
+            Before You Hire a Contractor… TAG IT!
+          </p>
+          <h3 className="text-xl font-bold text-white mb-2">What kind of project do you have?</h3>
+          <p className="text-sm mb-6" style={{ color: 'oklch(0.60 0.025 252)' }}>
+            Choose your role and we&apos;ll show you how TAGS works for you.
+          </p>
+          <div className="grid grid-cols-2 gap-3 mb-6">
+            {[
+              { label: 'Property Manager', href: '/register/pm', icon: '🏢', desc: 'Unlimited SOWs · $50/mo after 3 free' },
+              { label: 'Homeowner', href: '/register/homeowner', icon: '🏠', desc: 'Pay per scope · $20/SOW' },
+              { label: 'Maintenance Pro', href: '/register/pm', icon: '🔧', desc: 'Generate scopes for approval' },
+              { label: 'Property Investor', href: '/register/pm', icon: '📊', desc: 'Budget repairs before you bid' },
+            ].map(card => (
+              <Link
+                key={card.label}
+                href={card.href}
+                className="rounded-xl p-4 text-left transition-all duration-150 hover:border-[oklch(0.45_0.10_183)] active:scale-[0.98]"
+                style={{ background: 'oklch(0.14 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }}
+              >
+                <div className="text-2xl mb-2">{card.icon}</div>
+                <p className="text-sm font-semibold text-white">{card.label}</p>
+                <p className="text-xs mt-0.5" style={{ color: 'oklch(0.55 0.02 252)' }}>{card.desc}</p>
+              </Link>
+            ))}
+          </div>
+          <p className="text-xs" style={{ color: 'oklch(0.42 0.015 252)' }}>
+            No contractor network required. Use TAGS with any contractor you choose.
+          </p>
         </div>
       </section>
 
@@ -303,7 +339,7 @@ function LandingPage() {
               <div className="flex items-center justify-between mb-6">
                 <div>
                   <p className="text-xl font-bold text-white">Property Manager</p>
-                  <p className="text-sm mt-1" style={{ color: 'oklch(0.57 0.135 183)' }}>Per community</p>
+                  <p className="text-sm mt-1" style={{ color: 'oklch(0.57 0.135 183)' }}>Per community · 3 free projects included</p>
                 </div>
                 <div className="text-right">
                   <div className="text-4xl font-black text-white">$50</div>
@@ -312,7 +348,8 @@ function LandingPage() {
               </div>
               <ul className="space-y-3 mb-8">
                 {[
-                  'Unlimited SOWs — no per-use fees',
+                  '3 free SOWs to start — no credit card required',
+                  'Then $50/month for unlimited SOWs',
                   'AI-generated in under 60 seconds',
                   'Full 7-section professional format',
                   'Materials, labor, and cost estimate included',
@@ -327,7 +364,7 @@ function LandingPage() {
               <Link href="/register/pm"
                 className="inline-flex items-center justify-center w-full py-3 rounded-xl text-sm font-semibold text-white transition-all"
                 style={{ background: 'oklch(0.57 0.135 183)' }}>
-                Start for $50/month →
+                Start Free →
               </Link>
             </div>
 
@@ -362,6 +399,7 @@ function LandingPage() {
                 style={{ border: '1px solid oklch(0.35 0.025 252)', color: 'oklch(0.75 0.015 252)' }}>
                 Get a SOW for $20 →
               </Link>
+              <p className="text-xs text-center mt-3" style={{ color: 'oklch(0.45 0.015 252)' }}>No free trial — pay per scope.</p>
             </div>
           </div>
         </div>
@@ -384,8 +422,8 @@ function LandingPage() {
               a: 'Yes. TAGS gives you the document — who you share it with is entirely your choice. Print it, email it, text it. Your contractors bid on a clearly defined scope, which means fewer surprises and cleaner quotes.',
             },
             {
-              q: 'What if I\'m a property manager with many units?',
-              a: 'The $50/month PM plan gives you unlimited SOWs for your community. No per-use fees — post as many projects as you need, track them by unit, and generate a new SOW whenever a repair comes in.',
+              q: 'Is there a free trial for property managers?',
+              a: 'Yes. Property managers get 3 free Scope of Work generations — no credit card required. After your 3rd SOW, the plan is $50/month per community for unlimited SOWs.',
             },
             {
               q: 'How accurate is the cost estimate?',
@@ -421,7 +459,7 @@ function LandingPage() {
           <Link href="/register/pm"
             className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-semibold text-white transition-all duration-150 active:scale-[0.98]"
             style={{ background: 'oklch(0.57 0.135 183)' }}>
-            Property Manager — $50/mo →
+            Start Free — Property Manager →
           </Link>
           <Link href="/register/homeowner"
             className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-base font-medium transition-colors duration-150"
@@ -436,7 +474,7 @@ function LandingPage() {
         <div className="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <img src="/tags-logo.jpg" alt="TAGS" className="h-7 max-w-[90px] object-contain rounded-sm" />
-            <span className="text-sm" style={{ color: 'oklch(0.38 0.015 252)' }}>— The Apartment Guys System</span>
+            <span className="text-sm" style={{ color: 'oklch(0.38 0.015 252)' }}>— Your Project. Professionally Defined.</span>
           </div>
           <div className="flex items-center gap-6">
             <Link href="/login" className="text-sm transition-colors duration-150" style={{ color: 'oklch(0.45 0.015 252)' }}>Sign In</Link>
