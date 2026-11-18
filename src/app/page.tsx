@@ -56,16 +56,20 @@ function LandingPage() {
           <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-6"
             style={{ background: 'oklch(0.20 0.05 183)', color: 'oklch(0.72 0.12 183)', border: '1px solid oklch(0.30 0.08 183)' }}>
             <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: 'oklch(0.57 0.135 183)' }} />
-            Before You Hire a Contractor… TAG IT!
+            Professional Scope of Work · Ready in 60 seconds
           </div>
 
           <h1 className="text-5xl md:text-6xl font-bold text-white leading-[1.08] tracking-tight mb-6">
-            Define the work. Know the cost.<br />
-            <span style={{ color: 'oklch(0.57 0.135 183)' }}>Then hire your contractor.</span>
+            Before You Hire a Contractor…<br />
+            <span style={{ color: 'oklch(0.57 0.135 183)' }}>TAG IT.</span>
           </h1>
 
-          <p className="text-xl leading-relaxed mb-10 max-w-2xl mx-auto" style={{ color: 'oklch(0.65 0.02 252)' }}>
-            Describe your repair. Upload up to 5 photos. Get a contractor-ready Scope of Work with materials, labor, and a cost estimate — before the first contractor walks through the door.
+          <p className="text-xl leading-relaxed mb-4 max-w-2xl mx-auto" style={{ color: 'oklch(0.65 0.02 252)' }}>
+            Snap up to 5 photos. Describe the problem in plain English. Get a contractor-ready Scope of Work — materials, labor breakdown, and cost estimate — in under 60 seconds.
+          </p>
+
+          <p className="text-sm mb-10 max-w-xl mx-auto" style={{ color: 'oklch(0.48 0.02 252)' }}>
+            Powered by AI trained on contractor-grade trade pricing and construction best practices. You define the scope — contractors bid on your terms.
           </p>
 
           <div className="flex flex-col sm:flex-row gap-3 justify-center">
@@ -83,14 +87,32 @@ function LandingPage() {
         </div>
       </section>
 
+      {/* TRUST BAR */}
+      <section className="px-6 md:px-12 pb-6 max-w-5xl mx-auto">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          {[
+            { stat: '60 sec', label: 'Average generation time' },
+            { stat: '7 sections', label: 'Every professional SOW includes' },
+            { stat: '5 photos', label: 'Upload per project' },
+            { stat: 'Any contractor', label: 'No network required' },
+          ].map(item => (
+            <div key={item.stat} className="rounded-xl px-4 py-4 text-center"
+              style={{ background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
+              <div className="text-xl font-bold text-white mb-0.5" style={{ color: 'oklch(0.72 0.12 183)' }}>{item.stat}</div>
+              <div className="text-xs" style={{ color: 'oklch(0.52 0.02 252)' }}>{item.label}</div>
+            </div>
+          ))}
+        </div>
+      </section>
+
       {/* QUICK START */}
       <section className="px-6 md:px-12 pb-16 max-w-6xl mx-auto">
         <div className="rounded-2xl p-6 md:p-8 max-w-2xl mx-auto text-center"
           style={{ background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.30 0.08 183)' }}>
           <p className="text-xs font-semibold uppercase tracking-widest mb-3" style={{ color: 'oklch(0.57 0.135 183)' }}>
-            Before You Hire a Contractor… TAG IT!
+            Get started in seconds
           </p>
-          <h3 className="text-xl font-bold text-white mb-2">What kind of project do you have?</h3>
+          <h3 className="text-xl font-bold text-white mb-2">Who are you getting a scope for?</h3>
           <p className="text-sm mb-6" style={{ color: 'oklch(0.60 0.025 252)' }}>
             Choose your role and we&apos;ll show you how TAGS works for you.
           </p>
