@@ -523,6 +523,130 @@ Diagnose and repair three non-functional kitchen outlets and one sparking bathro
 - GFCI outlet: manufacturer warranty (typically 1 year)
 - Breakers: manufacturer warranty`,
   },
+  {
+    slug: 'gutter-repair',
+    title: 'Gutter Repair & Replacement',
+    metaDescription: 'Sample Scope of Work for gutter repair and replacement — leaking joints, sagging sections, downspout work, and concealed fascia conditions. See what a TAGS-generated SOW looks like.',
+    projectType: 'Exterior',
+    exampleDescription: 'Gutters are pulling away from the fascia on the back of the house and leaking at the corners. The downspouts look okay but I haven\'t checked them. The house is about 15 years old.',
+    sow: `**Date Prepared:** Example Only
+
+## Project Overview
+Inspect, repair, and/or replace residential gutter system along affected elevations. Reported issues — gutters separating from fascia and leaking at corner joints — indicate failed fasteners, deteriorated sealant, and possible fascia rot at attachment points. Full scope to be confirmed by on-site assessment. *Note: If fascia board rot, soffit damage, or structural deterioration is found during inspection, additional remediation will be required before gutters can be properly secured — see Exclusions.*
+
+## Scope of Work
+1. Inspect full perimeter gutter system for separation, sagging, joint failure, and fascia condition at all attachment points
+2. Clean all gutters and downspouts of debris; flush downspouts to confirm clear drainage
+3. Remove and re-secure any gutter sections pulling away from fascia using new gutter screws (replace spikes where present)
+4. Reseal all leaking miters, end caps, and outlet connections with compatible gutter sealant
+5. Adjust pitch on sagging sections to maintain minimum 1/16-inch drop per foot toward downspout outlets
+6. Replace damaged or failed gutter sections as identified during inspection (est. linear footage TBD)
+7. Inspect, secure, and replace any failed downspout elbows, connectors, or hangers
+8. Confirm downspout discharge diverts water minimum 4 feet from foundation — add extensions where needed
+9. Final flush and flow test after all work is complete
+
+## Materials Required
+- Seamless aluminum gutter sections (gauge and color to match existing or as specified)
+- Gutter screws and hidden hangers
+- Corner miters and end caps as needed
+- Gutter sealant (compatible with aluminum)
+- Downspout elbows, connectors, and extensions as needed
+
+## Labor Requirements
+- 1–2 technicians; 4–8 hours depending on scope and elevation access
+- Ladder access to all roof perimeter areas required
+- Scaffolding may be required for two-story elevations
+
+## Site Safety Requirements
+- Roof edge fall protection or spotter required during inspection of upper elevations
+- Ladder stabilizers required on all ladder placements; no lean against gutter
+- Notify occupants before beginning work; keep ground-level work area clear
+
+## Cleanup & Disposal
+- All gutter debris bagged and removed from site
+- Old fasteners, failed sections, and packaging removed
+- Job site broom-clean upon completion; landscaping cleared of debris
+
+## Warranty Expectations
+- Workmanship warranty on new sections, fasteners, and sealed joints: 1 year minimum
+- Manufacturer material warranty applies to new gutter sections and hardware
+- Warranty void if fascia rot is not addressed prior to gutter re-attachment
+
+## Exclusions
+Fascia board repair or replacement; soffit repair; roof or shingle work; painting or finishing of new gutter sections unless specified; landscaping damage from ladder access. Any concealed fascia rot or structural damage discovered during installation will be documented and quoted separately before proceeding.
+
+## Estimated Project Cost
+| | |
+|---|---|
+| Materials | $400–$900 |
+| Labor | $600–$1,400 |
+| **TOTAL** | **$1,000–$2,300** |
+
+*Range reflects scope variation — full replacement costs more than repair. Final cost confirmed after on-site inspection. Actual costs vary by region, labor market, and material availability.*`,
+  },
+  {
+    slug: 'concrete-repair',
+    title: 'Concrete Repair & Replacement',
+    metaDescription: 'Sample Scope of Work for concrete repair and replacement — cracked driveways, spalled walkways, and deteriorated flatwork with subgrade and site condition disclosures.',
+    projectType: 'Flatwork / Site',
+    exampleDescription: 'The driveway has several large cracks and the concrete near the garage apron is heaving. There\'s also a section of the sidewalk out front that\'s cracked and uneven. The concrete is probably 20 years old.',
+    sow: `**Date Prepared:** Example Only
+
+## Project Overview
+Remove and replace deteriorated concrete at driveway apron, identified cracked driveway sections, and uneven sidewalk panels. Visible heaving, cracking, and surface spalling indicate subgrade settlement and end-of-life concrete condition. Full extent of replacement to be confirmed by on-site assessment and saw-cut evaluation. *Note: If subgrade erosion, tree root intrusion, or utility conflicts are discovered during excavation, additional work will be required before concrete can be poured — see Exclusions.*
+
+## Scope of Work
+1. Saw-cut boundaries of all removal areas — minimum 4 inches beyond visible damage on all sides; straight cuts only
+2. Demolish and remove deteriorated concrete sections; haul all debris off-site
+3. Excavate subgrade to minimum 4-inch depth; inspect for erosion, root intrusion, or soft spots
+4. Compact subgrade; add and compact 4-inch crushed aggregate base where existing subgrade is compromised
+5. Install form boards at correct grade and pitch — minimum 1/8-inch per foot slope away from structure for drainage
+6. Pour new concrete, minimum 4,000 PSI mix with fiber reinforcement; finish to broom texture matching adjacent surfaces where applicable
+7. Install saw-cut control joints at appropriate intervals (maximum 10-foot spacing on driveway; matching existing pattern on sidewalk)
+8. Protect fresh concrete from foot traffic for minimum 48 hours; vehicle traffic for minimum 7 days
+9. Apply penetrating concrete sealer upon full cure (28 days) if specified
+
+## Materials Required
+- Ready-mix concrete, 4,000 PSI minimum with synthetic fiber reinforcement
+- Crushed aggregate base material (3/4-inch crushed stone or equivalent)
+- Form boards and stakes
+- Expansion joint material at all structure interfaces
+- Penetrating concrete sealer (if specified)
+
+## Labor Requirements
+- 3–5 crew members; 1–2 days depending on square footage
+- Ready-mix truck access to work area required — confirm access clearance before scheduling
+- Saw-cut equipment and operator required for demolition and control joints
+
+## Site Safety Requirements
+- Concrete PPE required for all crew: rubber boots, chemical-resistant gloves, eye protection
+- Fresh concrete area barricaded with high-visibility tape; signage posted
+- Saw-cut operations require dust suppression, eye protection, and respiratory protection
+- Utility locate (811 call) required minimum 48 hours before any excavation
+
+## Cleanup & Disposal
+- All demolished concrete removed and disposed of off-site (concrete recycling where available)
+- Subgrade debris and excess aggregate removed
+- Site grade restored to match surrounding area; construction debris removed
+- Surrounding surface areas broom-clean upon completion
+
+## Warranty Expectations
+- Workmanship warranty on new concrete flatwork: 1 year
+- Contractor not responsible for cracking caused by tree root growth, freeze-thaw cycles, vehicle loads exceeding design specification, or subgrade movement not identified during excavation
+- Sealer reapplication every 3–5 years recommended to maintain surface protection
+
+## Exclusions
+Root removal or tree work; utility relocation; structural repair to garage foundation or curb; decorative finishing, staining, or stamping unless specified; interior garage floor. Any concealed subgrade conditions discovered during excavation will be documented and quoted separately before proceeding.
+
+## Estimated Project Cost
+| | |
+|---|---|
+| Materials | $900–$2,000 |
+| Labor | $1,500–$3,500 |
+| **TOTAL** | **$2,400–$5,500** |
+
+*Range reflects scope variation by square footage, subgrade conditions, and site access. Driveway apron replacement alone is typically $1,500–$2,500. Final cost confirmed after on-site assessment. Actual costs vary by region and labor market.*`,
+  },
 ]
 
 export function getSampleBySlug(slug: string): SampleScope | undefined {

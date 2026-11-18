@@ -2,6 +2,8 @@ import Link from 'next/link'
 
 const SAMPLES = [
   { slug: 'roof-leak-repair', title: 'Roof Leak Repair', icon: '🏠', desc: 'Identify and repair active roof leaks, flashing, and underlayment.' },
+  { slug: 'gutter-repair', title: 'Gutter Repair & Replacement', icon: '🌧', desc: 'Leaking joints, sagging sections, and downspout repair — with concealed fascia conditions addressed.' },
+  { slug: 'concrete-repair', title: 'Concrete Repair & Replacement', icon: '🧱', desc: 'Cracked walkways, spalled driveways, and deteriorated flatwork — with subgrade and site conditions.' },
   { slug: 'bathroom-remodel', title: 'Bathroom Remodel', icon: '🚿', desc: 'Full bathroom renovation including tile, fixtures, and plumbing.' },
   { slug: 'window-repair', title: 'Window Repair & Replacement', icon: '🪟', desc: 'Failed seals, damaged frames, and full window replacement scopes.' },
   { slug: 'plumbing-leak', title: 'Plumbing Leak Repair', icon: '🔧', desc: 'Supply line, drain, and fixture leak diagnosis and repair.' },

@@ -301,6 +301,49 @@ function LandingPage() {
         </div>
       </section>
 
+      {/* ORIGIN / CREDIBILITY */}
+      <section className="px-6 md:px-12 py-20" style={{ background: 'oklch(0.15 0.025 252)' }}>
+        <div className="max-w-4xl mx-auto">
+          <div className="text-xs font-semibold uppercase tracking-widest mb-4" style={{ color: 'oklch(0.57 0.135 183)' }}>
+            Built around the problems property managers face every day
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-8 leading-tight">
+            Real construction experience behind the technology.
+          </h2>
+          <div className="grid md:grid-cols-2 gap-10 items-start">
+            <div className="space-y-5" style={{ color: 'oklch(0.70 0.02 252)' }}>
+              <p className="text-lg leading-relaxed">
+                TAGS wasn&apos;t created just to generate documents. It was developed around a common problem in construction and property maintenance: <strong className="text-white">projects moving forward before the work is clearly defined.</strong>
+              </p>
+              <p className="leading-relaxed">
+                From roof leaks and plumbing repairs to concrete replacement and major renovations — we&apos;ve seen how unclear scopes create confusion, inconsistent estimates, and unnecessary delays. Contractors price jobs differently when the scope isn&apos;t locked. Property owners end up comparing bids that don&apos;t describe the same work.
+              </p>
+              <p className="leading-relaxed">
+                That&apos;s why TAGS starts with the Scope of Work. Not the contractor. Not the price. The document that defines the job before anyone shows up with a truck.
+              </p>
+            </div>
+            <div className="space-y-3">
+              <p className="text-sm font-semibold uppercase tracking-wide mb-4" style={{ color: 'oklch(0.55 0.02 252)' }}>Problems TAGS was built to solve</p>
+              {[
+                { icon: '🏠', label: 'Roof leaks and exterior repairs', note: 'Emergency work with unclear scope leads to change orders' },
+                { icon: '🔧', label: 'Plumbing and mechanical repairs', note: 'Concealed conditions require clear exclusion language upfront' },
+                { icon: '🧱', label: 'Concrete and flatwork replacement', note: 'Site conditions vary — scope must address unknowns' },
+                { icon: '🏗', label: 'Major renovations and unit turns', note: 'Multi-trade projects fall apart without a defined document' },
+                { icon: '🌧', label: 'Gutters and drainage', note: 'Often reactive — scope protects against undefined add-ons' },
+              ].map(item => (
+                <div key={item.label} className="flex items-start gap-3 p-3 rounded-xl" style={{ background: 'oklch(0.17 0.022 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
+                  <span className="text-lg shrink-0 mt-0.5">{item.icon}</span>
+                  <div>
+                    <p className="text-sm font-semibold text-white">{item.label}</p>
+                    <p className="text-xs mt-0.5" style={{ color: 'oklch(0.55 0.02 252)' }}>{item.note}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* WHO IT'S FOR */}
       <section className="px-6 md:px-12 py-24 max-w-6xl mx-auto">
         <div className="text-center mb-14">
