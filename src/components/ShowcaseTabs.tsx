@@ -98,24 +98,16 @@ function RoofLeakShowcase() {
       <div className="px-5 pt-4 pb-3" style={{ borderBottom: '1px solid oklch(0.20 0.022 252)' }}>
         <div className="mb-3">
           <p className="text-sm font-bold text-white leading-tight">Roof Leak — Master Bedroom</p>
-          <p className="text-xs mt-0.5" style={{ color: 'oklch(0.55 0.02 252)' }}>Roofing · 4 photos attached</p>
+          <p className="text-xs mt-0.5" style={{ color: 'oklch(0.55 0.02 252)' }}>Roofing · 2 photos attached</p>
         </div>
         <div className="grid grid-cols-2 gap-2 mb-3">
-          <div className="rounded-xl overflow-hidden" style={{ border: '1px solid oklch(0.27 0.022 252)' }}>
+          <div className="rounded-xl overflow-hidden aspect-[4/3]" style={{ border: '1px solid oklch(0.27 0.022 252)' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/demo-roof-1.jpg" alt="Roof — view from ground showing rear elevation" className="w-full h-24 object-cover" />
+            <img src="/demo-ceiling-1.jpg" alt="Bedroom ceiling — water stain and peeling drywall" className="w-full h-full object-cover" />
           </div>
-          <div className="rounded-xl overflow-hidden" style={{ border: '1px solid oklch(0.27 0.022 252)' }}>
+          <div className="rounded-xl overflow-hidden aspect-[4/3]" style={{ border: '1px solid oklch(0.27 0.022 252)' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/demo-roof-2.jpg" alt="Roof — flashing detail at chimney, potential leak origin" className="w-full h-24 object-cover" />
-          </div>
-          <div className="rounded-xl overflow-hidden" style={{ border: '1px solid oklch(0.27 0.022 252)' }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/demo-ceiling-1.jpg" alt="Bedroom ceiling — water stain approx 2 ft wide" className="w-full h-24 object-cover" />
-          </div>
-          <div className="rounded-xl overflow-hidden" style={{ border: '1px solid oklch(0.27 0.022 252)' }}>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/demo-ceiling-2.jpg" alt="Bedroom ceiling — close-up of stain edge with active moisture" className="w-full h-24 object-cover" />
+            <img src="/demo-ceiling-2.jpg" alt="Bedroom ceiling — wider view of water damage and paint failure" className="w-full h-full object-cover" />
           </div>
         </div>
         <div className="rounded-lg px-3 py-2 text-xs italic" style={{ background: 'oklch(0.17 0.022 252)', color: 'oklch(0.62 0.02 252)', border: '1px solid oklch(0.22 0.022 252)' }}>
